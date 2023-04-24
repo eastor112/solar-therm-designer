@@ -1,10 +1,9 @@
-function App() {
-
+const App = () => {
   return (
-    <div className="font-bold">
-      SOLARTHERM DESIGNER
+    <div>
+      <h3>SOLARTHERM DESIGNER V0.001</h3>
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
