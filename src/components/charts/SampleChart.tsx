@@ -25,53 +25,55 @@ const CustomizedXAxisTick = (props: any) => {
   );
 };
 
+const colors = ['#ce2929', '#231acc', '#27a22b'];
+
 interface SampleChartProps {
   data: any;
+  title?: string;
+  columns: string[];
+  domain: number[];
 }
 
-const SampleChart: React.FC<SampleChartProps> = ({ data }) => {
+const SampleChart: React.FC<SampleChartProps> = ({
+  data,
+  title,
+  columns,
+  domain,
+}) => {
   // console.log(data.slice(0, 5));
   return (
-    <ResponsiveContainer width='100%' height='100%'>
-      <LineChart
-        width={500}
-        height={300}
-        data={data}
-        margin={{
-          top: 5,
-          right: 30,
-          left: 20,
-          bottom: 5,
-        }}
-      >
-        <CartesianGrid strokeDasharray='2 2' />
-        <XAxis dataKey='PeriodStart' tick={<CustomizedXAxisTick />} />
-        <YAxis domain={[0, 1000]} />
-        <Tooltip />
-        <Legend />
-        <Line
-          type='monotone'
-          dataKey='Dhi'
-          stroke='#ce2929'
-          activeDot={{ r: 6 }}
-          dot={{ r: 0 }}
-        />
-        <Line
-          type='monotone'
-          dataKey='Dni'
-          stroke='#231acc'
-          activeDot={{ r: 6 }}
-          dot={{ r: 0 }}
-        />
-        <Line
-          type='monotone'
-          dataKey='Ghi'
-          stroke='#27a22b'
-          activeDot={{ r: 6 }}
-          dot={{ r: 0 }}
-        />
-      </LineChart>
-    </ResponsiveContainer>
+    <div className='w-full h-96 text-center'>
+      <h3 className='text-xl font-medium'>{title}</h3>
+      <ResponsiveContainer width='100%' height='100%'>
+        <LineChart
+          width={500}
+          height={300}
+          data={data}
+          margin={{
+            top: 5,
+            right: 30,
+            left: 20,
+            bottom: 5,
+          }}
+        >
+          <CartesianGrid strokeDasharray='2 2' />
+          <XAxis dataKey='PeriodStart' tick={<CustomizedXAxisTick />} />
+          <YAxis domain={domain} />
+          <Tooltip />
+          <Legend />
+
+          {columns.map((col, index) => (
+            <Line
+              type='monotone'
+              dataKey={col}
+              stroke={colors[index]}
+              activeDot={{ r: 6 }}
+              dot={{ r: 0 }}
+            />
+          ))}
+        </LineChart>
+      </ResponsiveContainer>
+    </div>
   );
 };
 

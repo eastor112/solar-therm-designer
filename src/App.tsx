@@ -23,11 +23,23 @@ function filterByDateRange(data: any, from: string, to: string): any[] {
   });
 }
 
+const capitalize = (cadena: string) => {
+  return cadena.charAt(0).toUpperCase() + cadena.slice(1);
+};
+
+const defaultDateValue = dayjs(
+  trujilloData[trujilloData.length - 1].PeriodStart.split('T')[0]
+);
+
 const App = () => {
   const [data, setData] = useState<any[]>([]);
-  const [from, setFrom] = useState<string | null>();
-  const [to, setTo] = useState<string | null>();
-  const [place, setPlace] = React.useState<string>('none');
+  const [from, setFrom] = useState<string | undefined>(
+    defaultDateValue.startOf('day').format()
+  );
+  const [to, setTo] = useState<string | undefined>(
+    defaultDateValue.endOf('day').format()
+  );
+  const [city, setCity] = React.useState<string>('none');
 
   const onDatepickerChange = (a: Dayjs | null) => {
     setFrom(a?.startOf('day').format());
@@ -37,19 +49,19 @@ const App = () => {
   useEffect(() => {
     if (from && to) {
       let dataBase;
-      if (place === 'trujillo') {
+      if (city === 'trujillo') {
         dataBase = trujilloData;
-      } else if (place === 'piura') {
+      } else if (city === 'piura') {
         dataBase = piuraData;
       } else {
         dataBase = [];
       }
       setData(filterByDateRange(dataBase, from, to));
     }
-  }, [from, to, place]);
+  }, [from, to, city]);
 
   const handleChange = (event: SelectChangeEvent) => {
-    setPlace(event.target.value as string);
+    setCity(event.target.value as string);
   };
 
   return (
@@ -61,7 +73,7 @@ const App = () => {
           <Select
             labelId='demo-simple-select-label'
             id='demo-simple-select'
-            value={place}
+            value={city}
             label='Ciudad'
             onChange={handleChange}
           >
@@ -79,19 +91,40 @@ const App = () => {
               maxDate={dayjs(
                 trujilloData[trujilloData.length - 1].PeriodStart.split('T')[0]
               )}
-              defaultValue={dayjs(
-                trujilloData[trujilloData.length - 1].PeriodStart.split('T')[0]
-              )}
+              defaultValue={defaultDateValue}
+              label='From'
             />
           </LocalizationProviderWrapper>
         </div>
       </Box>
       {data.length > 0 && (
         <>
-          <div className='w-full h-96'>
-            <SampleChart data={data} />
-          </div>
-
+          <SampleChart
+            data={data}
+            title={'Radiación vs Tiempo. Ciudad de ' + capitalize(city)}
+            columns={['Dhi', 'Dni', 'Ghi']}
+            domain={[0, 1000]}
+          />
+          <div className='h-20' />
+          <SampleChart
+            data={data}
+            title={
+              'Temperatura del aire vs Tiempo. Ciudad de ' + capitalize(city)
+            }
+            columns={['AirTemp']}
+            domain={[0, 40]}
+          />
+          <div className='h-20' />
+          <SampleChart
+            data={data}
+            title={
+              'Velocidad del viento [10m] vs Tiempo. Ciudad de ' +
+              capitalize(city)
+            }
+            columns={['WindSpeed10m']}
+            domain={[0, 8]}
+          />
+          <div className='h-20' />
           <TableMUI rows={data} />
         </>
       )}
