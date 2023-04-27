@@ -64,6 +64,7 @@ const SampleChart: React.FC<SampleChartProps> = ({
 
           {columns.map((col, index) => (
             <Line
+              key={index}
               type='monotone'
               dataKey={col}
               stroke={colors[index]}

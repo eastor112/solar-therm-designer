@@ -12,6 +12,11 @@ import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import SampleChart from './components/charts/SampleChart';
 import dayjs from 'dayjs';
+import BottomNavigation from '@mui/material/BottomNavigation';
+import BottomNavigationAction from '@mui/material/BottomNavigationAction';
+import WindPowerIcon from '@mui/icons-material/WindPower';
+import MultilineChartIcon from '@mui/icons-material/MultilineChart';
+import DeviceThermostatIcon from '@mui/icons-material/DeviceThermostat';
 
 function filterByDateRange(data: any, from: string, to: string): any[] {
   const fromDate = new Date(from);
@@ -39,7 +44,15 @@ const App = () => {
   const [to, setTo] = useState<string | undefined>(
     defaultDateValue.endOf('day').format()
   );
-  const [city, setCity] = React.useState<string>('none');
+  const [city, setCity] = useState<string>('none');
+  const [chart, setChart] = useState('temperature');
+
+  const handleChangeChart = (
+    _event: React.SyntheticEvent,
+    newValue: string
+  ) => {
+    setChart(newValue);
+  };
 
   const onDatepickerChange = (a: Dayjs | null) => {
     setFrom(a?.startOf('day').format());
@@ -67,6 +80,7 @@ const App = () => {
   return (
     <div className='p-16'>
       <h3 className='text-3xl font-bold'>SOLARTHERM DESIGNER V0.001</h3>
+
       <Box sx={{ my: 4, display: 'flex', gap: '20px' }}>
         <FormControl>
           <InputLabel id='demo-simple-select-label'>Ciudad</InputLabel>
@@ -97,34 +111,62 @@ const App = () => {
           </LocalizationProviderWrapper>
         </div>
       </Box>
+      <Box>
+        <BottomNavigation
+          sx={{ width: 500 }}
+          value={chart}
+          onChange={handleChangeChart}
+        >
+          <BottomNavigationAction
+            label='Temperatura'
+            value='temperature'
+            icon={<DeviceThermostatIcon />}
+          />
+          <BottomNavigationAction
+            label='Radiación'
+            value='radiation'
+            icon={<MultilineChartIcon />}
+          />
+          <BottomNavigationAction
+            label='Velocidad del viento'
+            value='windSpeed'
+            icon={<WindPowerIcon />}
+          />
+        </BottomNavigation>
+      </Box>
+
       {data.length > 0 && (
         <>
-          <SampleChart
-            data={data}
-            title={'Radiación vs Tiempo. Ciudad de ' + capitalize(city)}
-            columns={['Dhi', 'Dni', 'Ghi']}
-            domain={[0, 1000]}
-          />
-          <div className='h-20' />
-          <SampleChart
-            data={data}
-            title={
-              'Temperatura del aire vs Tiempo. Ciudad de ' + capitalize(city)
-            }
-            columns={['AirTemp']}
-            domain={[0, 40]}
-          />
-          <div className='h-20' />
-          <SampleChart
-            data={data}
-            title={
-              'Velocidad del viento [10m] vs Tiempo. Ciudad de ' +
-              capitalize(city)
-            }
-            columns={['WindSpeed10m']}
-            domain={[0, 8]}
-          />
-          <div className='h-20' />
+          {chart === 'radiation' && (
+            <SampleChart
+              data={data}
+              title={'Radiación vs Tiempo. Ciudad de ' + capitalize(city)}
+              columns={['Dhi', 'Dni', 'Ghi']}
+              domain={[0, 1000]}
+            />
+          )}
+
+          {chart === 'temperature' && (
+            <SampleChart
+              data={data}
+              title={
+                'Temperatura del aire vs Tiempo. Ciudad de ' + capitalize(city)
+              }
+              columns={['AirTemp']}
+              domain={[0, 40]}
+            />
+          )}
+          {chart === 'windSpeed' && (
+            <SampleChart
+              data={data}
+              title={
+                'Velocidad del viento [10m] vs Tiempo. Ciudad de ' +
+                capitalize(city)
+              }
+              columns={['WindSpeed10m']}
+              domain={[0, 8]}
+            />
+          )}
           <TableMUI rows={data} />
         </>
       )}
