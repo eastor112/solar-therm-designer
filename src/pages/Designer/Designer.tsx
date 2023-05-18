@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
-import trujilloData from './data/trujillo.csv';
-import piuraData from './data/piura.csv';
-import TableMUI from './components/table/TableMUI';
-import LocalizationProviderWrapper from './components/utils/LocalizationProvider';
+import trujilloData from '../../data/trujillo.csv';
+import piuraData from '../../data/piura.csv';
+import TableMUI from '../../components/table/TableMUI';
+import LocalizationProviderWrapper from '../../components/utils/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { Dayjs } from 'dayjs';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import SampleChart from './components/charts/SampleChart';
+import SampleChart from '../../components/charts/SampleChart';
 import dayjs from 'dayjs';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
@@ -36,7 +36,7 @@ const defaultDateValue = dayjs(
   trujilloData[trujilloData.length - 1].PeriodStart.split('T')[0]
 );
 
-const App = () => {
+const Designer = () => {
   const [data, setData] = useState<any[]>([]);
   const [from, setFrom] = useState<string | undefined>(
     defaultDateValue.startOf('day').format()
@@ -174,4 +174,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default Designer;
