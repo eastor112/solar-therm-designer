@@ -230,44 +230,44 @@ const Designer = () => {
               />
             </BottomNavigation>
           </Box>
+
+          {data.length > 0 && (
+            <>
+              {chart === 'radiation' && (
+                <SampleChart
+                  data={data}
+                  title={'Radiación vs Tiempo. Ciudad de ' + capitalize(city)}
+                  columns={['Dhi', 'Dni', 'Ghi']}
+                  domain={[0, 1000]}
+                />
+              )}
+
+              {chart === 'temperature' && (
+                <SampleChart
+                  data={data}
+                  title={
+                    'Temperatura del aire vs Tiempo. Ciudad de ' +
+                    capitalize(city)
+                  }
+                  columns={['AirTemp']}
+                  domain={[0, 40]}
+                />
+              )}
+              {chart === 'windSpeed' && (
+                <SampleChart
+                  data={data}
+                  title={
+                    'Velocidad del viento [10m] vs Tiempo. Ciudad de ' +
+                    capitalize(city)
+                  }
+                  columns={['WindSpeed10m']}
+                  domain={[0, 8]}
+                />
+              )}
+              <TableMUI rows={data} />
+            </>
+          )}
         </div>
-
-        {data.length > 0 && (
-          <>
-            {chart === 'radiation' && (
-              <SampleChart
-                data={data}
-                title={'Radiación vs Tiempo. Ciudad de ' + capitalize(city)}
-                columns={['Dhi', 'Dni', 'Ghi']}
-                domain={[0, 1000]}
-              />
-            )}
-
-            {chart === 'temperature' && (
-              <SampleChart
-                data={data}
-                title={
-                  'Temperatura del aire vs Tiempo. Ciudad de ' +
-                  capitalize(city)
-                }
-                columns={['AirTemp']}
-                domain={[0, 40]}
-              />
-            )}
-            {chart === 'windSpeed' && (
-              <SampleChart
-                data={data}
-                title={
-                  'Velocidad del viento [10m] vs Tiempo. Ciudad de ' +
-                  capitalize(city)
-                }
-                columns={['WindSpeed10m']}
-                domain={[0, 8]}
-              />
-            )}
-            <TableMUI rows={data} />
-          </>
-        )}
       </Box>
     </div>
   );

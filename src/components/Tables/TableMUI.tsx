@@ -112,7 +112,7 @@ const TableMUI: React.FC<TableMUIProps> = ({ rows }) => {
   };
 
   return (
-    <Paper sx={{ width: '80%' }}>
+    <Paper>
       <TableContainer sx={{ maxHeight: 1400 }}>
         <Table stickyHeader aria-label='sticky table'>
           <TableHead>
