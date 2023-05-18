@@ -4,6 +4,10 @@ import Results from '../pages/Results/Results';
 
 export const routes = [
   {
+    path: '/',
+    element: <Login />,
+  },
+  {
     path: '/login',
     element: <Login />,
   },
