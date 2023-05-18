@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import trujilloData from '../../data/trujillo.csv';
 import piuraData from '../../data/piura.csv';
 import TableMUI from '../../components/table/TableMUI';
@@ -17,6 +18,7 @@ import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import WindPowerIcon from '@mui/icons-material/WindPower';
 import MultilineChartIcon from '@mui/icons-material/MultilineChart';
 import DeviceThermostatIcon from '@mui/icons-material/DeviceThermostat';
+import { Link as LinkRouter } from 'react-router-dom';
 
 function filterByDateRange(data: any, from: string, to: string): any[] {
   const fromDate = new Date(from);
@@ -110,6 +112,23 @@ const Designer = () => {
             />
           </LocalizationProviderWrapper>
         </div>
+
+        <Button
+          component={LinkRouter}
+          variant='contained'
+          color='primary'
+          to='/results'
+        >
+          Calcular
+        </Button>
+        <Button
+          component={LinkRouter}
+          variant='contained'
+          color='primary'
+          to='/login'
+        >
+          Logout
+        </Button>
       </Box>
       <Box>
         <BottomNavigation

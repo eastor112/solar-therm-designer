@@ -1,5 +1,6 @@
 import Designer from '../pages/Designer/Designer';
 import Login from '../pages/Login/Login';
+import Results from '../pages/Results/Results';
 
 export const routes = [
   {
@@ -9,5 +10,9 @@ export const routes = [
   {
     path: '/designer',
     element: <Designer />,
+  },
+  {
+    path: '/results',
+    element: <Results />,
   },
 ];
