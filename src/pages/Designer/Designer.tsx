@@ -100,7 +100,7 @@ const Designer = () => {
             <ZoneInformation />
             <Box sx={{ ...generalStyles.cardLayout, flex: 1 }}>
               <Typography variant='h3' sx={generalStyles.h3}>
-                Parámetros
+                Parámetros de diseño
               </Typography>
               <Box sx={{ display: 'flex', gap: 4, mb: 4 }}>
                 <div className='flex flex-col flex-1 gap-6'>
