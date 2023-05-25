@@ -2,6 +2,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import piuraImg from '../../assets/piura.jpg';
 import { SxProps, Theme, Typography } from '@mui/material';
+import { generalStyles } from '../../styles/general';
 
 interface StylesMui {
   [key: string]: SxProps<Theme>;
@@ -15,24 +16,8 @@ const styles: StylesMui = {
 
 const ZoneInformation = () => {
   return (
-    <Box
-      sx={{
-        width: 475,
-        position: 'relative',
-        p: 4,
-        background: '#FFF',
-        borderRadius: '10px',
-      }}
-    >
-      <Typography
-        variant='h3'
-        sx={{
-          fontSize: 20,
-          textTransform: 'uppercase',
-          fontWeight: 'bold',
-          mb: 3,
-        }}
-      >
+    <Box sx={{ ...generalStyles.cardLayout, width: 475 }}>
+      <Typography variant='h3' sx={generalStyles.h3}>
         Zona de análisis
       </Typography>
       <Box
