@@ -16,15 +16,25 @@ const styles: StylesMui = {
 
 const ZoneInformation = () => {
   return (
-    <Box sx={{ ...generalStyles.cardLayout, width: 475 }}>
+    <Box sx={{ ...generalStyles.cardLayout, minWidth: 380, flex: 1 }}>
       <Typography variant='h3' sx={generalStyles.h3}>
         Zona de análisis
       </Typography>
       <Box
         component='figure'
-        sx={{ width: 200, position: 'absolute', top: 77, right: 32 }}
+        sx={{
+          width: '45%',
+          height: '26%',
+          position: 'absolute',
+          top: 77,
+          right: 32,
+          overflow: 'hidden',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
       >
-        <img src={piuraImg} alt='piura' />
+        <img src={piuraImg} alt='piura' className='max-w-full' />
       </Box>
       <Typography sx={styles.cardPlace}>
         <span className='font-bold'>Ciudad:</span> Piura
@@ -50,7 +60,7 @@ const ZoneInformation = () => {
         }}
       >
         <Typography sx={{ ...styles.cardPlace, mb: 0 }}>
-          <span className='font-bold'>Fecha de análisis:</span> 25 abril de 2023
+          <span className='font-bold'>Fecha:</span> 25 abr. 2023
         </Typography>
         <Button variant='contained'>Cambiar</Button>
       </Box>
