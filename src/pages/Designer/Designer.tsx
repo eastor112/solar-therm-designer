@@ -21,8 +21,7 @@ import DeviceThermostatIcon from '@mui/icons-material/DeviceThermostat';
 import { Link as LinkRouter } from 'react-router-dom';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import ZoneInformation from '../../components/ZoneInformation/ZoneInformation';
-import { TextField, Typography } from '@mui/material';
-import { generalStyles } from '../../styles/general';
+import DesignerForm from '../../components/DesignerForm/DesignerForm';
 
 function filterByDateRange(data: any, from: string, to: string): any[] {
   const fromDate = new Date(from);
@@ -90,66 +89,16 @@ const Designer = () => {
 
   return (
     <main className='bg-gray-200'>
-      <Box sx={{ display: 'flex', height: '100vh' }}>
+      <Box sx={{ display: 'flex', minHeight: '100vh' }}>
         <Sidebar open={open} toggleDrawer={toggleDrawer} />
-        <div className='pt-20 px-10 w-full'>
+        <div className='pt-5 px-10 w-full'>
           <h3 className='text-3xl font-bold pb-5'>
             SOLARTHERM DESIGNER V0.017
           </h3>
           <div className='flex gap-20'>
             <ZoneInformation />
-            <Box sx={{ ...generalStyles.cardLayout, flex: 1 }}>
-              <Typography variant='h3' sx={generalStyles.h3}>
-                Parámetros de diseño
-              </Typography>
-              <Box sx={{ display: 'flex', gap: 4, mb: 4 }}>
-                <div className='flex flex-col flex-1 gap-6'>
-                  <TextField
-                    id='outlined-basic'
-                    label='Volumen'
-                    variant='outlined'
-                  />
-                  <TextField
-                    id='outlined-basic'
-                    label='Longitud de Manifold'
-                    variant='outlined'
-                  />
-                  <TextField
-                    id='outlined-basic'
-                    label='Número de tubos'
-                    variant='outlined'
-                  />
-                </div>
-                <FormControl sx={{ flex: 1 }}>
-                  <InputLabel id='pipe-type-label'>Tipo de tubería</InputLabel>
-                  <Select
-                    labelId='pipe-type-label'
-                    id='pipe-type'
-                    value={'1'}
-                    label='Tipo de tubería'
-                    sx={{
-                      width: '100%',
-                    }}
-                    onChange={handleChange}
-                  >
-                    <MenuItem value={'1'}>Tipo 1</MenuItem>
-                    <MenuItem value={'2'}>Tipo 2</MenuItem>
-                    <MenuItem value={'3'}>Tipo 3</MenuItem>
-                  </Select>
-                </FormControl>
-              </Box>
-              <Box
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  width: '100%',
-                }}
-              >
-                <Button variant='contained' sx={{ px: 10 }}>
-                  CALCULAR
-                </Button>
-              </Box>
-            </Box>
+
+            <DesignerForm />
           </div>
           <div>
             <Box sx={{ my: 4, display: 'flex', gap: '20px' }}>
