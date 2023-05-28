@@ -17,12 +17,12 @@ const DesignerForm = () => {
         <div className='flex flex-col flex-1 gap-7'>
           <TextField id='outlined-basic' label='Volumen' variant='outlined' />
           <TextField
-            id='outlined-basic'
+            id='manifold-length'
             label='Longitud de Manifold'
             variant='outlined'
           />
           <TextField
-            id='outlined-basic'
+            id='pipe-type'
             label='Número de tubos'
             variant='outlined'
           />

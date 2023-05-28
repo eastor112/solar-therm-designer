@@ -24,6 +24,7 @@ import ZoneInformation from '../../components/ZoneInformation/ZoneInformation';
 import DesignerForm from '../../components/DesignerForm/DesignerForm';
 
 function filterByDateRange(data: any, from: string, to: string): any[] {
+  console.log('excuted', data, from, to);
   const fromDate = new Date(from);
   const toDate = new Date(to);
 
@@ -39,7 +40,7 @@ const capitalize = (cadena: string) => {
 
 const defaultDateValue = dayjs(
   trujilloData[trujilloData.length - 1].PeriodStart.split('T')[0]
-);
+).subtract(1, 'day');
 
 const Designer = () => {
   const [data, setData] = useState<any[]>([]);
@@ -49,7 +50,7 @@ const Designer = () => {
   const [to, setTo] = useState<string | undefined>(
     defaultDateValue.endOf('day').format()
   );
-  const [city, setCity] = useState<string>('none');
+  const [city, setCity] = useState<string>('piura');
   const [chart, setChart] = useState('temperature');
 
   const handleChangeChart = (
@@ -150,6 +151,7 @@ const Designer = () => {
                 Logout
               </Button>
             </Box>
+
             <Box>
               <BottomNavigation
                 sx={{ width: 500 }}
