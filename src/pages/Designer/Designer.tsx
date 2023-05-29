@@ -5,7 +5,6 @@ import piuraData from '../../data/piura.csv';
 import { Dayjs } from 'dayjs';
 import { SelectChangeEvent } from '@mui/material/Select';
 import dayjs from 'dayjs';
-import Sidebar from '../../components/Sidebar/Sidebar';
 import ZoneInformation from '../../components/ZoneInformation/ZoneInformation';
 import DesignerForm from '../../components/DesignerForm/DesignerForm';
 import DataInspectorGraph from '../../components/DataInspectorGraph/DataInspectorGraph';
@@ -74,12 +73,11 @@ const Designer = () => {
       <Box
         sx={{
           minHeight: '100vh',
-          paddingY: 4,
           width: '100%',
           flex: 1,
         }}
       >
-        <div className='px-10 flex flex-col gap-8'>
+        <div className='flex flex-col gap-8'>
           <h3 className='text-3xl font-bold'>SOLARTHERM DESIGNER V0.017</h3>
           <div className='flex gap-8'>
             <ZoneInformation />
@@ -91,6 +89,7 @@ const Designer = () => {
             data={data}
             chart={chart}
             handleChangeChart={handleChangeChart}
+            showGraph
           />
         </div>
       </Box>

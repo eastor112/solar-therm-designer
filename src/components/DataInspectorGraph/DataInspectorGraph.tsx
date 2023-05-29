@@ -18,6 +18,7 @@ export interface DataGraphProps {
   data: any[];
   chart: string;
   handleChangeChart: (_event: React.SyntheticEvent, newValue: string) => void;
+  showGraph: boolean;
 }
 
 const DataInspectorGraph: React.FC<DataGraphProps> = ({
@@ -25,6 +26,7 @@ const DataInspectorGraph: React.FC<DataGraphProps> = ({
   data,
   chart,
   handleChangeChart,
+  showGraph,
 }) => {
   return (
     <Box
@@ -81,53 +83,56 @@ const DataInspectorGraph: React.FC<DataGraphProps> = ({
           }}
         />
       </BottomNavigation>
+      {showGraph ? (
+        <Box
+          sx={{
+            flex: 1,
+          }}
+        >
+          <Box>
+            {data.length > 0 && (
+              <>
+                {chart === 'radiation' && (
+                  <SampleChart
+                    data={data}
+                    title={'Radiación vs Tiempo. Ciudad de ' + capitalize(city)}
+                    columns={['Dhi', 'Dni', 'Ghi']}
+                    domain={[0, 1000]}
+                  />
+                )}
 
-      <Box
-        sx={{
-          flex: 1,
-        }}
-      >
-        <Box>
-          {data.length > 0 && (
-            <>
-              {chart === 'radiation' && (
-                <SampleChart
-                  data={data}
-                  title={'Radiación vs Tiempo. Ciudad de ' + capitalize(city)}
-                  columns={['Dhi', 'Dni', 'Ghi']}
-                  domain={[0, 1000]}
-                />
-              )}
-
-              {chart === 'temperature' && (
-                <SampleChart
-                  data={data}
-                  title={
-                    'Temperatura del aire vs Tiempo. Ciudad de ' +
-                    capitalize(city)
-                  }
-                  columns={['AirTemp']}
-                  domain={[0, 40]}
-                />
-              )}
-              {chart === 'windSpeed' && (
-                <SampleChart
-                  data={data}
-                  title={
-                    'Velocidad del viento [10m] vs Tiempo. Ciudad de ' +
-                    capitalize(city)
-                  }
-                  columns={['WindSpeed10m']}
-                  domain={[0, 8]}
-                />
-              )}
-            </>
-          )}
+                {chart === 'temperature' && (
+                  <SampleChart
+                    data={data}
+                    title={
+                      'Temperatura del aire vs Tiempo. Ciudad de ' +
+                      capitalize(city)
+                    }
+                    columns={['AirTemp']}
+                    domain={[0, 40]}
+                  />
+                )}
+                {chart === 'windSpeed' && (
+                  <SampleChart
+                    data={data}
+                    title={
+                      'Velocidad del viento [10m] vs Tiempo. Ciudad de ' +
+                      capitalize(city)
+                    }
+                    columns={['WindSpeed10m']}
+                    domain={[0, 8]}
+                  />
+                )}
+              </>
+            )}
+          </Box>
+          <Box>
+            <Button variant='contained'>Ver datos sin formato</Button>
+          </Box>
         </Box>
-        <Box>
-          <Button variant='contained'>Ver datos sin formato</Button>
-        </Box>
-      </Box>
+      ) : (
+        <div className='flex-1'></div>
+      )}
     </Box>
   );
 };
