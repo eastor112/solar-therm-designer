@@ -10,7 +10,7 @@ const Results = () => {
         component={LinkRouter}
         variant='contained'
         color='primary'
-        to='/designer'
+        to='/dashboard/designer'
       >
         Diseño
       </Button>

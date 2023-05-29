@@ -6,8 +6,15 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { TextField, Typography } from '@mui/material';
 import { generalStyles } from '../../styles/general';
+import { useNavigate } from 'react-router-dom';
 
 const DesignerForm = () => {
+  const navigate = useNavigate();
+
+  const handleCalcular = () => {
+    navigate('/dashboard/results');
+  };
+
   return (
     <Box sx={{ ...generalStyles.cardLayout, flex: 1 }}>
       <Typography variant='h3' sx={generalStyles.h3}>
@@ -52,7 +59,7 @@ const DesignerForm = () => {
           width: '100%',
         }}
       >
-        <Button variant='contained' sx={{ px: 10 }}>
+        <Button onClick={handleCalcular} variant='contained' sx={{ px: 10 }}>
           CALCULAR
         </Button>
       </Box>
