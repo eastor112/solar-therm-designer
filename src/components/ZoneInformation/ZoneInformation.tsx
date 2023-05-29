@@ -14,7 +14,11 @@ const styles: StylesMui = {
   },
 };
 
-const ZoneInformation = () => {
+interface ZoneInformationProps {
+  handleOpen: () => void;
+}
+
+const ZoneInformation: React.FC<ZoneInformationProps> = ({ handleOpen }) => {
   return (
     <Box sx={{ ...generalStyles.cardLayout, minWidth: 380, flex: 1 }}>
       <Typography variant='h3' sx={generalStyles.h3}>
@@ -62,10 +66,14 @@ const ZoneInformation = () => {
         <Typography sx={{ ...styles.cardPlace, mb: 0 }}>
           <span className='font-bold'>Fecha:</span> 25 abr. 2023
         </Typography>
-        <Button variant='contained'>Cambiar</Button>
+        <Button variant='contained' onClick={handleOpen}>
+          Cambiar
+        </Button>
       </Box>
       <Box sx={{ textAlign: 'center' }}>
-        <Button variant='contained'>Cambiar Zona</Button>
+        <Button variant='contained' onClick={handleOpen}>
+          Cambiar Zona
+        </Button>
       </Box>
     </Box>
   );

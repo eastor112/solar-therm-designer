@@ -10,6 +10,17 @@ import DataInspectorGraph from '../../components/DataInspectorGraph/DataInspecto
 import { useOutletContexRoot } from '../RootLayout';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { setData, setDate } from '../../redux/designerSlice';
+import Modal from '@mui/material/Modal';
+import Typography from '@mui/material/Typography';
+import {
+  Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from '@mui/material';
+
 function filterByDateRange(data: any, from: string, to: string): any[] {
   const fromDate = new Date(from);
   const toDate = new Date(to);
@@ -19,6 +30,18 @@ function filterByDateRange(data: any, from: string, to: string): any[] {
     return date >= fromDate && date <= toDate;
   });
 }
+
+const style = {
+  position: 'absolute' as 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  // border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
 
 const defaultDateValue = dayjs(
   trujilloData[trujilloData.length - 1].PeriodStart.split('T')[0]
@@ -58,11 +81,15 @@ const Designer = () => {
   ) => {
     setChart(newValue);
   };
-
+  // @ts-ignore
   const onDatepickerChange = (a: Dayjs | null) => {
     setFrom(a?.startOf('day').format());
     setTo(a?.endOf('day').format());
   };
+
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   useEffect(() => {
     if (from && to) {
@@ -89,7 +116,7 @@ const Designer = () => {
         <div className='flex flex-col gap-8'>
           <h3 className='text-3xl font-bold'>SOLARTHERM DESIGNER V0.020</h3>
           <div className='flex gap-8'>
-            <ZoneInformation />
+            <ZoneInformation handleOpen={handleOpen} />
 
             <DesignerForm />
           </div>
@@ -102,6 +129,55 @@ const Designer = () => {
           />
         </div>
       </Box>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby='modal-modal-title'
+        aria-describedby='modal-modal-description'
+      >
+        <Box sx={style}>
+          <Typography id='modal-modal-title' variant='h6' component='h2'>
+            Seleccionar lugar
+          </Typography>
+          <Typography id='modal-modal-description' sx={{ mt: 2 }}>
+            Seleccione el lugar de estudio o ingrese coordenadas
+          </Typography>
+          <FormControl
+            fullWidth
+            sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
+          >
+            <InputLabel id='demo-simple-select-label'>Ciudad</InputLabel>
+            <Select
+              labelId='demo-simple-select-label'
+              id='demo-simple-select'
+              // value={age}
+              label='Ciudad'
+              // onChange={handleChange}
+            >
+              <MenuItem value={0}>Ninguna</MenuItem>
+              <MenuItem value={10}>Piura</MenuItem>
+              <MenuItem value={20}>Trujillo</MenuItem>
+            </Select>
+
+            <TextField
+              type='number'
+              id='outlined-basic'
+              label='Latitud'
+              variant='outlined'
+              disabled
+            />
+            <TextField
+              type='number'
+              id='outlined-basic'
+              label='Longitud'
+              variant='outlined'
+              disabled
+            />
+
+            <Button variant='contained'>Cambiar</Button>
+          </FormControl>
+        </Box>
+      </Modal>
     </>
   );
 };

@@ -20,7 +20,7 @@ const RawDataInspector = () => {
 
   return (
     <div>
-      <h3 className='text-3xl font-bold'>Datos</h3>
+      <h3 className='text-3xl font-bold mb-8'>SOLARTHERM DESIGNER V0.020</h3>
       {
         // Object.keys()
       }
