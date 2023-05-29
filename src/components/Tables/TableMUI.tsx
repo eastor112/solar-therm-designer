@@ -10,8 +10,9 @@ import TableRow from '@mui/material/TableRow';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
+import Typography from '@mui/material/Typography';
+import { generalStyles } from '../../styles/general';
 
-// Load Day.js plugins
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
@@ -94,9 +95,10 @@ const columns: Column[] = [
 
 interface TableMUIProps {
   rows: any;
+  title: string;
 }
 
-const TableMUI: React.FC<TableMUIProps> = ({ rows }) => {
+const TableMUI: React.FC<TableMUIProps> = ({ rows, title }) => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(25);
 
@@ -113,7 +115,13 @@ const TableMUI: React.FC<TableMUIProps> = ({ rows }) => {
 
   return (
     <Paper>
-      <TableContainer sx={{ maxHeight: 1400 }}>
+      <Typography
+        variant='h3'
+        sx={{ ...generalStyles.h3, textAlign: 'center', pt: 2 }}
+      >
+        {title}
+      </Typography>
+      <TableContainer sx={{ minHeight: 200 }}>
         <Table stickyHeader aria-label='sticky table'>
           <TableHead>
             <TableRow>
@@ -121,7 +129,7 @@ const TableMUI: React.FC<TableMUIProps> = ({ rows }) => {
                 <TableCell
                   key={column.id}
                   align={column.align}
-                  style={{ top: 57, minWidth: column.minWidth }}
+                  style={{ minWidth: column.minWidth }}
                 >
                   {column.label}
                 </TableCell>
@@ -154,7 +162,7 @@ const TableMUI: React.FC<TableMUIProps> = ({ rows }) => {
         </Table>
       </TableContainer>
       <TablePagination
-        rowsPerPageOptions={[25, 100]}
+        rowsPerPageOptions={[25, 100, 250]}
         component='div'
         count={rows.length}
         rowsPerPage={rowsPerPage}

@@ -3,14 +3,13 @@ import Box from '@mui/material/Box';
 import trujilloData from '../../data/trujillo.csv';
 import piuraData from '../../data/piura.csv';
 import { Dayjs } from 'dayjs';
-import { SelectChangeEvent } from '@mui/material/Select';
 import dayjs from 'dayjs';
 import ZoneInformation from '../../components/ZoneInformation/ZoneInformation';
 import DesignerForm from '../../components/DesignerForm/DesignerForm';
 import DataInspectorGraph from '../../components/DataInspectorGraph/DataInspectorGraph';
 import { useOutletContexRoot } from '../RootLayout';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
-import { setData } from '../../redux/designerSlice';
+import { setData, setDate } from '../../redux/designerSlice';
 function filterByDateRange(data: any, from: string, to: string): any[] {
   const fromDate = new Date(from);
   const toDate = new Date(to);
@@ -26,7 +25,7 @@ const defaultDateValue = dayjs(
 ).subtract(1, 'day');
 
 const Designer = () => {
-  const { data } = useAppSelector(state => state.designer);
+  const { data, city } = useAppSelector(state => state.designer);
   const dispatch = useAppDispatch();
 
   const { isSidebarOpen } = useOutletContexRoot();
@@ -37,9 +36,14 @@ const Designer = () => {
   const [to, setTo] = useState<string | undefined>(
     defaultDateValue.endOf('day').format()
   );
-  const [city, setCity] = useState<string>('piura');
+
   const [chart, setChart] = useState('temperature');
   const [showGraph, setShowGraph] = useState(true);
+
+  useEffect(() => {
+    dispatch(setDate(defaultDateValue.format('DD/MM/YYYY')));
+    return () => {};
+  }, []);
 
   useEffect(() => {
     setShowGraph(false);
@@ -70,18 +74,10 @@ const Designer = () => {
       } else {
         dataBase = [];
       }
+
       dispatch(setData(filterByDateRange(dataBase, from, to)));
     }
   }, [from, to, city]);
-
-  const handleChange = (event: SelectChangeEvent) => {
-    setCity(event.target.value as string);
-  };
-
-  const [open, setOpen] = React.useState(true);
-  const toggleDrawer = () => {
-    setOpen(!open);
-  };
 
   return (
     <>
@@ -98,7 +94,7 @@ const Designer = () => {
             <DesignerForm />
           </div>
           <DataInspectorGraph
-            city={city}
+            city={city!}
             data={data}
             chart={chart}
             handleChangeChart={handleChangeChart}

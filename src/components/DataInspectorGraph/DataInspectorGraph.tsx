@@ -166,7 +166,7 @@ const DataInspectorGraph: React.FC<DataGraphProps> = ({
             }}
           >
             <Button variant='contained' onClick={handleShowRawData}>
-              Datos sin formato
+              Datos tabulados
             </Button>
           </Box>
         </Box>
