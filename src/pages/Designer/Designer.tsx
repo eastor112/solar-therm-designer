@@ -9,6 +9,8 @@ import ZoneInformation from '../../components/ZoneInformation/ZoneInformation';
 import DesignerForm from '../../components/DesignerForm/DesignerForm';
 import DataInspectorGraph from '../../components/DataInspectorGraph/DataInspectorGraph';
 import { useOutletContexRoot } from '../RootLayout';
+import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
+import { setData } from '../../redux/designerSlice';
 function filterByDateRange(data: any, from: string, to: string): any[] {
   const fromDate = new Date(from);
   const toDate = new Date(to);
@@ -24,9 +26,11 @@ const defaultDateValue = dayjs(
 ).subtract(1, 'day');
 
 const Designer = () => {
+  const { data } = useAppSelector(state => state.designer);
+  const dispatch = useAppDispatch();
+
   const { isSidebarOpen } = useOutletContexRoot();
 
-  const [data, setData] = useState<any[]>([]);
   const [from, setFrom] = useState<string | undefined>(
     defaultDateValue.startOf('day').format()
   );
@@ -66,7 +70,7 @@ const Designer = () => {
       } else {
         dataBase = [];
       }
-      setData(filterByDateRange(dataBase, from, to));
+      dispatch(setData(filterByDateRange(dataBase, from, to)));
     }
   }, [from, to, city]);
 
@@ -83,13 +87,11 @@ const Designer = () => {
     <>
       <Box
         sx={{
-          minHeight: '100vh',
-          width: '100%',
           flex: 1,
         }}
       >
         <div className='flex flex-col gap-8'>
-          <h3 className='text-3xl font-bold'>SOLARTHERM DESIGNER V0.017</h3>
+          <h3 className='text-3xl font-bold'>SOLARTHERM DESIGNER V0.020</h3>
           <div className='flex gap-8'>
             <ZoneInformation />
 
