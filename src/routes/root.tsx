@@ -1,6 +1,7 @@
 import Designer from '../pages/Designer/Designer';
 import Login from '../pages/Login/Login';
 import Results from '../pages/Results/Results';
+import RootLayout from '../pages/RootLayout';
 
 export const routes = [
   {
@@ -12,11 +13,17 @@ export const routes = [
     element: <Login />,
   },
   {
-    path: '/designer',
-    element: <Designer />,
-  },
-  {
-    path: '/results',
-    element: <Results />,
+    path: '/dashboard',
+    element: <RootLayout />,
+    children: [
+      {
+        path: '/dashboard/designer',
+        element: <Designer />,
+      },
+      {
+        path: '/dashboard/results',
+        element: <Results />,
+      },
+    ],
   },
 ];

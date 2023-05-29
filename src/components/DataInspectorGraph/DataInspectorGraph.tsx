@@ -34,53 +34,6 @@ const DataInspectorGraph: React.FC<DataGraphProps> = ({
         display: 'flex',
       }}
     >
-      {/* <Box sx={{ my: 4, display: 'flex', gap: '20px' }}>
-        <FormControl>
-          <InputLabel id='demo-simple-select-label'>Ciudad</InputLabel>
-          <Select
-            labelId='demo-simple-select-label'
-            id='demo-simple-select'
-            value={city}
-            label='Ciudad'
-            onChange={handleChange}
-          >
-            <MenuItem value={'none'}>ninguna</MenuItem>
-            <MenuItem value={'trujillo'}>Trujillo</MenuItem>
-            <MenuItem value={'piura'}>Piura</MenuItem>
-          </Select>
-        </FormControl>
-
-        <div>
-          <LocalizationProviderWrapper>
-            <DatePicker
-              onChange={onDatepickerChange}
-              minDate={dayjs(trujilloData[0].PeriodStart.split('T')[0])}
-              maxDate={dayjs(
-                trujilloData[trujilloData.length - 1].PeriodStart.split('T')[0]
-              )}
-              defaultValue={defaultDateValue}
-              label='From'
-            />
-          </LocalizationProviderWrapper>
-        </div>
-
-        <Button
-          component={LinkRouter}
-          variant='contained'
-          color='primary'
-          to='/results'
-        >
-          Calcular
-        </Button>
-        <Button
-          component={LinkRouter}
-          variant='contained'
-          color='primary'
-          to='/login'
-        >
-          Logout
-        </Button>
-      </Box> */}
       <BottomNavigation
         sx={{
           display: 'flex',
@@ -168,7 +121,6 @@ const DataInspectorGraph: React.FC<DataGraphProps> = ({
                   domain={[0, 8]}
                 />
               )}
-              {/* <TableMUI rows={data} /> */}
             </>
           )}
         </Box>

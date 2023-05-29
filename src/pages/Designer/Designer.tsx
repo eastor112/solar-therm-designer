@@ -70,8 +70,7 @@ const Designer = () => {
   };
 
   return (
-    <main className='bg-gray-200 flex w-full'>
-      <Sidebar open={open} toggleDrawer={toggleDrawer} />
+    <>
       <Box
         sx={{
           minHeight: '100vh',
@@ -87,17 +86,15 @@ const Designer = () => {
 
             <DesignerForm />
           </div>
-          <div>
-            <DataInspectorGraph
-              city={city}
-              data={data}
-              chart={chart}
-              handleChangeChart={handleChangeChart}
-            />
-          </div>
+          <DataInspectorGraph
+            city={city}
+            data={data}
+            chart={chart}
+            handleChangeChart={handleChangeChart}
+          />
         </div>
       </Box>
-    </main>
+    </>
   );
 };
 
