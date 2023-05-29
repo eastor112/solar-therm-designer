@@ -5,7 +5,7 @@ import { CssBaseline } from '@mui/material';
 import theme from './theme';
 import './index.css';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { routes } from './routes/root.tsx';
+import { routes } from './routes/routesList.tsx';
 
 const router = createBrowserRouter(routes);
 

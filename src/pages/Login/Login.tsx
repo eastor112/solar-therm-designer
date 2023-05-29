@@ -82,7 +82,7 @@ const Login = () => {
               type='submit'
               fullWidth
               variant='contained'
-              to={'/designer'}
+              to={'/dashboard/designer'}
               sx={{ mt: 3, mb: 2 }}
             >
               Ingresar

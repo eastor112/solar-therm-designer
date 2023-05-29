@@ -8,6 +8,7 @@ import dayjs from 'dayjs';
 import ZoneInformation from '../../components/ZoneInformation/ZoneInformation';
 import DesignerForm from '../../components/DesignerForm/DesignerForm';
 import DataInspectorGraph from '../../components/DataInspectorGraph/DataInspectorGraph';
+import { useOutletContexRoot } from '../RootLayout';
 function filterByDateRange(data: any, from: string, to: string): any[] {
   const fromDate = new Date(from);
   const toDate = new Date(to);
@@ -23,6 +24,8 @@ const defaultDateValue = dayjs(
 ).subtract(1, 'day');
 
 const Designer = () => {
+  const { isSidebarOpen } = useOutletContexRoot();
+
   const [data, setData] = useState<any[]>([]);
   const [from, setFrom] = useState<string | undefined>(
     defaultDateValue.startOf('day').format()
@@ -32,6 +35,14 @@ const Designer = () => {
   );
   const [city, setCity] = useState<string>('piura');
   const [chart, setChart] = useState('temperature');
+  const [showGraph, setShowGraph] = useState(true);
+
+  useEffect(() => {
+    setShowGraph(false);
+    setTimeout(() => {
+      setShowGraph(true);
+    }, 500);
+  }, [isSidebarOpen]);
 
   const handleChangeChart = (
     _event: React.SyntheticEvent,
@@ -89,7 +100,7 @@ const Designer = () => {
             data={data}
             chart={chart}
             handleChangeChart={handleChangeChart}
-            showGraph
+            showGraph={showGraph}
           />
         </div>
       </Box>
