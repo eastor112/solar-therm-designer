@@ -32,17 +32,32 @@ interface SampleChartProps {
   title?: string;
   columns: string[];
   domain: number[];
+  size?: 'small' | 'medium' | 'big';
 }
+
+const getheightSize = (value: string) => {
+  switch (value) {
+    case 'small':
+      return 'h-[400px]';
+    case 'normal':
+      return 'h-[550px]';
+    case 'big':
+      return 'h-[700px]';
+    default:
+      return 'h-[400px]';
+  }
+};
 
 const SampleChart: React.FC<SampleChartProps> = ({
   data,
   title,
   columns,
   domain,
+  size = 'small',
 }) => {
   // console.log(data.slice(0, 5));
   return (
-    <div className='w-full h-96 text-center'>
+    <div className={`w-full h-9 text-center ${getheightSize(size)}`}>
       <h3 className='text-xl font-medium'>{title}</h3>
       <ResponsiveContainer width='100%' height='100%'>
         <LineChart

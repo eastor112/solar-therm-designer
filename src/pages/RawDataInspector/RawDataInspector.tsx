@@ -11,7 +11,7 @@ const RawDataInspector = () => {
   const { data } = useAppSelector(state => state.designer);
 
   const handleReturn = () => {
-    navigate('/dashboard/designer');
+    navigate(-1);
   };
 
   const handleDownload = () => {
@@ -21,9 +21,6 @@ const RawDataInspector = () => {
   return (
     <div>
       <h3 className='text-3xl font-bold mb-8'>SOLARTHERM DESIGNER V0.020</h3>
-      {
-        // Object.keys()
-      }
       <Box
         sx={{
           display: 'flex',
