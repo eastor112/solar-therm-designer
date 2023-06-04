@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import dsv from '@rollup/plugin-dsv';
+import svgr from 'vite-plugin-svgr';
 
 function differMuiSourcemapsPlugins() {
   const muiPackages = ['@mui/material', '@emotion/styled', '@emotion/react'];
@@ -20,7 +21,7 @@ function differMuiSourcemapsPlugins() {
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(), dsv(), differMuiSourcemapsPlugins()],
+  plugins: [svgr(), react(), dsv(), differMuiSourcemapsPlugins()],
   server: {
     port: 3000,
   },

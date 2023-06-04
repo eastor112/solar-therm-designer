@@ -1,14 +1,14 @@
-import * as React from 'react';
+import React from 'react';
 import { styled } from '@mui/material/styles';
 import MuiDrawer from '@mui/material/Drawer';
-import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { Box } from '@mui/material';
-import Typography from '@mui/material/Typography';
 import { mainListItems } from './MenuItems';
+import Logo from '../Logo/Logo';
 
 const drawerWidth: number = 240;
 
@@ -58,26 +58,36 @@ const DashboardContent: React.FC<DashboardContentProps> = ({
         position: 'fixed',
         zIndex: 3,
         height: '100vh',
+        backgroundColor: 'black',
+        border: 'none',
       }}
     >
       <Box sx={{}}>
-        <Toolbar
+        <Box
           sx={{
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'flex-end',
-            backgroundColor: 'yellow',
+            position: 'relative',
+            paddingLeft: 2,
           }}
         >
-          <Typography>Solartherm</Typography>
-          <IconButton onClick={toggleDrawer}>
-            <ChevronLeftIcon />
+          <Logo />
+          <IconButton
+            onClick={toggleDrawer}
+            sx={{
+              position: 'absolute',
+              top: 10,
+              right: 0,
+            }}
+          >
+            {open ? <ChevronLeftIcon /> : <ChevronRightIcon />}
           </IconButton>
-        </Toolbar>
+        </Box>
 
         <Box
           sx={{
             backgroundColor: 'red',
+            width: '100%',
           }}
         >
           <Divider />

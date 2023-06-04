@@ -1,10 +1,10 @@
-import React from 'react';
+import { useState } from 'react';
 import Sidebar from '../components/Sidebar/Sidebar';
 import { Outlet, useOutletContext } from 'react-router-dom';
 import Box from '@mui/material/Box';
 
 const RootLayout = () => {
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
   };
@@ -13,7 +13,7 @@ const RootLayout = () => {
     <>
       <div className='flex bg-gray-400'>
         <Sidebar open={open} toggleDrawer={toggleDrawer} />
-        <Box sx={{ width: '240px' }}></Box>
+        <Box sx={{ width: open ? '240px' : '72px' }}></Box>
         <Box component='main' sx={{ flexGrow: 1, p: 3, minHeight: '100vh' }}>
           <Outlet context={{ isSidebarOpen: open }} />
         </Box>
