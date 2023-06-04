@@ -16,6 +16,7 @@ const Drawer = styled(MuiDrawer, {
   shouldForwardProp: prop => prop !== 'open',
 })(({ theme, open }) => ({
   '& .MuiDrawer-paper': {
+    overflow: 'hidden',
     position: 'relative',
     whiteSpace: 'nowrap',
     width: drawerWidth,
@@ -48,67 +49,61 @@ const DashboardContent: React.FC<DashboardContentProps> = ({
   toggleDrawer,
 }) => {
   return (
-    <Drawer
-      variant='permanent'
-      open={open}
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-        position: 'fixed',
-        zIndex: 3,
-        height: '100vh',
-        backgroundColor: 'black',
-        border: 'none',
-      }}
-    >
-      <Box sx={{}}>
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            position: 'relative',
-            paddingLeft: 2,
-          }}
-        >
-          <Logo />
-          <IconButton
-            onClick={toggleDrawer}
-            sx={{
-              position: 'absolute',
-              top: 10,
-              right: 0,
-            }}
-          >
-            {open ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-          </IconButton>
-        </Box>
-
-        <Box
-          sx={{
-            width: '100%',
-          }}
-        >
-          <Divider />
-          <List component='nav'>
-            <MainListItems />
-            <Divider sx={{ my: 1 }} />
-          </List>
-        </Box>
-      </Box>
-      <Box sx={{ flex: 1 }}></Box>
-
-      <Box
+    <>
+      <Drawer
+        variant='permanent'
+        open={open}
         sx={{
-          width: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          position: 'fixed',
+          zIndex: 3,
+          height: '100vh',
+          backgroundColor: 'black',
+          border: 'none',
         }}
       >
-        <Divider />
-        <List component='nav'>
-          <SecondaryListItems />
-        </List>
-      </Box>
-    </Drawer>
+        <Box>
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              paddingLeft: 2,
+            }}
+          >
+            <Logo />
+          </Box>
+
+          <Box
+            sx={{
+              width: '100%',
+            }}
+          >
+            <Divider />
+            <List component='nav'>
+              <MainListItems />
+              <Divider sx={{ my: 1 }} />
+              <List component='nav'>
+                <SecondaryListItems />
+              </List>
+            </List>
+          </Box>
+        </Box>
+        <Box sx={{ flex: 1 }}></Box>
+        <IconButton
+          onClick={toggleDrawer}
+          sx={{
+            position: 'absolute',
+            bottom: 10,
+            right: 10,
+            zIndex: 4,
+          }}
+        >
+          {open ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+        </IconButton>
+      </Drawer>
+    </>
   );
 };
 
