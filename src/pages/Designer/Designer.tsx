@@ -62,6 +62,7 @@ const Designer = () => {
 
   const [chart, setChart] = useState('temperature');
   const [showGraph, setShowGraph] = useState(true);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   useEffect(() => {
     dispatch(setDate(defaultDateValue.format('DD/MM/YYYY')));
@@ -73,7 +74,32 @@ const Designer = () => {
     setTimeout(() => {
       setShowGraph(true);
     }, 500);
-  }, [isSidebarOpen]);
+  }, [isSidebarOpen, windowWidth]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (from && to) {
+      let dataBase;
+      if (city === 'trujillo') {
+        dataBase = trujilloData;
+      } else if (city === 'piura') {
+        dataBase = piuraData;
+      } else {
+        dataBase = [];
+      }
+
+      dispatch(setData(filterByDateRange(dataBase, from, to)));
+    }
+  }, [from, to, city]);
 
   const handleChangeChart = (
     _event: React.SyntheticEvent,
@@ -90,21 +116,6 @@ const Designer = () => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-
-  useEffect(() => {
-    if (from && to) {
-      let dataBase;
-      if (city === 'trujillo') {
-        dataBase = trujilloData;
-      } else if (city === 'piura') {
-        dataBase = piuraData;
-      } else {
-        dataBase = [];
-      }
-
-      dispatch(setData(filterByDateRange(dataBase, from, to)));
-    }
-  }, [from, to, city]);
 
   return (
     <>

@@ -11,8 +11,9 @@ const RootLayout = () => {
 
   return (
     <>
-      <div className='flex bg-gray-200'>
+      <div className='flex bg-gray-400'>
         <Sidebar open={open} toggleDrawer={toggleDrawer} />
+        <Box sx={{ width: '240px' }}></Box>
         <Box component='main' sx={{ flexGrow: 1, p: 3, minHeight: '100vh' }}>
           <Outlet context={{ isSidebarOpen: open }} />
         </Box>

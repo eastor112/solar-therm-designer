@@ -6,7 +6,9 @@ import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import { mainListItems, secondaryListItems } from './MenuItems';
+import { Box } from '@mui/material';
+import Typography from '@mui/material/Typography';
+import { mainListItems } from './MenuItems';
 
 const drawerWidth: number = 240;
 
@@ -46,27 +48,64 @@ const DashboardContent: React.FC<DashboardContentProps> = ({
   toggleDrawer,
 }) => {
   return (
-    <Drawer variant='permanent' open={open}>
-      <Toolbar
+    <Drawer
+      variant='permanent'
+      open={open}
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        position: 'fixed',
+        zIndex: 3,
+        height: '100vh',
+      }}
+    >
+      <Box sx={{}}>
+        <Toolbar
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'flex-end',
+            backgroundColor: 'yellow',
+          }}
+        >
+          <Typography>Solartherm</Typography>
+          <IconButton onClick={toggleDrawer}>
+            <ChevronLeftIcon />
+          </IconButton>
+        </Toolbar>
+
+        <Box
+          sx={{
+            backgroundColor: 'red',
+          }}
+        >
+          <Divider />
+          <List component='nav'>
+            {mainListItems}
+            <Divider sx={{ my: 1 }} />
+          </List>
+        </Box>
+      </Box>
+      <Box sx={{ flex: 1, backgroundColor: 'yellow' }}></Box>
+
+      <Box
+        component={'p'}
         sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'flex-end',
-          px: [1],
+          width: '100%',
+          whiteSpace: 'normal',
+          height: '100px',
+          overflow: 'hidden',
+          backgroundColor: 'blue',
+          color: 'white',
         }}
       >
-        <IconButton onClick={toggleDrawer}>
-          <ChevronLeftIcon />
-        </IconButton>
-      </Toolbar>
-      <div>
-        <Divider />
-        <List component='nav'>
-          {mainListItems}
-          <Divider sx={{ my: 1 }} />
-          {secondaryListItems}
-        </List>
-      </div>
+        Software de diseño de termas solares elaborado en la Escuela de
+        Ingeniería Mecatrónica de la Universidad Nacional de Trujillo en
+        colaboración con la Universidad Nacional de Piura, como parte del
+        proyecto de “Diseño de termas solares con tubos al vacío”. El equipo de
+        trabajo fue conformado por... ver mas
+      </Box>
     </Drawer>
   );
 };
