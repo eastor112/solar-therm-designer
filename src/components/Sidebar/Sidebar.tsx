@@ -7,7 +7,7 @@ import IconButton from '@mui/material/IconButton';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { Box } from '@mui/material';
-import { mainListItems } from './MenuItems';
+import { MainListItems, SecondaryListItems } from './MenuItems';
 import Logo from '../Logo/Logo';
 
 const drawerWidth: number = 240;
@@ -86,35 +86,27 @@ const DashboardContent: React.FC<DashboardContentProps> = ({
 
         <Box
           sx={{
-            backgroundColor: 'red',
             width: '100%',
           }}
         >
           <Divider />
           <List component='nav'>
-            {mainListItems}
+            <MainListItems />
             <Divider sx={{ my: 1 }} />
           </List>
         </Box>
       </Box>
-      <Box sx={{ flex: 1, backgroundColor: 'yellow' }}></Box>
+      <Box sx={{ flex: 1 }}></Box>
 
       <Box
-        component={'p'}
         sx={{
           width: '100%',
-          whiteSpace: 'normal',
-          height: '100px',
-          overflow: 'hidden',
-          backgroundColor: 'blue',
-          color: 'white',
         }}
       >
-        Software de diseño de termas solares elaborado en la Escuela de
-        Ingeniería Mecatrónica de la Universidad Nacional de Trujillo en
-        colaboración con la Universidad Nacional de Piura, como parte del
-        proyecto de “Diseño de termas solares con tubos al vacío”. El equipo de
-        trabajo fue conformado por... ver mas
+        <Divider />
+        <List component='nav'>
+          <SecondaryListItems />
+        </List>
       </Box>
     </Drawer>
   );
