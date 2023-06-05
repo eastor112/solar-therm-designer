@@ -7,16 +7,24 @@ import {
   Marker,
   Popup,
   useMapEvents,
+  Rectangle,
 } from 'react-leaflet';
 import markIcon from '../../assets/marker.svg';
 import L from 'leaflet';
 import MarkerClusterGroup from 'react-leaflet-cluster';
 import Typography from '@mui/material/Typography';
+import { LatLngBoundsLiteral } from 'leaflet';
 
 const mark = new L.Icon({
   iconSize: [35, 35],
   iconUrl: markIcon,
+  iconAnchor: [18, 32],
 });
+
+const rectangleBounds: LatLngBoundsLiteral = [
+  [0.1203, -81.7],
+  [-18.5, -68],
+];
 
 const MapLeafleat = () => {
   const mapRef = useRef();
@@ -39,10 +47,17 @@ const MapLeafleat = () => {
 
   function handleMouseMove(event: any) {
     const { lat, lng } = event.latlng;
-    setCoord({
-      lat,
-      lng,
-    });
+    if (
+      lat <= rectangleBounds[0][0] &&
+      lat >= rectangleBounds[1][0] &&
+      lng >= rectangleBounds[0][1] &&
+      lng <= rectangleBounds[1][1]
+    ) {
+      setCoord({
+        lat,
+        lng,
+      });
+    }
   }
 
   function MapEvents() {
@@ -83,6 +98,12 @@ const MapLeafleat = () => {
           </Marker>
         </MarkerClusterGroup>
         <MapEvents />
+        <Rectangle
+          bounds={rectangleBounds}
+          color='#7ee173'
+          fillOpacity={0.05}
+          stroke
+        />
       </MapContainer>
     </Box>
   );
