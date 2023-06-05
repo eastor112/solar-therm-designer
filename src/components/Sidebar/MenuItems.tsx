@@ -8,22 +8,28 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import InfoIcon from '@mui/icons-material/Info';
 import { Link } from 'react-router-dom';
 
-export const MainListItems = () => {
+interface MainListItemsProps {
+  handleOpenGlobalModal: () => void;
+}
+
+export const MainListItems: React.FC<MainListItemsProps> = ({
+  handleOpenGlobalModal,
+}) => {
   return (
     <>
-      <ListItemButton>
+      <ListItemButton onClick={handleOpenGlobalModal}>
         <ListItemIcon>
           <AddCircleIcon />
         </ListItemIcon>
         <ListItemText primary='Nuevo' />
       </ListItemButton>
-      <ListItemButton>
+      <ListItemButton onClick={handleOpenGlobalModal}>
         <ListItemIcon>
           <Folder />
         </ListItemIcon>
         <ListItemText primary='Abrir' />
       </ListItemButton>
-      <ListItemButton>
+      <ListItemButton onClick={handleOpenGlobalModal}>
         <ListItemIcon>
           <NewspaperIcon />
         </ListItemIcon>
@@ -33,10 +39,16 @@ export const MainListItems = () => {
   );
 };
 
-export const SecondaryListItems = () => {
+interface SecondaryListItemsProps {
+  handleOpenGlobalModal: () => void;
+}
+
+export const SecondaryListItems: React.FC<SecondaryListItemsProps> = ({
+  handleOpenGlobalModal,
+}) => {
   return (
     <>
-      <ListItemButton>
+      <ListItemButton onClick={handleOpenGlobalModal}>
         <ListItemIcon>
           <InfoIcon />
         </ListItemIcon>

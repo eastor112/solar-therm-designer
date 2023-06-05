@@ -43,11 +43,13 @@ const Drawer = styled(MuiDrawer, {
 interface DashboardContentProps {
   open: boolean;
   toggleDrawer: () => void;
+  handleOpenGlobalModal: () => void;
 }
 
 const DashboardContent: React.FC<DashboardContentProps> = ({
   open,
   toggleDrawer,
+  handleOpenGlobalModal,
 }) => {
   return (
     <>
@@ -82,14 +84,20 @@ const DashboardContent: React.FC<DashboardContentProps> = ({
           >
             <Divider />
             <List component='nav'>
-              <MainListItems />
+              <MainListItems handleOpenGlobalModal={handleOpenGlobalModal} />
               <Divider sx={{ my: 1 }} />
-              <SecondaryListItems />
+              <SecondaryListItems
+                handleOpenGlobalModal={handleOpenGlobalModal}
+              />
               <Divider sx={{ my: 1 }} />
             </List>
           </Box>
         </Box>
-        <Box sx={{ flex: 1 }}>{open && <RecentFilesList />}</Box>
+        <Box sx={{ flex: 1 }}>
+          {open && (
+            <RecentFilesList handleOpenGlobalModal={handleOpenGlobalModal} />
+          )}
+        </Box>
         <IconButton
           onClick={toggleDrawer}
           sx={{

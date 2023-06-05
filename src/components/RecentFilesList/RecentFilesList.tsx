@@ -26,7 +26,13 @@ const testData = [
   },
 ];
 
-const RecentFilesList = () => {
+interface RecentFilesListProps {
+  handleOpenGlobalModal: () => void;
+}
+
+const RecentFilesList: React.FC<RecentFilesListProps> = ({
+  handleOpenGlobalModal,
+}) => {
   return (
     <Box
       sx={{
@@ -65,6 +71,7 @@ const RecentFilesList = () => {
                 },
                 p: 0.75,
               }}
+              onClick={handleOpenGlobalModal}
             >
               <ListItemAvatar>
                 <Avatar
