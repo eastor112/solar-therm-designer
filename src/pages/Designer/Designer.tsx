@@ -20,6 +20,7 @@ import {
   Select,
   TextField,
 } from '@mui/material';
+import MapLeafleat from '../../components/MapLeafleat/MapLeafleat';
 
 function filterByDateRange(data: any, from: string, to: string): any[] {
   const fromDate = new Date(from);
@@ -126,6 +127,7 @@ const Designer = () => {
       >
         <div className='flex flex-col gap-8'>
           <h3 className='text-3xl font-bold'>SOLARTHERM DESIGNER V0.020</h3>
+          <MapLeafleat></MapLeafleat>
           <div className='flex gap-8'>
             <ZoneInformation handleOpen={handleOpen} />
 

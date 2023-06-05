@@ -8,6 +8,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { routes } from './routes/routesList.tsx';
 import { Provider } from 'react-redux';
 import store from './redux/store.ts';
+import 'leaflet/dist/leaflet.css';
 
 const router = createBrowserRouter(routes);
 

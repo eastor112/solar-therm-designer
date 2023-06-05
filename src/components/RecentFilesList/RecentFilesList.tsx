@@ -55,8 +55,9 @@ const RecentFilesList = () => {
             p: 0,
           }}
         >
-          {testData.map(file => (
+          {testData.map((file, i) => (
             <ListItem
+              key={i}
               sx={{
                 cursor: 'pointer',
                 '&:hover': {

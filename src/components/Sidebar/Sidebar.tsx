@@ -9,7 +9,7 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { Box } from '@mui/material';
 import { MainListItems, SecondaryListItems } from './MenuItems';
 import Logo from '../Logo/Logo';
-import RecentFilesList from '../../pages/RecentFilesList/RecentFilesList';
+import RecentFilesList from '../RecentFilesList/RecentFilesList';
 
 const drawerWidth: number = 240;
 
