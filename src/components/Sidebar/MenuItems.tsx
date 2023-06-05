@@ -9,7 +9,7 @@ import InfoIcon from '@mui/icons-material/Info';
 import { Link } from 'react-router-dom';
 
 interface MainListItemsProps {
-  handleOpenGlobalModal: () => void;
+  handleOpenGlobalModal: (value: string) => void;
 }
 
 export const MainListItems: React.FC<MainListItemsProps> = ({
@@ -17,19 +17,19 @@ export const MainListItems: React.FC<MainListItemsProps> = ({
 }) => {
   return (
     <>
-      <ListItemButton onClick={handleOpenGlobalModal}>
+      <ListItemButton onClick={() => handleOpenGlobalModal('new')}>
         <ListItemIcon>
           <AddCircleIcon />
         </ListItemIcon>
         <ListItemText primary='Nuevo' />
       </ListItemButton>
-      <ListItemButton onClick={handleOpenGlobalModal}>
+      <ListItemButton onClick={() => handleOpenGlobalModal('open')}>
         <ListItemIcon>
           <Folder />
         </ListItemIcon>
         <ListItemText primary='Abrir' />
       </ListItemButton>
-      <ListItemButton onClick={handleOpenGlobalModal}>
+      <ListItemButton onClick={() => handleOpenGlobalModal('reports')}>
         <ListItemIcon>
           <NewspaperIcon />
         </ListItemIcon>
@@ -40,7 +40,7 @@ export const MainListItems: React.FC<MainListItemsProps> = ({
 };
 
 interface SecondaryListItemsProps {
-  handleOpenGlobalModal: () => void;
+  handleOpenGlobalModal: (value: string) => void;
 }
 
 export const SecondaryListItems: React.FC<SecondaryListItemsProps> = ({
@@ -48,7 +48,7 @@ export const SecondaryListItems: React.FC<SecondaryListItemsProps> = ({
 }) => {
   return (
     <>
-      <ListItemButton onClick={handleOpenGlobalModal}>
+      <ListItemButton onClick={() => handleOpenGlobalModal('about')}>
         <ListItemIcon>
           <InfoIcon />
         </ListItemIcon>

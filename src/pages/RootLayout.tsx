@@ -2,20 +2,19 @@ import { useState } from 'react';
 import Sidebar from '../components/Sidebar/Sidebar';
 import { Outlet, useOutletContext } from 'react-router-dom';
 import Box from '@mui/material/Box';
-
-import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
+import ModalAbout from '../components/Modal/ModalAbout';
+import ModalFile from '../components/Modal/ModalFile';
+import ModalNewProject from '../components/Modal/ModalNewProject';
+import ModalOpenProject from '../components/Modal/ModalOpenProject';
+import ModalReports from '../components/Modal/ModalReports';
 
-const style = {
-  position: 'absolute' as 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
+const modalSelector: { [key: string]: JSX.Element } = {
+  about: <ModalAbout />,
+  file: <ModalFile />,
+  new: <ModalNewProject />,
+  open: <ModalOpenProject />,
+  reports: <ModalReports />,
 };
 
 const RootLayout = () => {
@@ -24,8 +23,13 @@ const RootLayout = () => {
   const toggleDrawer = () => {
     setOpen(!open);
   };
+  const [modalComponent, setmodalComponent] = useState<any>();
 
-  const handleOpenGlobalModal = () => setOpenModal(true);
+  const handleOpenGlobalModal = (value: string) => {
+    setOpenModal(true);
+    setmodalComponent(modalSelector[value]);
+  };
+
   const handleClose = () => setOpenModal(false);
 
   return (
@@ -40,21 +44,16 @@ const RootLayout = () => {
         <Box component='main' sx={{ flexGrow: 1, p: 3, minHeight: '100vh' }}>
           <Outlet context={{ isSidebarOpen: open }} />
         </Box>
-        <Modal
-          open={openModal}
-          onClose={handleClose}
-          aria-labelledby='modal-modal-title'
-          aria-describedby='modal-modal-description'
-        >
-          <Box sx={style}>
-            <Typography id='modal-modal-title' variant='h6' component='h2'>
-              Global Modal
-            </Typography>
-            <Typography id='modal-modal-description' sx={{ mt: 2 }}>
-              Hacer algo
-            </Typography>
-          </Box>
-        </Modal>
+        {modalComponent && (
+          <Modal
+            open={openModal}
+            onClose={handleClose}
+            aria-labelledby='modal-modal-title'
+            aria-describedby='modal-modal-description'
+          >
+            {modalComponent}
+          </Modal>
+        )}
       </div>
     </>
   );

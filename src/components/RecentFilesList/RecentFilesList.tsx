@@ -27,12 +27,18 @@ const testData = [
 ];
 
 interface RecentFilesListProps {
-  handleOpenGlobalModal: () => void;
+  handleOpenGlobalModal: (value: string) => void;
 }
 
 const RecentFilesList: React.FC<RecentFilesListProps> = ({
   handleOpenGlobalModal,
 }) => {
+  const handleOnClick = (file: any) => {
+    handleOpenGlobalModal('file');
+    // !todo update store
+    console.log('update store selected file', file);
+  };
+
   return (
     <Box
       sx={{
@@ -71,7 +77,7 @@ const RecentFilesList: React.FC<RecentFilesListProps> = ({
                 },
                 p: 0.75,
               }}
-              onClick={handleOpenGlobalModal}
+              onClick={() => handleOnClick(file)}
             >
               <ListItemAvatar>
                 <Avatar

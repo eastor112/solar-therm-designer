@@ -43,7 +43,7 @@ const Drawer = styled(MuiDrawer, {
 interface DashboardContentProps {
   open: boolean;
   toggleDrawer: () => void;
-  handleOpenGlobalModal: () => void;
+  handleOpenGlobalModal: (value: string) => void;
 }
 
 const DashboardContent: React.FC<DashboardContentProps> = ({
