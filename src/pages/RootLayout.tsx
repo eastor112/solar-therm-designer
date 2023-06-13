@@ -7,30 +7,34 @@ import ModalAbout from '../components/Modal/ModalAbout';
 import ModalFile from '../components/Modal/ModalFile';
 import ModalNewProject from '../components/Modal/ModalNewProject';
 import ModalOpenProject from '../components/Modal/ModalOpenProject';
-import ModalReports from '../components/Modal/ModalReports';
+import ModalReports from '../components/Modal/ModalReport';
+import { useAppDispatch, useAppSelector } from '../hooks/reduxHooks';
+import { setOpenModal } from '../redux/UISlice';
 
 const modalSelector: { [key: string]: JSX.Element } = {
   about: <ModalAbout />,
   file: <ModalFile />,
   new: <ModalNewProject />,
   open: <ModalOpenProject />,
-  reports: <ModalReports />,
+  report: <ModalReports />,
 };
 
 const RootLayout = () => {
+  const { openModal } = useAppSelector(state => state.ui);
+  const dispatch = useAppDispatch();
+
   const [open, setOpen] = useState(true);
-  const [openModal, setOpenModal] = useState(false);
   const toggleDrawer = () => {
     setOpen(!open);
   };
   const [modalComponent, setmodalComponent] = useState<any>();
 
   const handleOpenGlobalModal = (value: string) => {
-    setOpenModal(true);
+    dispatch(setOpenModal(true));
     setmodalComponent(modalSelector[value]);
   };
 
-  const handleClose = () => setOpenModal(false);
+  const handleClose = () => dispatch(setOpenModal(false));
 
   return (
     <>

@@ -15,7 +15,7 @@ const style = {
   p: 4,
 };
 
-const ModalNewProject = () => {
+const ModalReports = () => {
   return (
     <Box sx={style}>
       <Typography
@@ -26,7 +26,7 @@ const ModalNewProject = () => {
         variant='h6'
         component='h2'
       >
-        Crear nuevo proyecto
+        Descargar Reporte
       </Typography>
       <Box
         sx={{
@@ -35,11 +35,19 @@ const ModalNewProject = () => {
           gap: 3,
         }}
       >
-        <TextField id='name' label='nombre de proyecto' variant='outlined' />
-        <Button variant='contained'>Crear</Button>
+        <TextField
+          id='name'
+          label='nombre de proyecto'
+          variant='outlined'
+          value='Modelo1 - Trujillo - Elder.pdf'
+          InputLabelProps={{
+            shrink: true,
+          }}
+        />
+        <Button variant='contained'>Descargar</Button>
       </Box>
     </Box>
   );
 };
 
-export default ModalNewProject;
+export default ModalReports;

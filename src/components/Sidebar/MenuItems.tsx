@@ -29,11 +29,11 @@ export const MainListItems: React.FC<MainListItemsProps> = ({
         </ListItemIcon>
         <ListItemText primary='Abrir' />
       </ListItemButton>
-      <ListItemButton onClick={() => handleOpenGlobalModal('reports')}>
+      <ListItemButton onClick={() => handleOpenGlobalModal('report')}>
         <ListItemIcon>
           <NewspaperIcon />
         </ListItemIcon>
-        <ListItemText primary='Reportes' />
+        <ListItemText primary='Reporte' />
       </ListItemButton>
     </>
   );
