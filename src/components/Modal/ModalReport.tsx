@@ -44,7 +44,30 @@ const ModalReports = () => {
             shrink: true,
           }}
         />
-        <Button variant='contained'>Descargar</Button>
+        <Box
+          sx={{
+            display: 'flex',
+            gap: 3,
+            justifyContent: 'center',
+          }}
+        >
+          <Button
+            variant='outlined'
+            sx={{
+              width: '7rem',
+            }}
+          >
+            cancelar
+          </Button>
+          <Button
+            variant='contained'
+            sx={{
+              width: '7rem',
+            }}
+          >
+            Descargar
+          </Button>
+        </Box>
       </Box>
     </Box>
   );

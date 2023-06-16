@@ -1,14 +1,24 @@
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import { Button } from '@mui/material';
 
-const SavedProjectCard = () => {
+interface SavedProjectCardProps {
+  selected?: boolean;
+}
+
+const SavedProjectCard: React.FC<SavedProjectCardProps> = ({
+  selected = false,
+}) => {
   return (
     <Box
       sx={{
+        bgcolor: selected ? '#ddd' : undefined,
         borderRadius: '3px',
         boxShadow: '-1px 1px 5px 1px rgba(0,0,0,0.2)',
-        padding: '1rem',
+        padding: '0.7rem',
+        '&:hover': {
+          bgcolor: '#eee',
+        },
+        cursor: 'pointer',
       }}
     >
       <Typography
@@ -41,7 +51,7 @@ const SavedProjectCard = () => {
             flex: 1,
           }}
         >
-          <Button variant='contained'>Abrir</Button>
+          {/* <Button variant='contained'>Abrir</Button> */}
         </Box>
       </Box>
     </Box>

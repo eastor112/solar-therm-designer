@@ -44,7 +44,7 @@ const ModalAbout = () => {
         climáticas del Perú”
       </Typography>
       <Box sx={{ textAlign: 'center', mt: 4 }}>
-        <Button variant='contained' onClick={handleClose}>
+        <Button variant='outlined' onClick={handleClose}>
           Cerrar
         </Button>
       </Box>

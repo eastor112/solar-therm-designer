@@ -11,16 +11,9 @@ import { useOutletContexRoot } from '../RootLayout';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { setData, setDate } from '../../redux/designerSlice';
 import Modal from '@mui/material/Modal';
-import Typography from '@mui/material/Typography';
-import {
-  Button,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
-} from '@mui/material';
 import MapLeafleat from '../../components/MapLeafleat/MapLeafleat';
+import ModalChangePlace from '../../components/Modal/ModalChangePlace';
+import ModalDatepicker from '../../components/Modal/ModalDatepicker';
 
 function filterByDateRange(data: any, from: string, to: string): any[] {
   const fromDate = new Date(from);
@@ -31,18 +24,6 @@ function filterByDateRange(data: any, from: string, to: string): any[] {
     return date >= fromDate && date <= toDate;
   });
 }
-
-const style = {
-  position: 'absolute' as 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  // border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-};
 
 const defaultDateValue = dayjs(
   trujilloData[trujilloData.length - 1].PeriodStart.split('T')[0]
@@ -64,6 +45,7 @@ const Designer = () => {
   const [chart, setChart] = useState('temperature');
   const [showGraph, setShowGraph] = useState(true);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [modalType, setModalType] = useState<'place' | 'date'>('place');
 
   useEffect(() => {
     dispatch(setDate(defaultDateValue.format('DD/MM/YYYY')));
@@ -115,7 +97,10 @@ const Designer = () => {
   };
 
   const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
+  const handleOpen = (value: 'place' | 'date') => {
+    setModalType(value);
+    setOpen(true);
+  };
   const handleClose = () => setOpen(false);
 
   return (
@@ -130,7 +115,6 @@ const Designer = () => {
           <MapLeafleat></MapLeafleat>
           <div className='flex gap-8'>
             <ZoneInformation handleOpen={handleOpen} />
-
             <DesignerForm />
           </div>
           <DataInspectorGraph
@@ -148,48 +132,10 @@ const Designer = () => {
         aria-labelledby='modal-modal-title'
         aria-describedby='modal-modal-description'
       >
-        <Box sx={style}>
-          <Typography id='modal-modal-title' variant='h6' component='h2'>
-            Seleccionar lugar
-          </Typography>
-          <Typography id='modal-modal-description' sx={{ mt: 2 }}>
-            Seleccione el lugar de estudio o ingrese coordenadas
-          </Typography>
-          <FormControl
-            fullWidth
-            sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
-          >
-            <InputLabel id='demo-simple-select-label'>Ciudad</InputLabel>
-            <Select
-              labelId='demo-simple-select-label'
-              id='demo-simple-select'
-              // value={age}
-              label='Ciudad'
-              // onChange={handleChange}
-            >
-              <MenuItem value={0}>Ninguna</MenuItem>
-              <MenuItem value={10}>Piura</MenuItem>
-              <MenuItem value={20}>Trujillo</MenuItem>
-            </Select>
-
-            <TextField
-              type='number'
-              id='outlined-basic'
-              label='Latitud'
-              variant='outlined'
-              disabled
-            />
-            <TextField
-              type='number'
-              id='outlined-basic'
-              label='Longitud'
-              variant='outlined'
-              disabled
-            />
-
-            <Button variant='contained'>Cambiar</Button>
-          </FormControl>
-        </Box>
+        <>
+          {modalType === 'place' && <ModalChangePlace />}
+          {modalType === 'date' && <ModalDatepicker />}
+        </>
       </Modal>
     </>
   );

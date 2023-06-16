@@ -36,7 +36,30 @@ const ModalNewProject = () => {
         }}
       >
         <TextField id='name' label='nombre de proyecto' variant='outlined' />
-        <Button variant='contained'>Crear</Button>
+        <Box
+          sx={{
+            display: 'flex',
+            gap: 3,
+            justifyContent: 'center',
+          }}
+        >
+          <Button
+            variant='outlined'
+            sx={{
+              width: '7rem',
+            }}
+          >
+            cancelar
+          </Button>
+          <Button
+            variant='contained'
+            sx={{
+              width: '7rem',
+            }}
+          >
+            Crear
+          </Button>
+        </Box>
       </Box>
     </Box>
   );

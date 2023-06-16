@@ -46,6 +46,7 @@ const ModalFile = () => {
         sx={{
           display: 'flex',
           gap: 3,
+          mb: 1,
         }}
       >
         <Typography variant='subtitle1' sx={{ fontSize: '0.8rem' }}>
@@ -133,8 +134,30 @@ const ModalFile = () => {
           </Box>
         </Box>
       </Box>
-      <Box sx={{ textAlign: 'center', mt: 3 }}>
-        <Button variant='contained'>Abrir</Button>
+      <Box
+        sx={{
+          display: 'flex',
+          gap: 3,
+          justifyContent: 'center',
+          mt: 2,
+        }}
+      >
+        <Button
+          variant='outlined'
+          sx={{
+            width: '7rem',
+          }}
+        >
+          cancelar
+        </Button>
+        <Button
+          variant='contained'
+          sx={{
+            width: '7rem',
+          }}
+        >
+          Crear
+        </Button>
       </Box>
     </Box>
   );

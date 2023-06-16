@@ -6,6 +6,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import SavedProjectCard from '../SavedProjectCard/SavedProjectCard';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
+import { Button } from '@mui/material';
 
 const style = {
   position: 'relative',
@@ -98,13 +99,10 @@ const ModalOpenProject = () => {
           gap: 2,
         }}
       >
+        <SavedProjectCard selected />
         <SavedProjectCard />
         <SavedProjectCard />
         <SavedProjectCard />
-        <SavedProjectCard />
-        <SavedProjectCard />
-        <SavedProjectCard />
-
         <Box
           sx={{
             display: 'flex',
@@ -114,6 +112,30 @@ const ModalOpenProject = () => {
           <Stack spacing={2}>
             <Pagination count={10} shape='rounded' />
           </Stack>
+        </Box>
+        <Box
+          sx={{
+            display: 'flex',
+            gap: 3,
+            justifyContent: 'center',
+          }}
+        >
+          <Button
+            variant='outlined'
+            sx={{
+              width: '7rem',
+            }}
+          >
+            cancelar
+          </Button>
+          <Button
+            variant='contained'
+            sx={{
+              width: '7rem',
+            }}
+          >
+            Abrir
+          </Button>
         </Box>
       </Box>
     </Box>
