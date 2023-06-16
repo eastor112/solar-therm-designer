@@ -7,6 +7,8 @@ import SavedProjectCard from '../SavedProjectCard/SavedProjectCard';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import { Button } from '@mui/material';
+import { useAppDispatch } from '../../hooks/reduxHooks';
+import { setOpenModal } from '../../redux/UISlice';
 
 const style = {
   position: 'relative',
@@ -65,6 +67,12 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const ModalOpenProject = () => {
+  const dispatch = useAppDispatch();
+
+  const handleClose = () => {
+    dispatch(setOpenModal(false));
+  };
+
   return (
     <Box sx={style}>
       <Box>
@@ -125,6 +133,7 @@ const ModalOpenProject = () => {
             sx={{
               width: '7rem',
             }}
+            onClick={handleClose}
           >
             cancelar
           </Button>

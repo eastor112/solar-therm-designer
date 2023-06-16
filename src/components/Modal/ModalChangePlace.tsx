@@ -23,7 +23,11 @@ const style = {
   p: 4,
 };
 
-const ModalChangePlace = () => {
+interface ModalChangePlaceProps {
+  handleClose: () => void;
+}
+
+const ModalChangePlace: React.FC<ModalChangePlaceProps> = ({ handleClose }) => {
   return (
     <Box sx={style}>
       <Typography id='modal-modal-title' variant='h6' component='h2'>
@@ -75,7 +79,9 @@ const ModalChangePlace = () => {
             gap: 3,
           }}
         >
-          <Button variant='outlined'>Cancelar</Button>
+          <Button variant='outlined' onClick={handleClose}>
+            Cancelar
+          </Button>
           <Button variant='contained'>Guardar</Button>
         </Box>
       </Box>

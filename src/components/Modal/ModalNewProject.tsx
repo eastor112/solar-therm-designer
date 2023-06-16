@@ -2,6 +2,8 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
+import { useAppDispatch } from '../../hooks/reduxHooks';
+import { setOpenModal } from '../../redux/UISlice';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -16,6 +18,12 @@ const style = {
 };
 
 const ModalNewProject = () => {
+  const dispatch = useAppDispatch();
+
+  const handleClose = () => {
+    dispatch(setOpenModal(false));
+  };
+
   return (
     <Box sx={style}>
       <Typography
@@ -48,6 +56,7 @@ const ModalNewProject = () => {
             sx={{
               width: '7rem',
             }}
+            onClick={handleClose}
           >
             cancelar
           </Button>

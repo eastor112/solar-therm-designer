@@ -18,7 +18,11 @@ const style = {
   p: 4,
 };
 
-const ModalDatepicker = () => {
+interface ModalDatepickerProps {
+  handleClose: () => void;
+}
+
+const ModalDatepicker: React.FC<ModalDatepickerProps> = ({ handleClose }) => {
   return (
     <Box sx={style}>
       <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale='es'>
@@ -57,6 +61,7 @@ const ModalDatepicker = () => {
             sx={{
               mt: 2,
             }}
+            onClick={handleClose}
           >
             Cancelar
           </Button>

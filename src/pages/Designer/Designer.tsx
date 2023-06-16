@@ -133,8 +133,12 @@ const Designer = () => {
         aria-describedby='modal-modal-description'
       >
         <>
-          {modalType === 'place' && <ModalChangePlace />}
-          {modalType === 'date' && <ModalDatepicker />}
+          {modalType === 'place' && (
+            <ModalChangePlace handleClose={handleClose} />
+          )}
+          {modalType === 'date' && (
+            <ModalDatepicker handleClose={handleClose} />
+          )}
         </>
       </Modal>
     </>
