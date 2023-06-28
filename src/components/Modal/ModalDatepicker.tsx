@@ -1,10 +1,13 @@
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import 'dayjs/locale/es';
 import { Box, Button } from '@mui/material';
 import Typography from '@mui/material/Typography';
+import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
+import { setDate } from '../../redux/locationsSlice';
+import { useState } from 'react';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -23,6 +26,23 @@ interface ModalDatepickerProps {
 }
 
 const ModalDatepicker: React.FC<ModalDatepickerProps> = ({ handleClose }) => {
+  const { date } = useAppSelector(state => state.locations);
+  const dispatch = useAppDispatch();
+
+  const [currentDate, setCurrentDate] = useState<Dayjs>(
+    date ? dayjs(date, 'DD/MM/YYYY') : dayjs()
+  );
+
+  const handleChange = (value: Dayjs | null) => {
+    if (!value) return;
+    setCurrentDate(value);
+  };
+
+  const handleSaveDate = () => {
+    dispatch(setDate(currentDate.format('DD/MM/YYYY')));
+    handleClose();
+  };
+
   return (
     <Box sx={style}>
       <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale='es'>
@@ -41,11 +61,13 @@ const ModalDatepicker: React.FC<ModalDatepickerProps> = ({ handleClose }) => {
         </Typography>
 
         <DesktopDatePicker
-          defaultValue={dayjs('2021-04-17')}
+          defaultValue={currentDate}
           label='Fecha de análisis'
           sx={{
             width: '100%',
           }}
+          format='DD/MM/YYYY'
+          onChange={handleChange}
         />
 
         <Box
@@ -70,6 +92,7 @@ const ModalDatepicker: React.FC<ModalDatepickerProps> = ({ handleClose }) => {
             sx={{
               mt: 2,
             }}
+            onClick={handleSaveDate}
           >
             Guardar
           </Button>

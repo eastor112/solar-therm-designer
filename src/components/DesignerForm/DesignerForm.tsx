@@ -28,29 +28,31 @@ const DesignerForm = () => {
             label='Longitud de Manifold'
             variant='outlined'
           />
+        </div>
+        <Box sx={{ display: 'flex', flex: 1, flexDirection: 'column', gap: 4 }}>
           <TextField
             id='pipe-type'
             label='Número de tubos'
             variant='outlined'
           />
-        </div>
-        <FormControl sx={{ flex: 1 }}>
-          <InputLabel id='pipe-type-label'>Tipo de tubería</InputLabel>
-          <Select
-            labelId='pipe-type-label'
-            id='pipe-type'
-            value={'1'}
-            label='Tipo de tubería'
-            sx={{
-              width: '100%',
-            }}
-            onChange={() => {}}
-          >
-            <MenuItem value={'1'}>Tipo 1</MenuItem>
-            <MenuItem value={'2'}>Tipo 2</MenuItem>
-            <MenuItem value={'3'}>Tipo 3</MenuItem>
-          </Select>
-        </FormControl>
+          <FormControl sx={{ display: 'flex' }}>
+            <InputLabel id='pipe-type-label'>Tipo de tubería</InputLabel>
+            <Select
+              labelId='pipe-type-label'
+              id='pipe-type'
+              value={'1'}
+              label='Tipo de tubería'
+              sx={{
+                width: '100%',
+              }}
+              onChange={() => {}}
+            >
+              <MenuItem value={'1'}>Tipo 1</MenuItem>
+              <MenuItem value={'2'}>Tipo 2</MenuItem>
+              <MenuItem value={'3'}>Tipo 3</MenuItem>
+            </Select>
+          </FormControl>
+        </Box>
       </Box>
       <Box
         sx={{

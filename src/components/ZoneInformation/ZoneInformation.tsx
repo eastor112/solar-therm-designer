@@ -3,6 +3,7 @@ import Button from '@mui/material/Button';
 import piuraImg from '../../assets/piura.jpg';
 import { SxProps, Theme, Typography } from '@mui/material';
 import { generalStyles } from '../../styles/general';
+import { useAppSelector } from '../../hooks/reduxHooks';
 
 interface StylesMui {
   [key: string]: SxProps<Theme>;
@@ -19,6 +20,8 @@ interface ZoneInformationProps {
 }
 
 const ZoneInformation: React.FC<ZoneInformationProps> = ({ handleOpen }) => {
+  const { currentLocation, date } = useAppSelector(state => state.locations);
+
   return (
     <Box sx={{ ...generalStyles.cardLayout, minWidth: 380, flex: 1 }}>
       <Typography variant='h3' sx={generalStyles.h3}>
@@ -41,19 +44,16 @@ const ZoneInformation: React.FC<ZoneInformationProps> = ({ handleOpen }) => {
         <img src={piuraImg} alt='piura' className='max-w-full' />
       </Box>
       <Typography sx={styles.cardPlace}>
-        <span className='font-bold'>Ciudad:</span> Piura
+        <span className='font-bold'>Ciudad:</span>{' '}
+        {currentLocation?.place || 'no definido'}
       </Typography>
       <Typography sx={styles.cardPlace}>
-        <span className='font-bold'>Latitud:</span> 5.535
+        <span className='font-bold'>Latitud:</span>{' '}
+        {currentLocation?.lat || 'no definido'}
       </Typography>
       <Typography sx={styles.cardPlace}>
-        <span className='font-bold'>Longitud:</span> -80.564
-      </Typography>
-      <Typography sx={styles.cardPlace}>
-        <span className='font-bold'>Velocidad de viento:</span> 5 m/s
-      </Typography>
-      <Typography sx={styles.cardPlace}>
-        <span className='font-bold'>Temperatura:</span> 25 °C
+        <span className='font-bold'>Longitud:</span>{' '}
+        {currentLocation?.lng || 'no definido'}
       </Typography>
       <Box
         sx={{
@@ -64,7 +64,7 @@ const ZoneInformation: React.FC<ZoneInformationProps> = ({ handleOpen }) => {
         }}
       >
         <Typography sx={{ ...styles.cardPlace, mb: 0 }}>
-          <span className='font-bold'>Fecha:</span> 25 abr. 2023
+          <span className='font-bold'>Fecha:</span> {date || 'no definido'}
         </Typography>
         <Button variant='contained' onClick={() => handleOpen('date')}>
           Cambiar

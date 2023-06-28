@@ -11,9 +11,9 @@ import { useOutletContexRoot } from '../RootLayout';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { setData, setDate } from '../../redux/designerSlice';
 import Modal from '@mui/material/Modal';
-import MapLeafleat from '../../components/MapLeafleat/MapLeafleat';
 import ModalChangePlace from '../../components/Modal/ModalChangePlace';
 import ModalDatepicker from '../../components/Modal/ModalDatepicker';
+import { getLocationsInformation } from '../../redux/locationsSlice';
 
 function filterByDateRange(data: any, from: string, to: string): any[] {
   const fromDate = new Date(from);
@@ -48,6 +48,7 @@ const Designer = () => {
   const [modalType, setModalType] = useState<'place' | 'date'>('place');
 
   useEffect(() => {
+    dispatch(getLocationsInformation());
     dispatch(setDate(defaultDateValue.format('DD/MM/YYYY')));
     return () => {};
   }, []);
@@ -112,7 +113,6 @@ const Designer = () => {
       >
         <div className='flex flex-col gap-8'>
           <h3 className='text-3xl font-bold'>SOLARTHERM DESIGNER V0.020</h3>
-          <MapLeafleat></MapLeafleat>
           <div className='flex gap-8'>
             <ZoneInformation handleOpen={handleOpen} />
             <DesignerForm />

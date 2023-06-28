@@ -7,9 +7,13 @@ import {
   Link,
   MenuItem,
   Select,
+  SelectChangeEvent,
 } from '@mui/material';
 
 import { Link as LinkRouter } from 'react-router-dom';
+import { useAppSelector, useAppDispatch } from '../../hooks/reduxHooks';
+import { useState } from 'react';
+import { setLocation } from '../../redux/locationsSlice';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -28,6 +32,24 @@ interface ModalChangePlaceProps {
 }
 
 const ModalChangePlace: React.FC<ModalChangePlaceProps> = ({ handleClose }) => {
+  const { locations, currentLocation } = useAppSelector(
+    state => state.locations
+  );
+  const dispatch = useAppDispatch();
+  const [cityId, setCityId] = useState<number>(currentLocation?.id || 0);
+
+  const handleChange = (event: SelectChangeEvent<number>) => {
+    setCityId(event.target.value as number);
+  };
+
+  const handleSaveCity = () => {
+    const currentLocation = locations.find(location => location.id === cityId);
+    if (currentLocation) {
+      dispatch(setLocation(currentLocation));
+    }
+    handleClose();
+  };
+
   return (
     <Box sx={style}>
       <Typography id='modal-modal-title' variant='h6' component='h2'>
@@ -55,14 +77,18 @@ const ModalChangePlace: React.FC<ModalChangePlaceProps> = ({ handleClose }) => {
             <Select
               labelId='city-select-label'
               id='city-select'
-              value={0}
+              value={cityId}
               label='Ciudad'
-              // onChange={handleChange}
+              name='city'
+              onChange={handleChange}
               fullWidth
             >
               <MenuItem value={0}>Ninguna</MenuItem>
-              <MenuItem value={10}>Piura</MenuItem>
-              <MenuItem value={20}>Trujillo</MenuItem>
+              {locations.map(location => (
+                <MenuItem key={location.id} value={location.id}>
+                  {location.place}
+                </MenuItem>
+              ))}
             </Select>
           </Box>
           <Box sx={{ fontSize: 14 }}>
@@ -82,7 +108,9 @@ const ModalChangePlace: React.FC<ModalChangePlaceProps> = ({ handleClose }) => {
           <Button variant='outlined' onClick={handleClose}>
             Cancelar
           </Button>
-          <Button variant='contained'>Guardar</Button>
+          <Button variant='contained' onClick={handleSaveCity}>
+            Guardar
+          </Button>
         </Box>
       </Box>
     </Box>
