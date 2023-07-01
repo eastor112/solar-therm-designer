@@ -13,7 +13,7 @@ import {
 import { Link as LinkRouter } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../../hooks/reduxHooks';
 import { useState } from 'react';
-import { setLocation } from '../../redux/locationsSlice';
+import { setCurrentLocation } from '../../redux/locationsSlice';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -45,7 +45,7 @@ const ModalChangePlace: React.FC<ModalChangePlaceProps> = ({ handleClose }) => {
   const handleSaveCity = () => {
     const currentLocation = locations.find(location => location.id === cityId);
     if (currentLocation) {
-      dispatch(setLocation(currentLocation));
+      dispatch(setCurrentLocation(currentLocation));
     }
     handleClose();
   };

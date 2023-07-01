@@ -2,8 +2,10 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import { useAppDispatch } from '../../hooks/reduxHooks';
+import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { setOpenModal } from '../../redux/UISlice';
+import { useState, useEffect } from 'react';
+import { createProject } from '../../redux/locationsSlice';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -19,9 +21,24 @@ const style = {
 
 const ModalNewProject = () => {
   const dispatch = useAppDispatch();
+  const [isFirstLoad, setIsFirstLoad] = useState(true);
+  const { currentProject } = useAppSelector(state => state.locations);
+  const [projectName, setProjectName] = useState('');
+
+  useEffect(() => {
+    if (currentProject && !isFirstLoad) {
+      setProjectName(currentProject.name);
+      handleClose();
+    }
+    setIsFirstLoad(false);
+  }, [currentProject]);
 
   const handleClose = () => {
     dispatch(setOpenModal(false));
+  };
+
+  const handleCreateProject = () => {
+    dispatch(createProject(projectName));
   };
 
   return (
@@ -43,7 +60,14 @@ const ModalNewProject = () => {
           gap: 3,
         }}
       >
-        <TextField id='name' label='nombre de proyecto' variant='outlined' />
+        <TextField
+          id='name'
+          label='nombre de proyecto'
+          variant='outlined'
+          name='projectName'
+          value={projectName}
+          onChange={e => setProjectName(e.target.value)}
+        />
         <Box
           sx={{
             display: 'flex',
@@ -65,6 +89,7 @@ const ModalNewProject = () => {
             sx={{
               width: '7rem',
             }}
+            onClick={handleCreateProject}
           >
             Crear
           </Button>
