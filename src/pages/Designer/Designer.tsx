@@ -31,6 +31,7 @@ const defaultDateValue = dayjs(
 
 const Designer = () => {
   const { data, city } = useAppSelector(state => state.designer);
+  const { currentProject } = useAppSelector(state => state.locations);
   const dispatch = useAppDispatch();
 
   const { isSidebarOpen } = useOutletContexRoot();
@@ -91,6 +92,7 @@ const Designer = () => {
   ) => {
     setChart(newValue);
   };
+
   // @ts-ignore
   const onDatepickerChange = (a: Dayjs | null) => {
     setFrom(a?.startOf('day').format());
@@ -112,18 +114,22 @@ const Designer = () => {
         }}
       >
         <div className='flex flex-col gap-8'>
-          <h3 className='text-3xl font-bold'>SOLARTHERM DESIGNER V0.020</h3>
-          <div className='flex gap-8'>
-            <ZoneInformation handleOpen={handleOpen} />
-            <DesignerForm />
-          </div>
-          <DataInspectorGraph
-            city={city!}
-            data={data}
-            chart={chart}
-            handleChangeChart={handleChangeChart}
-            showGraph={showGraph}
-          />
+          {currentProject && (
+            <>
+              <h3 className='text-3xl font-bold'>SOLARTHERM DESIGNER V0.020</h3>
+              <div className='flex gap-8'>
+                <ZoneInformation handleOpen={handleOpen} />
+                <DesignerForm />
+              </div>
+              <DataInspectorGraph
+                city={city!}
+                data={data}
+                chart={chart}
+                handleChangeChart={handleChangeChart}
+                showGraph={showGraph}
+              />
+            </>
+          )}
         </div>
       </Box>
       <Modal

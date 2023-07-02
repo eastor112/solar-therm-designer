@@ -4,7 +4,7 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { setOpenModal } from '../../redux/UISlice';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, ChangeEvent } from 'react';
 import { createProject } from '../../redux/locationsSlice';
 
 const style = {
@@ -24,6 +24,7 @@ const ModalNewProject = () => {
   const [isFirstLoad, setIsFirstLoad] = useState(true);
   const { currentProject } = useAppSelector(state => state.locations);
   const [projectName, setProjectName] = useState('');
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     if (currentProject && !isFirstLoad) {
@@ -38,7 +39,23 @@ const ModalNewProject = () => {
   };
 
   const handleCreateProject = () => {
-    dispatch(createProject(projectName));
+    if (projectName.length > 3) {
+      setError(true);
+      dispatch(createProject(projectName));
+    } else {
+      setError(true);
+    }
+  };
+
+  const handleOnChage = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { value } = event.target;
+    if (value.length > 3) {
+      setError(false);
+    }
+
+    setProjectName(value);
   };
 
   return (
@@ -66,7 +83,9 @@ const ModalNewProject = () => {
           variant='outlined'
           name='projectName'
           value={projectName}
-          onChange={e => setProjectName(e.target.value)}
+          onChange={handleOnChage}
+          error={error}
+          helperText={error ? 'minimo 3 caracteres' : ''}
         />
         <Box
           sx={{

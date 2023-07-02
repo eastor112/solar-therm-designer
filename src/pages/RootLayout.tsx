@@ -10,6 +10,7 @@ import ModalOpenProject from '../components/Modal/ModalOpenProject';
 import ModalReports from '../components/Modal/ModalReport';
 import { useAppDispatch, useAppSelector } from '../hooks/reduxHooks';
 import { setOpenModal } from '../redux/UISlice';
+import ModalSaveChanges from '../components/Modal/ModalSaveChanges';
 
 const modalSelector: { [key: string]: JSX.Element } = {
   about: <ModalAbout />,
@@ -17,6 +18,7 @@ const modalSelector: { [key: string]: JSX.Element } = {
   new: <ModalNewProject />,
   open: <ModalOpenProject />,
   report: <ModalReports />,
+  save: <ModalSaveChanges />,
 };
 
 const RootLayout = () => {

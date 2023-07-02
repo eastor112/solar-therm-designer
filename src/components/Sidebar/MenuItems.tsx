@@ -7,6 +7,7 @@ import NewspaperIcon from '@mui/icons-material/Newspaper';
 import LogoutIcon from '@mui/icons-material/Logout';
 import InfoIcon from '@mui/icons-material/Info';
 import { Link } from 'react-router-dom';
+import SaveIcon from '@mui/icons-material/Save';
 
 interface MainListItemsProps {
   handleOpenGlobalModal: (value: string) => void;
@@ -17,18 +18,27 @@ export const MainListItems: React.FC<MainListItemsProps> = ({
 }) => {
   return (
     <>
-      <ListItemButton onClick={() => handleOpenGlobalModal('new')}>
-        <ListItemIcon>
-          <AddCircleIcon />
-        </ListItemIcon>
-        <ListItemText primary='Nuevo' />
-      </ListItemButton>
       <ListItemButton onClick={() => handleOpenGlobalModal('open')}>
         <ListItemIcon>
           <Folder />
         </ListItemIcon>
         <ListItemText primary='Abrir' />
       </ListItemButton>
+
+      <ListItemButton onClick={() => handleOpenGlobalModal('new')}>
+        <ListItemIcon>
+          <AddCircleIcon />
+        </ListItemIcon>
+        <ListItemText primary='Nuevo' />
+      </ListItemButton>
+
+      <ListItemButton onClick={() => handleOpenGlobalModal('save')}>
+        <ListItemIcon>
+          <SaveIcon />
+        </ListItemIcon>
+        <ListItemText primary='Guardar' />
+      </ListItemButton>
+
       <ListItemButton onClick={() => handleOpenGlobalModal('report')}>
         <ListItemIcon>
           <NewspaperIcon />

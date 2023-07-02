@@ -25,6 +25,10 @@ interface ILocationsState {
   locations: ILocation[],
   currentLocation: ILocation | null,
   date: string | null,
+  volumen: number | null,
+  manifoldLength: number | null,
+  pipeNumber: number | null,
+  pipeType: number | null,
 }
 
 const initialState: ILocationsState = {
@@ -32,7 +36,11 @@ const initialState: ILocationsState = {
   currentProject: null,
   locations: [],
   currentLocation: null,
-  date: null
+  date: null,
+  volumen: 0,
+  manifoldLength: 0,
+  pipeNumber: 0,
+  pipeType: 0,
 };
 
 export const locationsSlice = createSlice({
@@ -47,6 +55,18 @@ export const locationsSlice = createSlice({
     },
     setCurrentProject: (state, action: PayloadAction<IProject>) => {
       state.currentProject = action.payload;
+    },
+    setVolumen: (state, action: PayloadAction<number>) => {
+      state.volumen = action.payload;
+    },
+    setManifoldLength: (state, action: PayloadAction<number>) => {
+      state.manifoldLength = action.payload;
+    },
+    setPipeNumber: (state, action: PayloadAction<number>) => {
+      state.pipeNumber = action.payload;
+    },
+    setPipeType: (state, action: PayloadAction<number>) => {
+      state.pipeType = action.payload;
     }
   },
   extraReducers: (builder) => {
@@ -60,7 +80,13 @@ export const locationsSlice = createSlice({
   }
 });
 
-export const { setCurrentLocation, setDate } =
-  locationsSlice.actions;
+export const {
+  setCurrentLocation,
+  setDate,
+  setCurrentProject,
+  setVolumen,
+  setManifoldLength,
+  setPipeNumber,
+  setPipeType } = locationsSlice.actions;
 
 export default locationsSlice.reducer;
