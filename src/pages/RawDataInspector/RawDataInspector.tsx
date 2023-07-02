@@ -7,19 +7,20 @@ import { exportJsonToCsv } from '../../utils/exportData';
 
 const RawDataInspector = () => {
   const navigate = useNavigate();
-  const { city, date } = useAppSelector(state => state.designer);
-  const { data } = useAppSelector(state => state.designer);
+  const { weatherData, currentLocation, date } = useAppSelector(
+    state => state.locations
+  );
 
   const handleReturn = () => {
     navigate(-1);
   };
 
   const handleDownload = () => {
-    exportJsonToCsv(data);
+    exportJsonToCsv(weatherData);
   };
 
   return (
-    <div>
+    <Box>
       <h3 className='text-3xl font-bold mb-8'>SOLARTHERM DESIGNER V0.020</h3>
       <Box
         sx={{
@@ -35,8 +36,11 @@ const RawDataInspector = () => {
           Exportar a csv
         </Button>
       </Box>
-      <TableMUI rows={data} title={`Datos ciudad de ${city} - ${date}`} />
-    </div>
+      <TableMUI
+        rows={weatherData}
+        title={`Datos ciudad de ${currentLocation?.place} - ${date}`}
+      />
+    </Box>
   );
 };
 

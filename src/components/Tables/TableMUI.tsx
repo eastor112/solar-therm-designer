@@ -12,21 +12,27 @@ import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
 import Typography from '@mui/material/Typography';
 import { generalStyles } from '../../styles/general';
+import { IWeather } from '../../types/locationstypes';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
 interface Column {
   id:
-    | 'PeriodStart'
-    | 'AirTemp'
-    | 'Dhi'
-    | 'Dni'
-    | 'Ebh'
-    | 'Ghi'
-    | 'WindSpeed10m'
-    | 'WindDirection10m'
-    | 'CloudOpacity';
+    | 'temperature'
+    | 'clearsky_dhi'
+    | 'clearsky_dni'
+    | 'clearsky_ghi'
+    | 'dhi'
+    | 'dni'
+    | 'ghi'
+    | 'cloud_type'
+    | 'relative_humidity'
+    | 'solar_zenith_angle'
+    | 'wind_direction'
+    | 'wind_speed'
+    | 'location_id'
+    | 'date';
   label: string;
   minWidth?: number;
   align?: 'right' | 'center' | 'left';
@@ -35,66 +41,126 @@ interface Column {
 
 const columns: Column[] = [
   {
-    id: 'PeriodStart',
+    id: 'date',
     label: 'Tiempo',
     minWidth: 120,
     align: 'center',
     format: (value: number) => {
-      return dayjs.utc(value).local().format('YYYY-MM-DD HH:mm:ss');
+      return dayjs.utc(value).local().format('DD-MM-YYYY HH:mm:ss');
     },
   },
   {
-    id: 'AirTemp',
-    label: 'Temperatura del aire',
-    minWidth: 80,
+    id: 'temperature',
+    label: 'Temp.',
+    minWidth: 60,
     align: 'center',
+    format: (value: number) => {
+      return value.toFixed(2);
+    },
   },
   {
-    id: 'Dhi',
+    id: 'dhi',
     label: 'Dhi',
-    minWidth: 80,
+    minWidth: 60,
     align: 'center',
+    format: (value: number) => {
+      return value.toFixed(2);
+    },
   },
   {
-    id: 'Dni',
+    id: 'dni',
     label: 'Dni',
-    minWidth: 80,
+    minWidth: 60,
     align: 'center',
+    format: (value: number) => {
+      return value.toFixed(2);
+    },
   },
   {
-    id: 'Ebh',
-    label: 'Ebh',
-    minWidth: 80,
-    align: 'center',
-  },
-  {
-    id: 'Ghi',
+    id: 'ghi',
     label: 'Ghi',
-    minWidth: 80,
+    minWidth: 60,
     align: 'center',
+    format: (value: number) => {
+      return value.toFixed(2);
+    },
   },
   {
-    id: 'WindSpeed10m',
-    label: 'Velocidad del viento',
-    minWidth: 80,
+    id: 'clearsky_dhi',
+    label: 'Dhi despejado',
+    minWidth: 60,
     align: 'center',
+    format: (value: number) => {
+      return value.toFixed(2);
+    },
   },
   {
-    id: 'WindDirection10m',
-    label: 'Dirección del viento',
-    minWidth: 80,
+    id: 'clearsky_dni',
+    label: 'Dni despejado',
+    minWidth: 60,
     align: 'center',
+    format: (value: number) => {
+      return value.toFixed(2);
+    },
   },
   {
-    id: 'CloudOpacity',
-    label: 'Opacidad de nubes',
-    minWidth: 80,
+    id: 'clearsky_ghi',
+    label: 'Ghi despejado',
+    minWidth: 60,
     align: 'center',
+    format: (value: number) => {
+      return value.toFixed(2);
+    },
+  },
+  {
+    id: 'cloud_type',
+    label: 'Tipo nubosidad',
+    minWidth: 60,
+    align: 'center',
+    format: (value: number) => {
+      return value.toFixed(2);
+    },
+  },
+  {
+    id: 'relative_humidity',
+    label: 'Humedad rel.',
+    minWidth: 60,
+    align: 'center',
+    format: (value: number) => {
+      return value.toFixed(2);
+    },
+  },
+  {
+    id: 'solar_zenith_angle',
+    label: 'Áng. solar',
+    minWidth: 60,
+    align: 'center',
+    format: (value: number) => {
+      return value.toFixed(2);
+    },
+  },
+  {
+    id: 'wind_direction',
+    label: 'Dir.  viento',
+    minWidth: 60,
+    align: 'center',
+    format: (value: number) => {
+      return value.toFixed(2);
+    },
+  },
+  {
+    id: 'wind_speed',
+    label: 'Vel. viento',
+    minWidth: 60,
+    align: 'center',
+    format: (value: number) => {
+      return value.toFixed(2);
+    },
   },
 ];
 
 interface TableMUIProps {
-  rows: any;
+  rows: IWeather[];
   title: string;
 }
 
@@ -141,12 +207,7 @@ const TableMUI: React.FC<TableMUIProps> = ({ rows, title }) => {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row: any) => {
                 return (
-                  <TableRow
-                    hover
-                    role='checkbox'
-                    tabIndex={-1}
-                    key={row.PeriodStart}
-                  >
+                  <TableRow hover role='checkbox' tabIndex={-1} key={row.date}>
                     {columns.map(column => {
                       const value = row[column.id];
                       return (
