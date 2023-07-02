@@ -6,7 +6,7 @@ import Box from '@mui/material/Box';
 import { Typography } from '@mui/material';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
-import SampleChart from '../../components/Graphs/SampleChart';
+import CustomLineChart from '../../components/Graphs/LineChart';
 import { useAppSelector } from '../../hooks/reduxHooks';
 import { capitalize } from '../../utils/textTransformations';
 
@@ -77,7 +77,7 @@ const Results = () => {
           {data.length > 0 && (
             <>
               {chart === 'efficiency' && (
-                <SampleChart
+                <CustomLineChart
                   data={data}
                   title={'Eficiencia vs Tiempo. Ciudad de ' + capitalize(city)}
                   columns={['Dhi', 'Dni', 'Ghi']}
@@ -87,7 +87,7 @@ const Results = () => {
               )}
 
               {chart === 'power' && (
-                <SampleChart
+                <CustomLineChart
                   data={data}
                   title={'Potencia vs Tiempo. Ciudad de ' + capitalize(city)}
                   columns={['AirTemp']}
@@ -96,7 +96,7 @@ const Results = () => {
                 />
               )}
               {chart === 'energy' && (
-                <SampleChart
+                <CustomLineChart
                   data={data}
                   title={
                     'Energía acumulada vs Tiempo. Ciudad de ' + capitalize(city)

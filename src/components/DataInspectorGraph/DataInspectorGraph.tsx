@@ -1,6 +1,6 @@
 import React from 'react';
 import Box from '@mui/material/Box';
-import SampleChart from '../../components/Graphs/SampleChart';
+import CustomLineChart from '../Graphs/LineChart';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import WindPowerIcon from '@mui/icons-material/WindPower';
@@ -10,6 +10,7 @@ import { generalStyles } from '../../styles/general';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router-dom';
+import { IWeather } from '../../types/locationstypes';
 
 const capitalize = (cadena: string) => {
   return cadena.charAt(0).toUpperCase() + cadena.slice(1);
@@ -17,7 +18,7 @@ const capitalize = (cadena: string) => {
 
 export interface DataGraphProps {
   city: string;
-  data: any[];
+  data: IWeather[];
   chart: string;
   handleChangeChart: (_event: React.SyntheticEvent, newValue: string) => void;
   showGraph: boolean;
@@ -64,36 +65,39 @@ const DataInspectorGraph: React.FC<DataGraphProps> = ({
               {data.length > 0 && (
                 <>
                   {chart === 'radiation' && (
-                    <SampleChart
+                    <CustomLineChart
                       data={data}
                       title={
                         'Radiación vs Tiempo. Ciudad de ' + capitalize(city)
                       }
-                      columns={['Dhi', 'Dni', 'Ghi']}
+                      columns={['dhi', 'dni', 'ghi']}
                       domain={[0, 1000]}
+                      units='W/m2'
                     />
                   )}
 
                   {chart === 'temperature' && (
-                    <SampleChart
+                    <CustomLineChart
                       data={data}
                       title={
                         'Temperatura del aire vs Tiempo. Ciudad de ' +
                         capitalize(city)
                       }
-                      columns={['AirTemp']}
+                      columns={['temperature']}
                       domain={[0, 40]}
+                      units='°C'
                     />
                   )}
                   {chart === 'windSpeed' && (
-                    <SampleChart
+                    <CustomLineChart
                       data={data}
                       title={
                         'Velocidad del viento [10m] vs Tiempo. Ciudad de ' +
                         capitalize(city)
                       }
-                      columns={['WindSpeed10m']}
+                      columns={['wind_speed']}
                       domain={[0, 8]}
+                      units='m/s'
                     />
                   )}
                 </>

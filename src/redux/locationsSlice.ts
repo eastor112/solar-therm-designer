@@ -1,7 +1,9 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { getLocations } from '../services/locationServices';
-import { ILocation, IProject } from '../types/locationstypes';
+import { ILocation, IProject, IWeather } from '../types/locationstypes';
 import { createProjectService } from '../services/projectsServices';
+import { RootState } from './store';
+import { getWeatherDataService } from '../services/weatherServices';
 
 export const getLocationsInformation = createAsyncThunk(
   `locations/fetchAllLocations`,
@@ -19,6 +21,17 @@ export const createProject = createAsyncThunk(
   }
 )
 
+export const getWeatherData = createAsyncThunk(
+  'locations/getWeatherData',
+  async (_, { getState }) => {
+    const { locations } = getState() as RootState;
+    const { currentLocation, date } = locations;
+
+    const weatherData = await getWeatherDataService(currentLocation?.id, date)
+    return weatherData;
+  }
+)
+
 interface ILocationsState {
   projects: IProject[];
   currentProject: IProject | null,
@@ -29,6 +42,7 @@ interface ILocationsState {
   manifoldLength: number | null,
   pipeNumber: number | null,
   pipeType: number | null,
+  weatherData: IWeather[]
 }
 
 const initialState: ILocationsState = {
@@ -41,6 +55,7 @@ const initialState: ILocationsState = {
   manifoldLength: 0,
   pipeNumber: 0,
   pipeType: 0,
+  weatherData: []
 };
 
 export const locationsSlice = createSlice({
@@ -67,6 +82,9 @@ export const locationsSlice = createSlice({
     },
     setPipeType: (state, action: PayloadAction<number>) => {
       state.pipeType = action.payload;
+    },
+    setWeatherData: (state, action: PayloadAction<IWeather[]>) => {
+      state.weatherData = action.payload;
     }
   },
   extraReducers: (builder) => {
@@ -76,6 +94,9 @@ export const locationsSlice = createSlice({
       })
       .addCase(createProject.fulfilled, (state, action) => {
         state.currentProject = action.payload;
+      })
+      .addCase(getWeatherData.fulfilled, (state, action) => {
+        state.weatherData = action.payload
       })
   }
 });

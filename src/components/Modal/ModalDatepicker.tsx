@@ -30,7 +30,7 @@ const ModalDatepicker: React.FC<ModalDatepickerProps> = ({ handleClose }) => {
   const dispatch = useAppDispatch();
 
   const [currentDate, setCurrentDate] = useState<Dayjs>(
-    date ? dayjs(date, 'DD/MM/YYYY') : dayjs()
+    date ? dayjs(date, 'DD/MM/YYYY') : dayjs('31/12/2021', 'DD/MM/YYYY')
   );
 
   const handleChange = (value: Dayjs | null) => {
@@ -68,6 +68,8 @@ const ModalDatepicker: React.FC<ModalDatepickerProps> = ({ handleClose }) => {
           }}
           format='DD/MM/YYYY'
           onChange={handleChange}
+          maxDate={dayjs('31/12/2021', 'DD/MM/YYYY')}
+          minDate={dayjs('01/01/2019', 'DD/MM/YYYY')}
         />
 
         <Box

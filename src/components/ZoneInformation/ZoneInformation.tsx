@@ -3,7 +3,9 @@ import Button from '@mui/material/Button';
 import piuraImg from '../../assets/piura.jpg';
 import { SxProps, Theme, Typography } from '@mui/material';
 import { generalStyles } from '../../styles/general';
-import { useAppSelector } from '../../hooks/reduxHooks';
+import { useAppSelector, useAppDispatch } from '../../hooks/reduxHooks';
+import { useEffect } from 'react';
+import { getWeatherData } from '../../redux/locationsSlice';
 
 interface StylesMui {
   [key: string]: SxProps<Theme>;
@@ -21,6 +23,13 @@ interface ZoneInformationProps {
 
 const ZoneInformation: React.FC<ZoneInformationProps> = ({ handleOpen }) => {
   const { currentLocation, date } = useAppSelector(state => state.locations);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (currentLocation && date) {
+      dispatch(getWeatherData());
+    }
+  }, [currentLocation, date]);
 
   return (
     <Box sx={{ ...generalStyles.cardLayout, minWidth: 380, flex: 1 }}>

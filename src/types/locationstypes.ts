@@ -21,3 +21,21 @@ export interface IProject {
   deleted: boolean;
   location_id: ILocation | null;
 }
+
+export interface IWeather {
+  id: number;
+  dhi: number;
+  temperature: number;
+  clearsky_dhi: number;
+  clearsky_dni: number;
+  clearsky_ghi: number;
+  dni: number;
+  ghi: number;
+  cloud_type: number;
+  relative_humidity: number;
+  solar_zenith_angle: number;
+  wind_direction: number;
+  wind_speed: number;
+  location_id: number;
+  date: string;
+}

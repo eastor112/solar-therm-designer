@@ -31,7 +31,9 @@ const defaultDateValue = dayjs(
 
 const Designer = () => {
   const { data, city } = useAppSelector(state => state.designer);
-  const { currentProject } = useAppSelector(state => state.locations);
+  const { currentProject, weatherData } = useAppSelector(
+    state => state.locations
+  );
   const dispatch = useAppDispatch();
 
   const { isSidebarOpen } = useOutletContexRoot();
@@ -123,7 +125,7 @@ const Designer = () => {
               </div>
               <DataInspectorGraph
                 city={city!}
-                data={data}
+                data={weatherData}
                 chart={chart}
                 handleChangeChart={handleChangeChart}
                 showGraph={showGraph}
