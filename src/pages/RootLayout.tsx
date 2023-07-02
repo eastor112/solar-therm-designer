@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Sidebar from '../components/Sidebar/Sidebar';
 import { Outlet, useOutletContext } from 'react-router-dom';
 import Box from '@mui/material/Box';
@@ -11,6 +11,15 @@ import ModalReports from '../components/Modal/ModalReport';
 import { useAppDispatch, useAppSelector } from '../hooks/reduxHooks';
 import { setOpenModal } from '../redux/UISlice';
 import ModalSaveChanges from '../components/Modal/ModalSaveChanges';
+import {
+  setCurrentLocation,
+  setCurrentProject,
+  setManifoldLength,
+  setPipeNumber,
+  setPipeType,
+  setVolumen,
+  setDate,
+} from '../redux/locationsSlice';
 
 const modalSelector: { [key: string]: JSX.Element } = {
   about: <ModalAbout />,
@@ -23,6 +32,7 @@ const modalSelector: { [key: string]: JSX.Element } = {
 
 const RootLayout = () => {
   const { openModal } = useAppSelector(state => state.ui);
+  const { currentProject } = useAppSelector(state => state.locations);
   const dispatch = useAppDispatch();
 
   const [open, setOpen] = useState(true);
@@ -37,6 +47,22 @@ const RootLayout = () => {
   };
 
   const handleClose = () => dispatch(setOpenModal(false));
+
+  useEffect(() => {
+    const savedProject = localStorage.getItem('currentProject');
+
+    if (currentProject === null && savedProject) {
+      dispatch(setCurrentProject(JSON.parse(savedProject)));
+      dispatch(
+        setCurrentLocation(JSON.parse(localStorage.getItem('location')!))
+      );
+      dispatch(setDate(localStorage.getItem('date')!));
+      dispatch(setVolumen(+localStorage.getItem('volumen')!));
+      dispatch(setManifoldLength(+localStorage.getItem('manifoldLength')!));
+      dispatch(setPipeNumber(+localStorage.getItem('pipeNumber')!));
+      dispatch(setPipeType(+localStorage.getItem('pipeType')!));
+    }
+  }, []);
 
   return (
     <>

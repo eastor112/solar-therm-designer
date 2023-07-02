@@ -63,28 +63,31 @@ export const locationsSlice = createSlice({
   initialState,
   reducers: {
     setCurrentLocation: (state, action: PayloadAction<ILocation>) => {
+      localStorage.setItem('location', JSON.stringify(action.payload))
       state.currentLocation = action.payload;
     },
     setDate: (state, action: PayloadAction<string>) => {
+      localStorage.setItem('date', action.payload)
       state.date = action.payload;
     },
-    setCurrentProject: (state, action: PayloadAction<IProject>) => {
-      state.currentProject = action.payload;
-    },
     setVolumen: (state, action: PayloadAction<number>) => {
+      localStorage.setItem('volumen', action.payload.toString())
       state.volumen = action.payload;
     },
     setManifoldLength: (state, action: PayloadAction<number>) => {
+      localStorage.setItem('manifoldLength', action.payload.toString())
       state.manifoldLength = action.payload;
     },
     setPipeNumber: (state, action: PayloadAction<number>) => {
+      localStorage.setItem('pipeNumber', action.payload.toString())
       state.pipeNumber = action.payload;
     },
     setPipeType: (state, action: PayloadAction<number>) => {
+      localStorage.setItem('pipeType', action.payload.toString())
       state.pipeType = action.payload;
     },
-    setWeatherData: (state, action: PayloadAction<IWeather[]>) => {
-      state.weatherData = action.payload;
+    setCurrentProject: (state, action: PayloadAction<IProject>) => {
+      state.currentProject = action.payload;
     }
   },
   extraReducers: (builder) => {
@@ -94,6 +97,7 @@ export const locationsSlice = createSlice({
       })
       .addCase(createProject.fulfilled, (state, action) => {
         state.currentProject = action.payload;
+        localStorage.setItem('currentProject', JSON.stringify(action.payload))
       })
       .addCase(getWeatherData.fulfilled, (state, action) => {
         state.weatherData = action.payload
@@ -104,10 +108,11 @@ export const locationsSlice = createSlice({
 export const {
   setCurrentLocation,
   setDate,
-  setCurrentProject,
   setVolumen,
   setManifoldLength,
   setPipeNumber,
-  setPipeType } = locationsSlice.actions;
+  setPipeType,
+  setCurrentProject
+} = locationsSlice.actions;
 
 export default locationsSlice.reducer;
