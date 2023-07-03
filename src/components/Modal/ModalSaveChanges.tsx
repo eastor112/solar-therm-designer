@@ -55,7 +55,7 @@ const ModalSaveChanges = () => {
           component='h2'
         >
           Se guardarán todas las configuraciones realizadas en el presente
-          proyecto. Si ya tenia una version guardada se sobreescribirá.
+          proyecto. Se sobreescribirá cualquier otra version existente.
         </Typography>
 
         <Box

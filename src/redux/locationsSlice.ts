@@ -6,6 +6,7 @@ import { RootState } from './store';
 import { getWeatherDataService } from '../services/weatherServices';
 import { storageKeys } from '../types/general';
 import { convertDateToIso } from '../utils/datesUtils';
+import { setOpenModal } from './UISlice';
 
 export const getLocationsInformation = createAsyncThunk(
   `locations/fetchAllLocations`,
@@ -33,7 +34,7 @@ export const getProject = createAsyncThunk(
 
 export const updateProject = createAsyncThunk(
   'locations/updateProject',
-  async (_, { getState }) => {
+  async (_, { getState, dispatch }) => {
     const { locations } = getState() as RootState;
 
     const payload: IPayloadUpdateProject = {
@@ -45,8 +46,9 @@ export const updateProject = createAsyncThunk(
       date: convertDateToIso(locations.date),
       location_id: locations.currentLocation?.id || undefined,
     }
-
     const updatedProject = await updateProjectService(locations?.currentProject?.id!, payload);
+    dispatch(setOpenModal(false))
+
     return updatedProject;
   }
 )

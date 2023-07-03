@@ -2,7 +2,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Folder from '@mui/icons-material/Folder';
-import NewspaperIcon from '@mui/icons-material/Newspaper';
+// import NewspaperIcon from '@mui/icons-material/Newspaper';
 import LogoutIcon from '@mui/icons-material/Logout';
 import InfoIcon from '@mui/icons-material/Info';
 import { Link } from 'react-router-dom';
@@ -40,12 +40,12 @@ export const MainListItems: React.FC<MainListItemsProps> = ({
         <ListItemText primary='Guardar' />
       </ListItemButton>
 
-      <ListItemButton onClick={() => handleOpenGlobalModal('report')}>
+      {/* <ListItemButton onClick={() => handleOpenGlobalModal('report')}>
         <ListItemIcon>
           <NewspaperIcon />
         </ListItemIcon>
         <ListItemText primary='Reporte' />
-      </ListItemButton>
+      </ListItemButton> */}
 
       <ListItemButton onClick={() => handleOpenGlobalModal('close')}>
         <ListItemIcon>
