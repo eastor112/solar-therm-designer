@@ -4,6 +4,7 @@ import { ILocation, IProject, IWeather } from '../types/locationstypes';
 import { createProjectService, getProjectService } from '../services/projectsServices';
 import { RootState } from './store';
 import { getWeatherDataService } from '../services/weatherServices';
+import { storageKeys } from '../types/general';
 
 export const getLocationsInformation = createAsyncThunk(
   `locations/fetchAllLocations`,
@@ -82,7 +83,11 @@ export const locationsSlice = createSlice({
     },
     setDate: (state, action: PayloadAction<string>) => {
       localStorage.setItem('date', action.payload)
-      state.date = action.payload;
+      if (action.payload === 'null') {
+        state.date = null;
+      } else {
+        state.date = action.payload;
+      }
     },
     setVolumen: (state, action: PayloadAction<number>) => {
       localStorage.setItem('volumen', action.payload.toString())
@@ -132,8 +137,23 @@ export const locationsSlice = createSlice({
         state.locations = action.payload;
       })
       .addCase(createProject.fulfilled, (state, action) => {
+        localStorage.removeItem(storageKeys.location);
+        localStorage.removeItem(storageKeys.pipeType);
+        localStorage.removeItem(storageKeys.date);
+        localStorage.removeItem(storageKeys.manifoldLength);
+        localStorage.removeItem(storageKeys.pipeNumber);
+        localStorage.removeItem(storageKeys.volumen);
+
         state.currentProject = action.payload;
-        localStorage.setItem('currentProject', JSON.stringify(action.payload))
+        state.date = initialState.date;
+        state.currentLocation = initialState.currentLocation;
+        state.volumen = initialState.volumen;
+        state.manifoldLength = initialState.manifoldLength;
+        state.pipeNumber = initialState.pipeNumber;
+        state.pipeType = initialState.pipeType;
+        state.weatherData = initialState.weatherData;
+        state.thereAreChanges = initialState.thereAreChanges;
+        localStorage.setItem(storageKeys.currentProject, JSON.stringify(action.payload))
       })
       .addCase(getWeatherData.fulfilled, (state, action) => {
         state.weatherData = action.payload

@@ -22,6 +22,16 @@ export interface IProject {
   location: ILocation | null;
 }
 
+export interface IPayloadUpdateProject {
+  name?: string
+  pipeline_number?: number,
+  pipeline_type?: number,
+  volumen?: number,
+  manifold?: number,
+  date?: string,
+  location_id?: number
+}
+
 export interface IWeather {
   id: number;
   dhi: number;

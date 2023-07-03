@@ -12,8 +12,9 @@ import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router-dom';
 import { IWeather } from '../../types/locationstypes';
 
-const capitalize = (cadena: string) => {
-  return cadena.charAt(0).toUpperCase() + cadena.slice(1);
+const capitalize = (value: string | null) => {
+  if (!value) return '';
+  return value.charAt(0).toUpperCase() + value.slice(1);
 };
 
 export interface DataGraphProps {
