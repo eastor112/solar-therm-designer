@@ -47,11 +47,11 @@ export const MainListItems: React.FC<MainListItemsProps> = ({
         <ListItemText primary='Reporte' />
       </ListItemButton>
 
-      <ListItemButton onClick={() => handleOpenGlobalModal('save')}>
+      <ListItemButton onClick={() => handleOpenGlobalModal('close')}>
         <ListItemIcon>
           <CancelIcon />
         </ListItemIcon>
-        <ListItemText primary='Cerrar' />
+        <ListItemText primary='Cerrar proyecto' />
       </ListItemButton>
     </>
   );

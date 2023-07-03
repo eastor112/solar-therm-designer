@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { getLocations } from '../services/locationServices';
 import { ILocation, IProject, IWeather } from '../types/locationstypes';
-import { createProjectService } from '../services/projectsServices';
+import { createProjectService, getProjectService } from '../services/projectsServices';
 import { RootState } from './store';
 import { getWeatherDataService } from '../services/weatherServices';
 
@@ -18,6 +18,18 @@ export const createProject = createAsyncThunk(
   async (name: string) => {
     const project = await createProjectService(name);
     return project;
+  }
+)
+
+export const getProject = createAsyncThunk(
+  'locations/getProject',
+  async (_, { getState }) => {
+    const { locations: { currentProject } } = getState() as RootState;
+    if (currentProject) {
+      const project = await getProjectService(currentProject.id);
+      return project;
+    }
+    return null
   }
 )
 
@@ -42,7 +54,8 @@ interface ILocationsState {
   manifoldLength: number | null,
   pipeNumber: number | null,
   pipeType: number | null,
-  weatherData: IWeather[]
+  weatherData: IWeather[],
+  thereAreChanges: boolean
 }
 
 const initialState: ILocationsState = {
@@ -55,7 +68,8 @@ const initialState: ILocationsState = {
   manifoldLength: 0,
   pipeNumber: 0,
   pipeType: 0,
-  weatherData: []
+  weatherData: [],
+  thereAreChanges: false
 };
 
 export const locationsSlice = createSlice({
@@ -88,6 +102,28 @@ export const locationsSlice = createSlice({
     },
     setCurrentProject: (state, action: PayloadAction<IProject>) => {
       state.currentProject = action.payload;
+    },
+    areThereChanges: (state) => {
+      if (state.currentProject) {
+        const {
+          pipeline_number,
+          pipeline_type,
+          volumen,
+          manifold,
+          date,
+          location
+        } = state.currentProject;
+
+        if (
+          pipeline_number !== state.pipeNumber ||
+          pipeline_type !== state.pipeType ||
+          volumen !== state.volumen ||
+          manifold !== state.manifoldLength ||
+          date !== state.date ||
+          location?.id !== state.currentLocation?.id) {
+          state.thereAreChanges = true;
+        }
+      }
     }
   },
   extraReducers: (builder) => {
@@ -102,6 +138,9 @@ export const locationsSlice = createSlice({
       .addCase(getWeatherData.fulfilled, (state, action) => {
         state.weatherData = action.payload
       })
+      .addCase(getProject.fulfilled, (state, action) => {
+        state.currentProject = action.payload;
+      })
   }
 });
 
@@ -112,7 +151,8 @@ export const {
   setManifoldLength,
   setPipeNumber,
   setPipeType,
-  setCurrentProject
+  setCurrentProject,
+  areThereChanges
 } = locationsSlice.actions;
 
 export default locationsSlice.reducer;

@@ -1,21 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
-import trujilloData from '../../data/trujillo.csv';
-import dayjs from 'dayjs';
 import ZoneInformation from '../../components/ZoneInformation/ZoneInformation';
 import DesignerForm from '../../components/DesignerForm/DesignerForm';
 import DataInspectorGraph from '../../components/DataInspectorGraph/DataInspectorGraph';
 import { useOutletContexRoot } from '../RootLayout';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
-import { setDate } from '../../redux/designerSlice';
 import Modal from '@mui/material/Modal';
 import ModalChangePlace from '../../components/Modal/ModalChangePlace';
 import ModalDatepicker from '../../components/Modal/ModalDatepicker';
 import { getLocationsInformation } from '../../redux/locationsSlice';
-
-const defaultDateValue = dayjs(
-  trujilloData[trujilloData.length - 1].PeriodStart.split('T')[0]
-).subtract(1, 'day');
 
 const Designer = () => {
   const { currentProject, weatherData, currentLocation } = useAppSelector(
@@ -32,7 +25,6 @@ const Designer = () => {
 
   useEffect(() => {
     dispatch(getLocationsInformation());
-    dispatch(setDate(defaultDateValue.format('DD/MM/YYYY')));
     return () => {};
   }, []);
 

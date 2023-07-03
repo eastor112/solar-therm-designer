@@ -19,7 +19,7 @@ export interface IProject {
   manifold: null;
   date: null;
   deleted: boolean;
-  location_id: ILocation | null;
+  location: ILocation | null;
 }
 
 export interface IWeather {

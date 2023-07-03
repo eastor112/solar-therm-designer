@@ -1,4 +1,5 @@
 import envVars from "../configs";
+import { IProject } from "../types/locationstypes";
 
 export const createProjectService = async (name: string) => {
   const response = await fetch(`${envVars.API_HOST}/projects`, {
@@ -13,5 +14,11 @@ export const createProjectService = async (name: string) => {
     })
   });
 
-  return response.json();
+  return response.json() as Promise<IProject>;
+}
+
+export const getProjectService = async (id: number) => {
+  const response = await fetch(`${envVars.API_HOST}/projects/${id}`)
+
+  return response.json() as Promise<IProject>;
 }

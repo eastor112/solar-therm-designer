@@ -19,7 +19,9 @@ import {
   setPipeType,
   setVolumen,
   setDate,
+  areThereChanges,
 } from '../redux/locationsSlice';
+import ModalCloseProject from '../components/Modal/ModalCloseProject';
 
 const modalSelector: { [key: string]: JSX.Element } = {
   about: <ModalAbout />,
@@ -28,13 +30,23 @@ const modalSelector: { [key: string]: JSX.Element } = {
   open: <ModalOpenProject />,
   report: <ModalReports />,
   save: <ModalSaveChanges />,
+  close: <ModalCloseProject />,
 };
 
 const RootLayout = () => {
   const { openModal } = useAppSelector(state => state.ui);
-  const { currentProject } = useAppSelector(state => state.locations);
+  const {
+    currentProject,
+    currentLocation,
+    date,
+    volumen,
+    manifoldLength,
+    pipeNumber,
+    pipeType,
+    thereAreChanges,
+  } = useAppSelector(state => state.locations);
   const dispatch = useAppDispatch();
-
+  console.log(thereAreChanges);
   const [open, setOpen] = useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
@@ -63,6 +75,10 @@ const RootLayout = () => {
       dispatch(setPipeType(+localStorage.getItem('pipeType')!));
     }
   }, []);
+
+  useEffect(() => {
+    dispatch(areThereChanges());
+  }, [currentLocation, date, volumen, manifoldLength, pipeNumber, pipeType]);
 
   return (
     <>

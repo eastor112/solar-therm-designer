@@ -66,8 +66,8 @@ const CustomTooltip = ({ active, payload, label, units }: any) => {
         <Typography sx={{ textAlign: 'center', fontWeight: 'bold' }}>
           {date} H
         </Typography>
-        {payload.map((item: any) => (
-          <Typography sx={{ textAlign: 'left', color: item.color }}>
+        {payload.map((item: any, index: number) => (
+          <Typography key={index} sx={{ textAlign: 'left', color: item.color }}>
             {item.name}: {item.value.toFixed(2)} {units}
           </Typography>
         ))}
