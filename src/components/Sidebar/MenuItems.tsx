@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Cancel';
 import NoteAddIcon from '@mui/icons-material/NoteAdd';
+import { useAppSelector } from '../../hooks/reduxHooks';
 
 interface MainListItemsProps {
   handleOpenGlobalModal: (value: string) => void;
@@ -17,6 +18,7 @@ interface MainListItemsProps {
 export const MainListItems: React.FC<MainListItemsProps> = ({
   handleOpenGlobalModal,
 }) => {
+  const { currentProject } = useAppSelector(state => state.locations);
   return (
     <>
       <ListItemButton onClick={() => handleOpenGlobalModal('new')}>
@@ -33,7 +35,10 @@ export const MainListItems: React.FC<MainListItemsProps> = ({
         <ListItemText primary='Abrir' />
       </ListItemButton>
 
-      <ListItemButton onClick={() => handleOpenGlobalModal('save')}>
+      <ListItemButton
+        onClick={() => handleOpenGlobalModal('save')}
+        disabled={!currentProject}
+      >
         <ListItemIcon>
           <SaveIcon />
         </ListItemIcon>
@@ -47,7 +52,10 @@ export const MainListItems: React.FC<MainListItemsProps> = ({
         <ListItemText primary='Reporte' />
       </ListItemButton> */}
 
-      <ListItemButton onClick={() => handleOpenGlobalModal('close')}>
+      <ListItemButton
+        onClick={() => handleOpenGlobalModal('close')}
+        disabled={!currentProject}
+      >
         <ListItemIcon>
           <CancelIcon />
         </ListItemIcon>

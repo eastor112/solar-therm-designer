@@ -3,6 +3,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { setOpenModal } from '../../redux/UISlice';
+import { closeProject } from '../../redux/locationsSlice';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -20,7 +21,12 @@ const ModalCloseProject = () => {
   const dispatch = useAppDispatch();
   const {} = useAppSelector(state => state.locations);
 
-  const handleClose = () => {
+  const handleCancel = () => {
+    dispatch(setOpenModal(false));
+  };
+
+  const handleCloseProject = () => {
+    dispatch(closeProject());
     dispatch(setOpenModal(false));
   };
 
@@ -50,8 +56,8 @@ const ModalCloseProject = () => {
           id='modal-modal-title'
           component='h2'
         >
-          Se guardarán todas las configuraciones realizadas en el presente
-          proyecto. Si ya tenia una version guardada se sobreescribirá.
+          Se cerrará el proyecto, asegurese de guardar los cambios previamente,
+          desea continuar?
         </Typography>
 
         <Box
@@ -66,17 +72,18 @@ const ModalCloseProject = () => {
             sx={{
               width: '7rem',
             }}
-            onClick={handleClose}
+            onClick={handleCancel}
           >
             Cancelar
           </Button>
           <Button
             variant='contained'
             sx={{
-              width: '7rem',
+              width: '9rem',
             }}
+            onClick={handleCloseProject}
           >
-            Guardar
+            Cerrar
           </Button>
         </Box>
       </Box>

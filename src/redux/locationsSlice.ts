@@ -184,6 +184,10 @@ export const locationsSlice = createSlice({
         }
       }
     },
+    closeProject: () => {
+      return initialState;
+    }
+
   },
   extraReducers: builder => {
     builder
@@ -237,6 +241,7 @@ export const {
   setPipeType,
   setCurrentProject,
   areThereChanges,
+  closeProject
 } = locationsSlice.actions;
 
 export default locationsSlice.reducer;
