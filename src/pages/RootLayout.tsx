@@ -13,7 +13,6 @@ import { setOpenModal } from '../redux/UISlice';
 import ModalSaveChanges from '../components/Modal/ModalSaveChanges';
 import {
   setCurrentLocation,
-  setCurrentProject,
   setManifoldLength,
   setPipeNumber,
   setPipeType,
@@ -22,6 +21,7 @@ import {
   areThereChanges,
 } from '../redux/locationsSlice';
 import ModalCloseProject from '../components/Modal/ModalCloseProject';
+import { getProject } from '../redux/locationsSlice';
 
 const modalSelector: { [key: string]: JSX.Element } = {
   about: <ModalAbout />,
@@ -43,10 +43,8 @@ const RootLayout = () => {
     manifoldLength,
     pipeNumber,
     pipeType,
-    thereAreChanges,
   } = useAppSelector(state => state.locations);
   const dispatch = useAppDispatch();
-  console.log(thereAreChanges);
   const [open, setOpen] = useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
@@ -64,7 +62,7 @@ const RootLayout = () => {
     const savedProject = localStorage.getItem('currentProject');
 
     if (currentProject === null && savedProject) {
-      dispatch(setCurrentProject(JSON.parse(savedProject)));
+      dispatch(getProject(JSON.parse(savedProject).id));
       dispatch(
         setCurrentLocation(JSON.parse(localStorage.getItem('location')!))
       );

@@ -18,7 +18,6 @@ export interface IProject {
   volumen: null;
   manifold: null;
   date: null;
-  deleted: boolean;
   location: ILocation | null;
 }
 

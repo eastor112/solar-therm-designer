@@ -3,6 +3,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { useAppDispatch } from '../../hooks/reduxHooks';
 import { setOpenModal } from '../../redux/UISlice';
+import { updateProject } from '../../redux/locationsSlice';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -21,6 +22,10 @@ const ModalSaveChanges = () => {
 
   const handleClose = () => {
     dispatch(setOpenModal(false));
+  };
+
+  const handleSave = () => {
+    dispatch(updateProject());
   };
 
   return (
@@ -74,6 +79,7 @@ const ModalSaveChanges = () => {
             sx={{
               width: '7rem',
             }}
+            onClick={handleSave}
           >
             Guardar
           </Button>

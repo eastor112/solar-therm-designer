@@ -30,7 +30,7 @@ const ZoneInformation: React.FC<ZoneInformationProps> = ({ handleOpen }) => {
       dispatch(getWeatherData());
     }
   }, [currentLocation, date]);
-  console.log(date);
+
   return (
     <Box sx={{ ...generalStyles.cardLayout, minWidth: 380, flex: 1 }}>
       <Typography variant='h3' sx={generalStyles.h3}>
