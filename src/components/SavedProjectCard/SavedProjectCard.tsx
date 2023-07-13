@@ -1,12 +1,15 @@
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import { IProject } from '../../types/locationstypes';
 
 interface SavedProjectCardProps {
   selected?: boolean;
+  project: IProject;
 }
 
 const SavedProjectCard: React.FC<SavedProjectCardProps> = ({
   selected = false,
+  project,
 }) => {
   return (
     <Box
@@ -29,7 +32,7 @@ const SavedProjectCard: React.FC<SavedProjectCardProps> = ({
           mb: 1,
         }}
       >
-        Modelo 1 - Trujillo 1
+        {project.name}
       </Typography>
       <Box
         sx={{

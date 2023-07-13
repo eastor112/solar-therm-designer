@@ -1,7 +1,17 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { getLocations } from '../services/locationServices';
-import { ILocation, IPayloadUpdateProject, IProject, IWeather } from '../types/locationstypes';
-import { createProjectService, getProjectService, updateProjectService } from '../services/projectsServices';
+import {
+  ILocation,
+  IPayloadUpdateProject,
+  IProject,
+  IWeather,
+} from '../types/locationstypes';
+import {
+  createProjectService,
+  getAllProjectsService,
+  getProjectService,
+  updateProjectService,
+} from '../services/projectsServices';
 import { RootState } from './store';
 import { getWeatherDataService } from '../services/weatherServices';
 import { storageKeys } from '../types/general';
@@ -14,7 +24,7 @@ export const getLocationsInformation = createAsyncThunk(
     const locations: any = await getLocations();
     return locations;
   }
-)
+);
 
 export const createProject = createAsyncThunk(
   'locations/createProject',
@@ -22,7 +32,7 @@ export const createProject = createAsyncThunk(
     const project = await createProjectService(name);
     return project;
   }
-)
+);
 
 export const getProject = createAsyncThunk(
   'locations/getProject',
@@ -30,7 +40,20 @@ export const getProject = createAsyncThunk(
     const project = await getProjectService(projectId);
     return project;
   }
-)
+);
+
+interface GetAllProjectsParams {
+  limit: number;
+  page: number;
+}
+
+export const getAllProjects = createAsyncThunk(
+  'locations/getProjects',
+  async (params: GetAllProjectsParams) => {
+    const projects = await getAllProjectsService(params.limit, params.page);
+    return projects;
+  }
+);
 
 export const updateProject = createAsyncThunk(
   'locations/updateProject',
@@ -45,14 +68,16 @@ export const updateProject = createAsyncThunk(
       manifold: locations.manifoldLength || undefined,
       date: convertDateToIso(locations.date),
       location_id: locations.currentLocation?.id || undefined,
-    }
-    const updatedProject = await updateProjectService(locations?.currentProject?.id!, payload);
-    dispatch(setOpenModal(false))
+    };
+    const updatedProject = await updateProjectService(
+      locations?.currentProject?.id!,
+      payload
+    );
+    dispatch(setOpenModal(false));
 
     return updatedProject;
   }
-)
-
+);
 
 export const getWeatherData = createAsyncThunk(
   'locations/getWeatherData',
@@ -60,23 +85,23 @@ export const getWeatherData = createAsyncThunk(
     const { locations } = getState() as RootState;
     const { currentLocation, date } = locations;
 
-    const weatherData = await getWeatherDataService(currentLocation?.id, date)
+    const weatherData = await getWeatherDataService(currentLocation?.id, date);
     return weatherData;
   }
-)
+);
 
 interface ILocationsState {
   projects: IProject[];
-  currentProject: IProject | null,
-  locations: ILocation[],
-  currentLocation: ILocation | null,
-  date: string | null,
-  volumen: number | null,
-  manifoldLength: number | null,
-  pipeNumber: number | null,
-  pipeType: number | null,
-  weatherData: IWeather[],
-  thereAreChanges: boolean
+  currentProject: IProject | null;
+  locations: ILocation[];
+  currentLocation: ILocation | null;
+  date: string | null;
+  volumen: number | null;
+  manifoldLength: number | null;
+  pipeNumber: number | null;
+  pipeType: number | null;
+  weatherData: IWeather[];
+  thereAreChanges: boolean;
 }
 
 const initialState: ILocationsState = {
@@ -90,7 +115,7 @@ const initialState: ILocationsState = {
   pipeNumber: 0,
   pipeType: 0,
   weatherData: [],
-  thereAreChanges: false
+  thereAreChanges: false,
 };
 
 export const locationsSlice = createSlice({
@@ -98,11 +123,14 @@ export const locationsSlice = createSlice({
   initialState,
   reducers: {
     setCurrentLocation: (state, action: PayloadAction<ILocation>) => {
-      localStorage.setItem(storageKeys.location, JSON.stringify(action.payload))
+      localStorage.setItem(
+        storageKeys.location,
+        JSON.stringify(action.payload)
+      );
       state.currentLocation = action.payload;
     },
     setDate: (state, action: PayloadAction<string>) => {
-      localStorage.setItem(storageKeys.date, action.payload)
+      localStorage.setItem(storageKeys.date, action.payload);
       if (action.payload === 'null') {
         state.date = null;
       } else {
@@ -110,25 +138,28 @@ export const locationsSlice = createSlice({
       }
     },
     setVolumen: (state, action: PayloadAction<number>) => {
-      localStorage.setItem(storageKeys.volumen, action.payload.toString())
+      localStorage.setItem(storageKeys.volumen, action.payload.toString());
       state.volumen = action.payload;
     },
     setManifoldLength: (state, action: PayloadAction<number>) => {
-      localStorage.setItem(storageKeys.manifoldLength, action.payload.toString())
+      localStorage.setItem(
+        storageKeys.manifoldLength,
+        action.payload.toString()
+      );
       state.manifoldLength = action.payload;
     },
     setPipeNumber: (state, action: PayloadAction<number>) => {
-      localStorage.setItem(storageKeys.pipeNumber, action.payload.toString())
+      localStorage.setItem(storageKeys.pipeNumber, action.payload.toString());
       state.pipeNumber = action.payload;
     },
     setPipeType: (state, action: PayloadAction<number>) => {
-      localStorage.setItem(storageKeys.pipeType, action.payload.toString())
+      localStorage.setItem(storageKeys.pipeType, action.payload.toString());
       state.pipeType = action.payload;
     },
     setCurrentProject: (state, action: PayloadAction<IProject>) => {
       state.currentProject = action.payload;
     },
-    areThereChanges: (state) => {
+    areThereChanges: state => {
       if (state.currentProject) {
         const {
           pipeline_number,
@@ -136,7 +167,7 @@ export const locationsSlice = createSlice({
           volumen,
           manifold,
           date,
-          location
+          location,
         } = state.currentProject;
 
         if (
@@ -145,15 +176,16 @@ export const locationsSlice = createSlice({
           volumen !== state.volumen ||
           manifold !== state.manifoldLength ||
           date !== convertDateToIso(state.date) ||
-          location?.id !== state.currentLocation?.id) {
+          location?.id !== state.currentLocation?.id
+        ) {
           state.thereAreChanges = true;
         } else {
           state.thereAreChanges = false;
         }
       }
-    }
+    },
   },
-  extraReducers: (builder) => {
+  extraReducers: builder => {
     builder
       .addCase(getLocationsInformation.fulfilled, (state, action) => {
         state.locations = action.payload;
@@ -175,10 +207,13 @@ export const locationsSlice = createSlice({
         state.pipeType = initialState.pipeType;
         state.weatherData = initialState.weatherData;
         state.thereAreChanges = initialState.thereAreChanges;
-        localStorage.setItem(storageKeys.currentProject, JSON.stringify(action.payload))
+        localStorage.setItem(
+          storageKeys.currentProject,
+          JSON.stringify(action.payload)
+        );
       })
       .addCase(getWeatherData.fulfilled, (state, action) => {
-        state.weatherData = action.payload
+        state.weatherData = action.payload;
       })
       .addCase(getProject.fulfilled, (state, action) => {
         state.currentProject = action.payload;
@@ -187,7 +222,10 @@ export const locationsSlice = createSlice({
         state.currentProject = action.payload;
         state.thereAreChanges = false;
       })
-  }
+      .addCase(getAllProjects.fulfilled, (state, action) => {
+        state.projects = action.payload;
+      });
+  },
 });
 
 export const {
@@ -198,7 +236,7 @@ export const {
   setPipeNumber,
   setPipeType,
   setCurrentProject,
-  areThereChanges
+  areThereChanges,
 } = locationsSlice.actions;
 
 export default locationsSlice.reducer;

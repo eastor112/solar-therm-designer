@@ -7,8 +7,10 @@ import SavedProjectCard from '../SavedProjectCard/SavedProjectCard';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import { Button } from '@mui/material';
-import { useAppDispatch } from '../../hooks/reduxHooks';
+import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { setOpenModal } from '../../redux/UISlice';
+import { useEffect, useState } from 'react';
+import { getAllProjects } from '../../redux/locationsSlice';
 
 const style = {
   position: 'relative',
@@ -68,10 +70,16 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 const ModalOpenProject = () => {
   const dispatch = useAppDispatch();
+  const { projects } = useAppSelector(state => state.locations);
+  const [page, setPage] = useState(1); // needs to be greather than 1
 
   const handleClose = () => {
     dispatch(setOpenModal(false));
   };
+
+  useEffect(() => {
+    dispatch(getAllProjects({ limit: 5, page: page }));
+  }, []);
 
   return (
     <Box sx={style}>
@@ -107,10 +115,13 @@ const ModalOpenProject = () => {
           gap: 2,
         }}
       >
-        <SavedProjectCard selected />
+        {projects.map(project => (
+          <SavedProjectCard project={project} />
+        ))}
+        {/* <SavedProjectCard selected />
         <SavedProjectCard />
         <SavedProjectCard />
-        <SavedProjectCard />
+        <SavedProjectCard /> */}
         <Box
           sx={{
             display: 'flex',
