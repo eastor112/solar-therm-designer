@@ -1,6 +1,8 @@
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { IProject } from '../../types/locationstypes';
+import { getShortName } from '../../utils/textTransformations';
+import { formatDate, getRelativeDate } from '../../utils/datesUtils';
 
 interface SavedProjectCardProps {
   selected?: boolean;
@@ -11,6 +13,7 @@ const SavedProjectCard: React.FC<SavedProjectCardProps> = ({
   selected = false,
   project,
 }) => {
+  const { user, location } = project;
   return (
     <Box
       sx={{
@@ -41,12 +44,20 @@ const SavedProjectCard: React.FC<SavedProjectCardProps> = ({
         }}
       >
         <Box>
-          <Typography component='p'>Autor: Elder Mendoza</Typography>
-          <Typography component='p'>Creado: 10/04/2023</Typography>
+          <Typography component='p'>
+            Autor: {getShortName(user.first_name, user.last_name)}
+          </Typography>
+          <Typography component='p'>
+            Creado: {formatDate(project.created_at)}
+          </Typography>
         </Box>
         <Box>
-          <Typography component='p'>Ciudad: Trujillo</Typography>
-          <Typography component='p'>Actualizado: 15/04/2023</Typography>
+          <Typography component='p'>
+            Ciudad: {location ? location.place : 'no definido'}
+          </Typography>
+          <Typography component='p'>
+            Actualizado: {getRelativeDate(project.updated_at)}
+          </Typography>
         </Box>
         <Box
           sx={{

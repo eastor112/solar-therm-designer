@@ -70,7 +70,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 const ModalOpenProject = () => {
   const dispatch = useAppDispatch();
-  const { projects } = useAppSelector(state => state.locations);
+  const { projectsData } = useAppSelector(state => state.locations);
   const [page, setPage] = useState(1); // needs to be greather than 1
 
   const handleClose = () => {
@@ -78,8 +78,15 @@ const ModalOpenProject = () => {
   };
 
   useEffect(() => {
-    dispatch(getAllProjects({ limit: 5, page: page }));
-  }, []);
+    dispatch(getAllProjects({ limit: 4, page: page }));
+  }, [page]);
+
+  const handlePaginationChange = (
+    _event: React.ChangeEvent<unknown>,
+    value: number
+  ) => {
+    setPage(value);
+  };
 
   return (
     <Box sx={style}>
@@ -115,13 +122,10 @@ const ModalOpenProject = () => {
           gap: 2,
         }}
       >
-        {projects.map(project => (
-          <SavedProjectCard project={project} />
+        {projectsData?.projects.map(project => (
+          <SavedProjectCard key={project.id} project={project} />
         ))}
-        {/* <SavedProjectCard selected />
-        <SavedProjectCard />
-        <SavedProjectCard />
-        <SavedProjectCard /> */}
+
         <Box
           sx={{
             display: 'flex',
@@ -129,7 +133,11 @@ const ModalOpenProject = () => {
           }}
         >
           <Stack spacing={2}>
-            <Pagination count={10} shape='rounded' />
+            <Pagination
+              count={projectsData?.total}
+              shape='rounded'
+              onChange={handlePaginationChange}
+            />
           </Stack>
         </Box>
         <Box

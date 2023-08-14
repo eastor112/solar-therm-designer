@@ -4,6 +4,7 @@ import {
   ILocation,
   IPayloadUpdateProject,
   IProject,
+  IProjectData,
   IWeather,
 } from '../types/locationstypes';
 import {
@@ -91,7 +92,7 @@ export const getWeatherData = createAsyncThunk(
 );
 
 interface ILocationsState {
-  projects: IProject[];
+  projectsData: IProjectData | null;
   currentProject: IProject | null;
   locations: ILocation[];
   currentLocation: ILocation | null;
@@ -105,7 +106,7 @@ interface ILocationsState {
 }
 
 const initialState: ILocationsState = {
-  projects: [],
+  projectsData: null,
   currentProject: null,
   locations: [],
   currentLocation: null,
@@ -227,7 +228,7 @@ export const locationsSlice = createSlice({
         state.thereAreChanges = false;
       })
       .addCase(getAllProjects.fulfilled, (state, action) => {
-        state.projects = action.payload;
+        state.projectsData = action.payload;
       });
   },
 });

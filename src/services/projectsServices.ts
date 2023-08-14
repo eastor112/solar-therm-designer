@@ -1,12 +1,12 @@
 import envVars from '../configs';
-import { IPayloadUpdateProject, IProject } from '../types/locationstypes';
+import { IPayloadUpdateProject, IProject, IProjectData } from '../types/locationstypes';
 
 export const getAllProjectsService = async (limit: number, page: number) => {
   const response = await fetch(
-    `${envVars.API_HOST}/projects?limit=${limit}&page=${page}`
+    `${envVars.API_HOST}/projects?size=${limit}&page=${page}`
   );
 
-  return response.json() as Promise<IProject[]>;
+  return response.json() as Promise<IProjectData>;
 };
 
 export const getProjectService = async (id: number) => {

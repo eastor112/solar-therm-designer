@@ -13,12 +13,31 @@ export interface IProject {
   id: number;
   name: string;
   user_id: number;
-  pipeline_number: number;
+  pipeline_number: null;
   pipeline_type: null;
   volumen: null;
   manifold: null;
-  date: null;
+  date: string;
   location: ILocation | null;
+  user: User;
+  updated_at: string;
+  created_at: string;
+}
+
+
+export interface User {
+  id: number;
+  email: string;
+  first_name: string;
+  last_name: string;
+  is_admin: boolean;
+}
+
+export interface IProjectData {
+  page: number;
+  total: number;
+  projects: IProject[];
+  page_size: number;
 }
 
 export interface IPayloadUpdateProject {
