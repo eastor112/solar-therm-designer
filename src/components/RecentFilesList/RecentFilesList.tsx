@@ -6,25 +6,11 @@ import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import SnippetFolderIcon from '@mui/icons-material/SnippetFolder';
 import { Box } from '@mui/material';
-
-const testData = [
-  {
-    fileName: 'Modelo 1 - Piura...',
-    lastUpdate: '5 de mayo 2023',
-  },
-  {
-    fileName: 'Modelo 2 - Trujillo...',
-    lastUpdate: '15 de mayo 2023',
-  },
-  {
-    fileName: 'Modelo 3 - Tacna...',
-    lastUpdate: '1 de junio 2023',
-  },
-  {
-    fileName: 'Modelo 4 - Tacna...',
-    lastUpdate: '3 de junio 2023',
-  },
-];
+import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
+import { useEffect } from 'react';
+import { getRecentFiles, setPreviewProject } from '../../redux/locationsSlice';
+import { getRelativeDate } from '../../utils/datesUtils';
+import { IProject } from '../../types/locationstypes';
 
 interface RecentFilesListProps {
   handleOpenGlobalModal: (value: string) => void;
@@ -33,10 +19,16 @@ interface RecentFilesListProps {
 const RecentFilesList: React.FC<RecentFilesListProps> = ({
   handleOpenGlobalModal,
 }) => {
-  const handleOnClick = (file: any) => {
+  const dispatch = useAppDispatch();
+  const { recentFiles } = useAppSelector(state => state.locations);
+
+  useEffect(() => {
+    dispatch(getRecentFiles({ limit: 4, page: 1 }));
+  }, []);
+
+  const handleOnClick = (project: IProject) => {
+    dispatch(setPreviewProject(project));
     handleOpenGlobalModal('file');
-    // !todo update store
-    console.log('update store selected file', file);
   };
 
   return (
@@ -67,7 +59,7 @@ const RecentFilesList: React.FC<RecentFilesListProps> = ({
             p: 0,
           }}
         >
-          {testData.map((file, i) => (
+          {recentFiles?.projects.map((project, i) => (
             <ListItem
               key={i}
               sx={{
@@ -77,7 +69,7 @@ const RecentFilesList: React.FC<RecentFilesListProps> = ({
                 },
                 p: 0.75,
               }}
-              onClick={() => handleOnClick(file)}
+              onClick={() => handleOnClick(project)}
             >
               <ListItemAvatar>
                 <Avatar
@@ -95,8 +87,8 @@ const RecentFilesList: React.FC<RecentFilesListProps> = ({
                 </Avatar>
               </ListItemAvatar>
               <ListItemText
-                primary={file.fileName}
-                secondary={file.lastUpdate}
+                primary={project.name}
+                secondary={getRelativeDate(project.updated_at)}
                 primaryTypographyProps={{
                   sx: {
                     fontSize: '14px',

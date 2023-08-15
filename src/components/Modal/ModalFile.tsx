@@ -1,8 +1,10 @@
 import { Button } from '@mui/material';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import { useAppDispatch } from '../../hooks/reduxHooks';
+import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { setOpenModal } from '../../redux/UISlice';
+import { getShortName } from '../../utils/textTransformations';
+import { formatDate, getRelativeDate } from '../../utils/datesUtils';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -16,27 +18,9 @@ const style = {
   p: 4,
 };
 
-const project = {
-  title: 'Model 1 - Piura',
-  author: 'Elder Mendoza',
-  date: '13/10/2021',
-  localization: {
-    place: 'Trujillo',
-    lat: -8.3543543,
-    lng: -77.0283333,
-  },
-  parameters: {
-    volumen: 100,
-    manifold: 0.12,
-    pipelines: 15,
-    pipelineType: 'SDK-3R 1"',
-  },
-  createdAt: '12/05/23',
-  updatedAt: '12/06/23',
-};
-
 const ModalFile = () => {
   const dispatch = useAppDispatch();
+  const { previewProject } = useAppSelector(state => state.locations);
 
   const handleClose = () => {
     dispatch(setOpenModal(false));
@@ -44,10 +28,14 @@ const ModalFile = () => {
   return (
     <Box sx={style}>
       <Typography id='modal-modal-title' variant='h6' component='h2'>
-        {project.title}
+        {previewProject?.name}
       </Typography>
       <Typography variant='subtitle1' sx={{ fontSize: '0.8rem' }}>
-        Autor: {project.author}
+        Autor:{' '}
+        {getShortName(
+          previewProject?.user.first_name,
+          previewProject?.user.last_name
+        )}
       </Typography>
       <Box
         sx={{
@@ -57,10 +45,10 @@ const ModalFile = () => {
         }}
       >
         <Typography variant='subtitle1' sx={{ fontSize: '0.8rem' }}>
-          Creado: {project.createdAt}
+          Creado: {formatDate(previewProject?.created_at)}
         </Typography>
         <Typography variant='subtitle1' sx={{ fontSize: '0.8rem' }}>
-          Actualizado: {project.updatedAt}
+          Actualizado: {getRelativeDate(previewProject?.updated_at)}
         </Typography>
       </Box>
 
@@ -87,18 +75,18 @@ const ModalFile = () => {
           >
             <Box>
               <Typography sx={{ fontSize: '0.9rem' }}>
-                Lugar: {project.localization.place}
+                Lugar: {previewProject?.location?.place || 'no definido'}
               </Typography>
               <Typography sx={{ fontSize: '0.9rem' }}>
-                Latitud: {project.localization.lat}
+                Latitud: {previewProject?.location?.lat || 'no definido'}
               </Typography>
             </Box>
             <Box>
               <Typography sx={{ fontSize: '0.9rem' }}>
-                Fecha: {project.date}
+                Fecha: {previewProject?.date || 'no definido'}
               </Typography>
               <Typography sx={{ fontSize: '0.9rem' }}>
-                Longitud: {project.localization.lng}
+                Longitud: {previewProject?.location?.lng || 'no definido'}
               </Typography>
             </Box>
           </Box>
@@ -124,18 +112,18 @@ const ModalFile = () => {
           >
             <Box>
               <Typography sx={{ fontSize: '0.9rem' }}>
-                Volumen: {project.parameters.volumen}
+                Volumen: {previewProject?.volumen || 'no definido'}
               </Typography>
               <Typography sx={{ fontSize: '0.9rem' }}>
-                L. Manifold: {project.parameters.manifold}
+                L. Manifold: {previewProject?.manifold || 'no definido'}
               </Typography>
             </Box>
             <Box>
               <Typography sx={{ fontSize: '0.9rem' }}>
-                N° de tubos: {project.parameters.pipelines}
+                N° de tubos: {previewProject?.pipeline_number || 'no definido'}
               </Typography>
               <Typography sx={{ fontSize: '0.9rem' }}>
-                Tipo tubería: {project.parameters.pipelineType}
+                Tipo tubería: {previewProject?.pipeline_type || 'no definido'}
               </Typography>
             </Box>
           </Box>
@@ -156,7 +144,7 @@ const ModalFile = () => {
           }}
           onClick={handleClose}
         >
-          cancelar
+          Cerrar
         </Button>
         <Button
           variant='contained'
@@ -164,7 +152,7 @@ const ModalFile = () => {
             width: '7rem',
           }}
         >
-          Crear
+          Abrir
         </Button>
       </Box>
     </Box>

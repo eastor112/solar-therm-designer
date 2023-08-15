@@ -56,6 +56,14 @@ export const getAllProjects = createAsyncThunk(
   }
 );
 
+export const getRecentFiles = createAsyncThunk(
+  'locations/getRecentFiles',
+  async (params: GetAllProjectsParams) => {
+    const projects = await getAllProjectsService(params.limit, params.page);
+    return projects;
+  }
+);
+
 export const updateProject = createAsyncThunk(
   'locations/updateProject',
   async (_, { getState, dispatch }) => {
@@ -93,7 +101,9 @@ export const getWeatherData = createAsyncThunk(
 
 interface ILocationsState {
   projectsData: IProjectData | null;
+  recentFiles: IProjectData | null;
   currentProject: IProject | null;
+  previewProject: IProject | null;
   locations: ILocation[];
   currentLocation: ILocation | null;
   date: string | null;
@@ -107,7 +117,9 @@ interface ILocationsState {
 
 const initialState: ILocationsState = {
   projectsData: null,
+  recentFiles: null,
   currentProject: null,
+  previewProject: null,
   locations: [],
   currentLocation: null,
   date: null,
@@ -187,7 +199,10 @@ export const locationsSlice = createSlice({
     },
     closeProject: () => {
       return initialState;
-    }
+    },
+    setPreviewProject: (state, action: PayloadAction<IProject>) => {
+      state.previewProject = action.payload;
+    },
 
   },
   extraReducers: builder => {
@@ -229,6 +244,9 @@ export const locationsSlice = createSlice({
       })
       .addCase(getAllProjects.fulfilled, (state, action) => {
         state.projectsData = action.payload;
+      })
+      .addCase(getRecentFiles.fulfilled, (state, action) => {
+        state.recentFiles = action.payload;
       });
   },
 });
@@ -242,7 +260,8 @@ export const {
   setPipeType,
   setCurrentProject,
   areThereChanges,
-  closeProject
+  closeProject,
+  setPreviewProject
 } = locationsSlice.actions;
 
 export default locationsSlice.reducer;

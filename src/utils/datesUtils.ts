@@ -20,13 +20,13 @@ export const convertDateToIso = (date: string | null) => {
   return formatedDate;
 }
 
-export const formatDate = (dateTime: string) => {
+export const formatDate = (dateTime: string | undefined) => {
   if (!dateTime) return 'no definido';
 
   return dayjs(dateTime).locale('es').format('DD MMM YYYY');
 }
 
-export const getRelativeDate = (dateTime: string) => {
+export const getRelativeDate = (dateTime: string | undefined) => {
   const localDate = dayjs.utc(dateTime).tz("America/Lima");
   return localDate.locale('es').fromNow();
 }
