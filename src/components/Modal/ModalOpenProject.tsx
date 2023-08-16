@@ -9,7 +9,7 @@ import Stack from '@mui/material/Stack';
 import { Button } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { setOpenModal } from '../../redux/UISlice';
-import { useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { getAllProjects } from '../../redux/locationsSlice';
 
 const style = {
@@ -71,21 +71,38 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 const ModalOpenProject = () => {
   const dispatch = useAppDispatch();
   const { projectsData } = useAppSelector(state => state.locations);
-  const [page, setPage] = useState(1); // needs to be greather than 1
+  const [page, setPage] = useState(1);
+  const [search, setSearch] = useState('');
 
   const handleClose = () => {
     dispatch(setOpenModal(false));
   };
 
   useEffect(() => {
-    dispatch(getAllProjects({ limit: 4, page: page }));
-  }, [page]);
+    dispatch(
+      getAllProjects({
+        limit: 4,
+        page: page,
+        filter: search === '' ? undefined : search,
+      })
+    );
+  }, [search, page]);
+
+  useEffect(() => {
+    setPage(1);
+  }, [search]);
 
   const handlePaginationChange = (
     _event: React.ChangeEvent<unknown>,
     value: number
   ) => {
     setPage(value);
+  };
+
+  const handleOnChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setSearch(e.target.value);
   };
 
   return (
@@ -111,6 +128,8 @@ const ModalOpenProject = () => {
             <StyledInputBase
               placeholder='Buscar…'
               inputProps={{ 'aria-label': 'search' }}
+              onChange={handleOnChange}
+              value={search}
             />
           </Search>
         </Box>
@@ -122,9 +141,22 @@ const ModalOpenProject = () => {
           gap: 2,
         }}
       >
-        {projectsData?.projects.map(project => (
-          <SavedProjectCard key={project.id} project={project} />
-        ))}
+        {projectsData?.projects.length ? (
+          projectsData?.projects.map(project => (
+            <SavedProjectCard key={project.id} project={project} />
+          ))
+        ) : (
+          <Typography
+            sx={{
+              textAlign: 'center',
+              color: 'gray',
+              fontWeight: 'bold',
+              fontSize: '1rem',
+            }}
+          >
+            No se encontraron proyectos con el criterio especificado
+          </Typography>
+        )}
 
         <Box
           sx={{

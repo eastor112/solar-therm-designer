@@ -46,12 +46,13 @@ export const getProject = createAsyncThunk(
 interface GetAllProjectsParams {
   limit: number;
   page: number;
+  filter?: string;
 }
 
 export const getAllProjects = createAsyncThunk(
   'locations/getProjects',
   async (params: GetAllProjectsParams) => {
-    const projects = await getAllProjectsService(params.limit, params.page);
+    const projects = await getAllProjectsService(params.limit, params.page, params.filter);
     return projects;
   }
 );

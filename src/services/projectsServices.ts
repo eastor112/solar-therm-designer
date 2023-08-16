@@ -1,10 +1,11 @@
 import envVars from '../configs';
 import { IPayloadUpdateProject, IProject, IProjectData } from '../types/locationstypes';
 
-export const getAllProjectsService = async (limit: number, page: number) => {
-  const response = await fetch(
-    `${envVars.API_HOST}/projects?size=${limit}&page=${page}`
-  );
+export const getAllProjectsService = async (limit: number, page: number, filter?: string) => {
+  let url = `${envVars.API_HOST}/projects?size=${limit}&page=${page}`
+  url = filter ? `${url}&filter=${filter}` : url;
+
+  const response = await fetch(url);
 
   return response.json() as Promise<IProjectData>;
 };
