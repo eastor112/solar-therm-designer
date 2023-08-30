@@ -46,7 +46,7 @@ const DesignerForm = () => {
             label='Volumen'
             variant='outlined'
             name='volumen'
-            value={volumen}
+            value={volumen || 0}
             onChange={val => {
               dispatch(setVolumen(+val.target.value));
             }}
@@ -58,7 +58,7 @@ const DesignerForm = () => {
             label='Longitud de Manifold'
             variant='outlined'
             name='manifoldLength'
-            value={manifoldLength}
+            value={manifoldLength || 0}
             onChange={val => {
               dispatch(setManifoldLength(+val.target.value));
             }}
@@ -72,7 +72,7 @@ const DesignerForm = () => {
             label='Número de tubos'
             variant='outlined'
             name='pipeNumber'
-            value={pipeNumber}
+            value={pipeNumber || 0}
             onChange={val => {
               dispatch(setPipeNumber(+val.target.value));
             }}
@@ -84,7 +84,7 @@ const DesignerForm = () => {
               type='number'
               labelId='pipe-type-label'
               id='pipe-type'
-              value={pipeType}
+              value={pipeType || 0}
               label='Tipo de tubería'
               sx={{
                 width: '100%',

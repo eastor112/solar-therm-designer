@@ -221,7 +221,21 @@ export const locationsSlice = createSlice({
     },
     setNextModalAction: (state, action: PayloadAction<string | null>) => {
       state.nextModalAction = action.payload;
-    }
+    },
+    openProject: (state, action: PayloadAction<IProject>) => {
+      state.currentProject = action.payload;
+      state.date = action.payload.date
+      state.currentLocation = action.payload.location
+      state.volumen = action.payload.volumen
+      state.manifoldLength = action.payload.manifold
+      state.pipeNumber = action.payload.pipeline_number
+      state.pipeType = action.payload.pipeline_type
+
+      localStorage.setItem(
+        storageKeys.currentProject,
+        JSON.stringify(action.payload)
+      );
+    },
   },
   extraReducers: builder => {
     builder
@@ -281,7 +295,8 @@ export const {
   closeProject,
   setPreviewProject,
   setWantsToSave,
-  setNextModalAction
+  setNextModalAction,
+  openProject
 } = locationsSlice.actions;
 
 export default locationsSlice.reducer;

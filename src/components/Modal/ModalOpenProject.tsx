@@ -10,7 +10,8 @@ import { Button } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { setOpenModal } from '../../redux/UISlice';
 import { ChangeEvent, useEffect, useState } from 'react';
-import { getAllProjects } from '../../redux/locationsSlice';
+import { getAllProjects, openProject } from '../../redux/locationsSlice';
+import { IProject } from '../../types/locationstypes';
 
 const style = {
   position: 'relative',
@@ -73,6 +74,7 @@ const ModalOpenProject = () => {
   const { projectsData } = useAppSelector(state => state.locations);
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
+  const [projectSelected, setProjectSelected] = useState<IProject | null>();
 
   const handleClose = () => {
     dispatch(setOpenModal(false));
@@ -96,6 +98,7 @@ const ModalOpenProject = () => {
     _event: React.ChangeEvent<unknown>,
     value: number
   ) => {
+    setProjectSelected(null);
     setPage(value);
   };
 
@@ -103,6 +106,13 @@ const ModalOpenProject = () => {
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setSearch(e.target.value);
+  };
+
+  const handleOpenProject = () => {
+    if (projectSelected) {
+      dispatch(openProject(projectSelected));
+    }
+    dispatch(setOpenModal(false));
   };
 
   return (
@@ -143,7 +153,12 @@ const ModalOpenProject = () => {
       >
         {projectsData?.projects.length ? (
           projectsData?.projects.map(project => (
-            <SavedProjectCard key={project.id} project={project} />
+            <SavedProjectCard
+              key={project.id}
+              project={project}
+              selected={projectSelected?.id === project.id}
+              onClick={setProjectSelected}
+            />
           ))
         ) : (
           <Typography
@@ -193,6 +208,8 @@ const ModalOpenProject = () => {
             sx={{
               width: '7rem',
             }}
+            disabled={!projectSelected}
+            onClick={handleOpenProject}
           >
             Abrir
           </Button>

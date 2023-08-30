@@ -7,25 +7,28 @@ import { formatDate, getRelativeDate } from '../../utils/datesUtils';
 interface SavedProjectCardProps {
   selected?: boolean;
   project: IProject;
+  onClick: (project: IProject) => void;
 }
 
 const SavedProjectCard: React.FC<SavedProjectCardProps> = ({
   selected = false,
   project,
+  onClick,
 }) => {
   const { user, location } = project;
   return (
     <Box
       sx={{
-        bgcolor: selected ? '#ddd' : undefined,
+        bgcolor: selected ? '#556cd655' : undefined,
         borderRadius: '3px',
         boxShadow: '-1px 1px 5px 1px rgba(0,0,0,0.2)',
         padding: '0.7rem',
         '&:hover': {
-          bgcolor: '#eee',
+          bgcolor: selected ? undefined : '#eee',
         },
         cursor: 'pointer',
       }}
+      onClick={() => onClick(project)}
     >
       <Typography
         variant='subtitle1'
