@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { setOpenModal } from '../../redux/UISlice';
 import { getShortName } from '../../utils/textTransformations';
 import { formatDate, getRelativeDate } from '../../utils/datesUtils';
+import { openProject } from '../../redux/locationsSlice';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -25,6 +26,14 @@ const ModalFile = () => {
   const handleClose = () => {
     dispatch(setOpenModal(false));
   };
+
+  const handleOpenProject = () => {
+    if (previewProject) {
+      dispatch(openProject(previewProject));
+    }
+    dispatch(setOpenModal(false));
+  };
+
   return (
     <Box sx={style}>
       <Typography id='modal-modal-title' variant='h6' component='h2'>
@@ -151,6 +160,7 @@ const ModalFile = () => {
           sx={{
             width: '7rem',
           }}
+          onClick={handleOpenProject}
         >
           Abrir
         </Button>

@@ -20,11 +20,13 @@ const RecentFilesList: React.FC<RecentFilesListProps> = ({
   handleOpenGlobalModal,
 }) => {
   const dispatch = useAppDispatch();
-  const { recentFiles } = useAppSelector(state => state.locations);
+  const { recentFiles, thereAreChanges } = useAppSelector(
+    state => state.locations
+  );
 
   useEffect(() => {
     dispatch(getRecentFiles({ limit: 4, page: 1 }));
-  }, []);
+  }, [thereAreChanges]);
 
   const handleOnClick = (project: IProject) => {
     dispatch(setPreviewProject(project));

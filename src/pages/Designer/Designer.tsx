@@ -69,7 +69,10 @@ const Designer = () => {
         <div className='flex flex-col gap-8'>
           {currentProject && (
             <>
-              <h3 className='text-3xl font-bold'>SOLARTHERM DESIGNER V0.020</h3>
+              <h3 className='text-3xl font-bold'>
+                SOLARTHERM DESIGNER V0.3{' '}
+                {currentProject.name ? `- ${currentProject.name}` : ''}
+              </h3>
               <div className='flex gap-8'>
                 <ZoneInformation handleOpen={handleOpen} />
                 <DesignerForm />

@@ -84,6 +84,7 @@ export const updateProject = createAsyncThunk(
       date: convertDateToIso(locations.date),
       location_id: locations.currentLocation?.id || undefined,
     };
+
     const updatedProject = await updateProjectService(
       locations?.currentProject?.id!,
       payload
@@ -124,6 +125,7 @@ interface ILocationsState {
   thereAreChanges: boolean;
   wantsToSave: boolean;
   nextModalAction: string | null;
+  projectsPerPage: number
 }
 
 const initialState: ILocationsState = {
@@ -141,7 +143,8 @@ const initialState: ILocationsState = {
   weatherData: [],
   thereAreChanges: false,
   wantsToSave: true,
-  nextModalAction: null
+  nextModalAction: null,
+  projectsPerPage: 4
 };
 
 export const locationsSlice = createSlice({

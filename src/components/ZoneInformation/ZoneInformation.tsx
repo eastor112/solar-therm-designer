@@ -6,6 +6,7 @@ import { generalStyles } from '../../styles/general';
 import { useAppSelector, useAppDispatch } from '../../hooks/reduxHooks';
 import { useEffect } from 'react';
 import { getWeatherData } from '../../redux/locationsSlice';
+import { convertIsoToDate } from '../../utils/datesUtils';
 
 interface StylesMui {
   [key: string]: SxProps<Theme>;
@@ -73,7 +74,8 @@ const ZoneInformation: React.FC<ZoneInformationProps> = ({ handleOpen }) => {
         }}
       >
         <Typography sx={{ ...styles.cardPlace, mb: 0 }}>
-          <span className='font-bold'>Fecha:</span> {date || 'no definido'}
+          <span className='font-bold'>Fecha:</span>{' '}
+          {date ? convertIsoToDate(date) : 'no definido'}
         </Typography>
         <Button variant='contained' onClick={() => handleOpen('date')}>
           Cambiar

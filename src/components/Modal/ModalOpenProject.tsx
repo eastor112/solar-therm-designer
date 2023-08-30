@@ -71,7 +71,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 const ModalOpenProject = () => {
   const dispatch = useAppDispatch();
-  const { projectsData } = useAppSelector(state => state.locations);
+  const { projectsData, projectsPerPage } = useAppSelector(
+    state => state.locations
+  );
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
   const [projectSelected, setProjectSelected] = useState<IProject | null>();
@@ -83,7 +85,7 @@ const ModalOpenProject = () => {
   useEffect(() => {
     dispatch(
       getAllProjects({
-        limit: 4,
+        limit: projectsPerPage,
         page: page,
         filter: search === '' ? undefined : search,
       })
