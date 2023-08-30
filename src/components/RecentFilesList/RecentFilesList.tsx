@@ -20,13 +20,13 @@ const RecentFilesList: React.FC<RecentFilesListProps> = ({
   handleOpenGlobalModal,
 }) => {
   const dispatch = useAppDispatch();
-  const { recentFiles, thereAreChanges } = useAppSelector(
+  const { recentFiles, thereAreChanges, currentProject } = useAppSelector(
     state => state.locations
   );
 
   useEffect(() => {
     dispatch(getRecentFiles({ limit: 4, page: 1 }));
-  }, [thereAreChanges]);
+  }, [thereAreChanges, currentProject]);
 
   const handleOnClick = (project: IProject) => {
     dispatch(setPreviewProject(project));
@@ -89,7 +89,9 @@ const RecentFilesList: React.FC<RecentFilesListProps> = ({
                 </Avatar>
               </ListItemAvatar>
               <ListItemText
-                primary={project.name}
+                primary={`${project.name} ${
+                  project.location?.place ? project.location.place : ''
+                }`}
                 secondary={getRelativeDate(project.updated_at)}
                 primaryTypographyProps={{
                   sx: {

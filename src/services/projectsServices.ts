@@ -36,6 +36,7 @@ export const updateProjectService = async (
   project_id: number,
   payload: IPayloadUpdateProject
 ) => {
+  console.log(payload);
   const response = await fetch(`${envVars.API_HOST}/projects/${project_id}`, {
     method: 'PATCH',
     headers: {

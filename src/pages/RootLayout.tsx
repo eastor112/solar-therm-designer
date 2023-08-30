@@ -10,16 +10,7 @@ import {
   destructiveModals,
   getModalSelector,
 } from '../components/Modal/getModalSelector';
-import {
-  setCurrentLocation,
-  setManifoldLength,
-  setPipeNumber,
-  setPipeType,
-  setVolumen,
-  setDate,
-  areThereChanges,
-  setNextModalAction,
-} from '../redux/locationsSlice';
+import { areThereChanges, setNextModalAction } from '../redux/locationsSlice';
 
 const RootLayout = () => {
   const { openModal } = useAppSelector(state => state.ui);
@@ -59,14 +50,6 @@ const RootLayout = () => {
 
     if (currentProject === null && savedProject) {
       dispatch(getProject(JSON.parse(savedProject).id));
-      dispatch(
-        setCurrentLocation(JSON.parse(localStorage.getItem('location')!))
-      );
-      dispatch(setDate(localStorage.getItem('date')!));
-      dispatch(setVolumen(+localStorage.getItem('volumen')!));
-      dispatch(setManifoldLength(+localStorage.getItem('manifoldLength')!));
-      dispatch(setPipeNumber(+localStorage.getItem('pipeNumber')!));
-      dispatch(setPipeType(+localStorage.getItem('pipeType')!));
     }
   }, []);
 

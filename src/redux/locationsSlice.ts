@@ -37,8 +37,18 @@ export const createProject = createAsyncThunk(
 
 export const getProject = createAsyncThunk(
   'locations/getProject',
-  async (projectId: number) => {
+  async (projectId: number, { dispatch }) => {
     const project = await getProjectService(projectId);
+    if (project.location) {
+      dispatch(
+        setCurrentLocation(project.location)
+      );
+    }
+    dispatch(setDate(project.date));
+    dispatch(setVolumen(project.volumen ? project.volumen : 0));
+    dispatch(setManifoldLength(project.manifold ? project.manifold : 0));
+    dispatch(setPipeNumber(project.pipeline_number ? project.pipeline_number : 0));
+    dispatch(setPipeType(project.pipeline_type ? project.pipeline_type : 0));
     return project;
   }
 );
@@ -81,7 +91,7 @@ export const updateProject = createAsyncThunk(
       pipeline_type: locations.pipeType || undefined,
       volumen: locations.volumen || undefined,
       manifold: locations.manifoldLength || undefined,
-      date: convertDateToIso(locations.date),
+      date: convertDateToIso(locations.date) || undefined,
       location_id: locations.currentLocation?.id || undefined,
     };
 

@@ -15,12 +15,16 @@ dayjs.extend(customParseFormat);
 dayjs.tz.setDefault('America/Lima');
 
 export const convertDateToIso = (date: string | null) => {
-  let formatedDate = undefined;
+  let formattedDate = null;
   if (date) {
-    formatedDate = dayjs(date, "DD/MM/YYYY").format("YYYY-MM-DD");
+    if (!date.includes('-')) {
+      formattedDate = dayjs(date, 'DD/MM/YYYY').format('YYYY-MM-DD');
+    } else {
+      formattedDate = date;
+    }
   }
-  return formatedDate;
-}
+  return formattedDate;
+};
 
 export const convertIsoToDate = (isoDate: string) => {
   if (isoDate.includes('-')) {
