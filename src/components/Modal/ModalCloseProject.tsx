@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
+import { useAppDispatch } from '../../hooks/reduxHooks';
 import { setOpenModal } from '../../redux/UISlice';
 import { closeProject } from '../../redux/locationsSlice';
 
@@ -19,7 +19,6 @@ const style = {
 
 const ModalCloseProject = () => {
   const dispatch = useAppDispatch();
-  const {} = useAppSelector(state => state.locations);
 
   const handleCancel = () => {
     dispatch(setOpenModal(false));

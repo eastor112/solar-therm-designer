@@ -3,14 +3,13 @@ import Sidebar from '../components/Sidebar/Sidebar';
 import { Outlet, useOutletContext } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
-import ModalAbout from '../components/Modal/ModalAbout';
-import ModalFile from '../components/Modal/ModalFile';
-import ModalNewProject from '../components/Modal/ModalNewProject';
-import ModalOpenProject from '../components/Modal/ModalOpenProject';
-import ModalReports from '../components/Modal/ModalReport';
 import { useAppDispatch, useAppSelector } from '../hooks/reduxHooks';
-import { setOpenModal } from '../redux/UISlice';
-import ModalSaveChanges from '../components/Modal/ModalSaveChanges';
+import { setModalComponent, setOpenModal } from '../redux/UISlice';
+import { getProject } from '../redux/locationsSlice';
+import {
+  destructiveModals,
+  getModalSelector,
+} from '../components/Modal/getModalSelector';
 import {
   setCurrentLocation,
   setManifoldLength,
@@ -19,19 +18,8 @@ import {
   setVolumen,
   setDate,
   areThereChanges,
+  setNextModalAction,
 } from '../redux/locationsSlice';
-import ModalCloseProject from '../components/Modal/ModalCloseProject';
-import { getProject } from '../redux/locationsSlice';
-
-const modalSelector: { [key: string]: JSX.Element } = {
-  about: <ModalAbout />,
-  file: <ModalFile />,
-  new: <ModalNewProject />,
-  open: <ModalOpenProject />,
-  report: <ModalReports />,
-  save: <ModalSaveChanges />,
-  close: <ModalCloseProject />,
-};
 
 const RootLayout = () => {
   const { openModal } = useAppSelector(state => state.ui);
@@ -43,17 +31,25 @@ const RootLayout = () => {
     manifoldLength,
     pipeNumber,
     pipeType,
+    thereAreChanges,
+    wantsToSave,
   } = useAppSelector(state => state.locations);
+  const { modalComponent } = useAppSelector(state => state.ui);
+
   const dispatch = useAppDispatch();
   const [open, setOpen] = useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
   };
-  const [modalComponent, setmodalComponent] = useState<any>();
 
   const handleOpenGlobalModal = (value: string) => {
     dispatch(setOpenModal(true));
-    setmodalComponent(modalSelector[value]);
+    if (destructiveModals.includes(value) && thereAreChanges && wantsToSave) {
+      dispatch(setNextModalAction(value));
+      dispatch(setModalComponent(getModalSelector['discard']));
+      return;
+    }
+    dispatch(setModalComponent(getModalSelector[value]));
   };
 
   const handleClose = () => dispatch(setOpenModal(false));

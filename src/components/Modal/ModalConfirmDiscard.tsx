@@ -1,35 +1,38 @@
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { useAppDispatch } from '../../hooks/reduxHooks';
-import { setOpenModal } from '../../redux/UISlice';
+import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { updateProject } from '../../redux/locationsSlice';
+import { setModalComponent } from '../../redux/UISlice';
+import { getModalSelector } from './getModalSelector';
 
 const style = {
   position: 'absolute' as 'absolute',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 440,
+  width: 420,
   bgcolor: 'background.paper',
   borderRadius: '5px',
   boxShadow: 24,
   p: 4,
 };
 
-const ModalSaveChanges = () => {
+const ModalConfirmDiscard = () => {
   const dispatch = useAppDispatch();
+  const { nextModalAction } = useAppSelector(state => state.locations);
 
-  const handleClose = () => {
-    dispatch(setOpenModal(false));
+  const handleSaveAndContinue = () => {
+    dispatch(updateProject({ closeOnFinish: false }));
+    if (nextModalAction) {
+      dispatch(setModalComponent(getModalSelector[nextModalAction]));
+    }
   };
 
-  const handleSave = () => {
-    dispatch(
-      updateProject({
-        closeOnFinish: true,
-      })
-    );
+  const handleDiscardAndContinue = () => {
+    if (nextModalAction) {
+      dispatch(setModalComponent(getModalSelector[nextModalAction]));
+    }
   };
 
   return (
@@ -42,7 +45,7 @@ const ModalSaveChanges = () => {
         variant='h6'
         component='h2'
       >
-        Cofirmacion Requerida
+        Confirmación Requerida
       </Typography>
       <Box
         sx={{
@@ -58,8 +61,7 @@ const ModalSaveChanges = () => {
           id='modal-modal-title'
           component='h2'
         >
-          Se guardarán todas las configuraciones realizadas en el presente
-          proyecto. Se sobreescribirá cualquier otra version existente.
+          Existen cambios sin guardar. ¿Desea guardarlos antes de continuar?
         </Typography>
 
         <Box
@@ -73,17 +75,18 @@ const ModalSaveChanges = () => {
             variant='outlined'
             sx={{
               width: '7rem',
+              whiteSpace: 'nowrap',
             }}
-            onClick={handleClose}
+            onClick={handleDiscardAndContinue}
           >
-            Cancelar
+            No guardar
           </Button>
           <Button
             variant='contained'
             sx={{
-              width: '7rem',
+              width: '9rem',
             }}
-            onClick={handleSave}
+            onClick={handleSaveAndContinue}
           >
             Guardar
           </Button>
@@ -93,4 +96,4 @@ const ModalSaveChanges = () => {
   );
 };
 
-export default ModalSaveChanges;
+export default ModalConfirmDiscard;

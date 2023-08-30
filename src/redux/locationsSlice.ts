@@ -65,9 +65,14 @@ export const getRecentFiles = createAsyncThunk(
   }
 );
 
+interface UpdateProject {
+  closeOnFinish: boolean;
+}
+
 export const updateProject = createAsyncThunk(
   'locations/updateProject',
-  async (_, { getState, dispatch }) => {
+  async (params: UpdateProject, { getState, dispatch }) => {
+    const { closeOnFinish } = params;
     const { locations } = getState() as RootState;
 
     const payload: IPayloadUpdateProject = {
@@ -83,7 +88,10 @@ export const updateProject = createAsyncThunk(
       locations?.currentProject?.id!,
       payload
     );
-    dispatch(setOpenModal(false));
+
+    if (closeOnFinish) {
+      dispatch(setOpenModal(false));
+    }
 
     return updatedProject;
   }
@@ -114,6 +122,8 @@ interface ILocationsState {
   pipeType: number | null;
   weatherData: IWeather[];
   thereAreChanges: boolean;
+  wantsToSave: boolean;
+  nextModalAction: string | null;
 }
 
 const initialState: ILocationsState = {
@@ -130,6 +140,8 @@ const initialState: ILocationsState = {
   pipeType: 0,
   weatherData: [],
   thereAreChanges: false,
+  wantsToSave: true,
+  nextModalAction: null
 };
 
 export const locationsSlice = createSlice({
@@ -204,7 +216,12 @@ export const locationsSlice = createSlice({
     setPreviewProject: (state, action: PayloadAction<IProject>) => {
       state.previewProject = action.payload;
     },
-
+    setWantsToSave: (state, action: PayloadAction<boolean>) => {
+      state.wantsToSave = action.payload;
+    },
+    setNextModalAction: (state, action: PayloadAction<string | null>) => {
+      state.nextModalAction = action.payload;
+    }
   },
   extraReducers: builder => {
     builder
@@ -262,7 +279,9 @@ export const {
   setCurrentProject,
   areThereChanges,
   closeProject,
-  setPreviewProject
+  setPreviewProject,
+  setWantsToSave,
+  setNextModalAction
 } = locationsSlice.actions;
 
 export default locationsSlice.reducer;
