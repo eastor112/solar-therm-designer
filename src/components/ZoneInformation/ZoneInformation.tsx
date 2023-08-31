@@ -5,7 +5,7 @@ import { SxProps, Theme, Typography } from '@mui/material';
 import { generalStyles } from '../../styles/general';
 import { useAppSelector, useAppDispatch } from '../../hooks/reduxHooks';
 import { useEffect } from 'react';
-import { getWeatherData } from '../../redux/locationsSlice';
+import { clearWeather, getWeatherData } from '../../redux/locationsSlice';
 import { convertIsoToDate } from '../../utils/datesUtils';
 
 interface StylesMui {
@@ -29,6 +29,8 @@ const ZoneInformation: React.FC<ZoneInformationProps> = ({ handleOpen }) => {
   useEffect(() => {
     if (currentLocation && date) {
       dispatch(getWeatherData());
+    } else {
+      dispatch(clearWeather());
     }
   }, [currentLocation, date]);
 

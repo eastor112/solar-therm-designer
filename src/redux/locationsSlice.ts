@@ -249,6 +249,9 @@ export const locationsSlice = createSlice({
         JSON.stringify(action.payload)
       );
     },
+    clearWeather: (state) => {
+      state.weatherData = initialState.weatherData;
+    }
   },
   extraReducers: builder => {
     builder
@@ -309,7 +312,8 @@ export const {
   setPreviewProject,
   setWantsToSave,
   setNextModalAction,
-  openProject
+  openProject,
+  clearWeather
 } = locationsSlice.actions;
 
 export default locationsSlice.reducer;
