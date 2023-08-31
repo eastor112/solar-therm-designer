@@ -1,5 +1,10 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { getLocations } from '../services/locationServices';
+import { RootState } from './store';
+import { getWeatherDataService } from '../services/weatherServices';
+import { storageKeys } from '../types/general';
+import { convertDateToIso } from '../utils/datesUtils';
+import { setOpenModal } from './UISlice';
 import {
   ILocation,
   IPayloadUpdateProject,
@@ -13,11 +18,7 @@ import {
   getProjectService,
   updateProjectService,
 } from '../services/projectsServices';
-import { RootState } from './store';
-import { getWeatherDataService } from '../services/weatherServices';
-import { storageKeys } from '../types/general';
-import { convertDateToIso } from '../utils/datesUtils';
-import { setOpenModal } from './UISlice';
+import { clearProjectStorage } from '../utils/clearProjectStorage';
 
 export const getLocationsInformation = createAsyncThunk(
   `locations/fetchAllLocations`,
@@ -224,6 +225,7 @@ export const locationsSlice = createSlice({
       }
     },
     closeProject: () => {
+      clearProjectStorage()
       return initialState;
     },
     setPreviewProject: (state, action: PayloadAction<IProject>) => {
@@ -259,12 +261,7 @@ export const locationsSlice = createSlice({
         state.locations = action.payload;
       })
       .addCase(createProject.fulfilled, (state, action) => {
-        localStorage.removeItem(storageKeys.location);
-        localStorage.removeItem(storageKeys.pipeType);
-        localStorage.removeItem(storageKeys.date);
-        localStorage.removeItem(storageKeys.manifoldLength);
-        localStorage.removeItem(storageKeys.pipeNumber);
-        localStorage.removeItem(storageKeys.volumen);
+        clearProjectStorage()
 
         state.currentProject = action.payload;
         state.date = initialState.date;
