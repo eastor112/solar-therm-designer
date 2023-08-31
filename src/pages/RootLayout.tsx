@@ -46,6 +46,38 @@ const RootLayout = () => {
   const handleClose = () => dispatch(setOpenModal(false));
 
   useEffect(() => {
+    const unloadListener = (e: any) => {
+      if (thereAreChanges) {
+        e.preventDefault();
+        e.returnValue =
+          '¡Atención! Los cambios realizados no se guardarán si abandonas la página.';
+      }
+    };
+
+    window.addEventListener('beforeunload', unloadListener);
+
+    const historyListener = (location: any) => {
+      if (
+        thereAreChanges &&
+        !window.confirm(
+          '¿Estás seguro de que deseas abandonar la página? Los cambios no guardados se perderán.'
+        )
+      ) {
+        history.pushState(null, '', location.pathname);
+      }
+    };
+
+    window.addEventListener('popstate', () => {
+      historyListener(window.location);
+    });
+
+    return () => {
+      window.removeEventListener('beforeunload', unloadListener);
+      window.removeEventListener('popstate', historyListener);
+    };
+  }, [thereAreChanges]);
+
+  useEffect(() => {
     const savedProject = localStorage.getItem('currentProject');
 
     if (currentProject === null && savedProject) {

@@ -246,6 +246,8 @@ export const locationsSlice = createSlice({
       state.pipeNumber = action.payload.pipeline_number
       state.pipeType = action.payload.pipeline_type
 
+      state.thereAreChanges = false
+
       localStorage.setItem(
         storageKeys.currentProject,
         JSON.stringify(action.payload)
