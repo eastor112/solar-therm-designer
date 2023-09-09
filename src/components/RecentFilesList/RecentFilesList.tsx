@@ -83,7 +83,8 @@ const RecentFilesList: React.FC<RecentFilesListProps> = ({
                     sx={{
                       width: 25,
                       height: 25,
-                      color: '#777',
+                      color:
+                        project.id === currentProject?.id ? 'green' : '#777',
                     }}
                   />
                 </Avatar>
@@ -96,11 +97,13 @@ const RecentFilesList: React.FC<RecentFilesListProps> = ({
                 primaryTypographyProps={{
                   sx: {
                     fontSize: '14px',
+                    color: project.id === currentProject?.id ? 'green' : '#777',
                   },
                 }}
                 secondaryTypographyProps={{
                   sx: {
                     fontSize: '12px',
+                    color: project.id === currentProject?.id ? 'green' : '#777',
                   },
                 }}
               />

@@ -21,7 +21,9 @@ const style = {
 
 const ModalFile = () => {
   const dispatch = useAppDispatch();
-  const { previewProject } = useAppSelector(state => state.locations);
+  const { previewProject, currentProject } = useAppSelector(
+    state => state.locations
+  );
 
   const handleClose = () => {
     dispatch(setOpenModal(false));
@@ -161,6 +163,7 @@ const ModalFile = () => {
             width: '7rem',
           }}
           onClick={handleOpenProject}
+          disabled={previewProject?.id === currentProject?.id}
         >
           Abrir
         </Button>

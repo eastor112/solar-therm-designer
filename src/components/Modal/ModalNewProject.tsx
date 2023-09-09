@@ -40,7 +40,7 @@ const ModalNewProject = () => {
 
   const handleCreateProject = () => {
     if (projectName.length > 3) {
-      setError(true);
+      setError(false);
       dispatch(createProject(projectName));
     } else {
       setError(true);

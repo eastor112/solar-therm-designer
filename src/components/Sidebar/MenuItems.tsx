@@ -18,7 +18,9 @@ interface MainListItemsProps {
 export const MainListItems: React.FC<MainListItemsProps> = ({
   handleOpenGlobalModal,
 }) => {
-  const { currentProject } = useAppSelector(state => state.locations);
+  const { currentProject, thereAreChanges } = useAppSelector(
+    state => state.locations
+  );
   return (
     <>
       <ListItemButton onClick={() => handleOpenGlobalModal('new')}>
@@ -37,7 +39,7 @@ export const MainListItems: React.FC<MainListItemsProps> = ({
 
       <ListItemButton
         onClick={() => handleOpenGlobalModal('save')}
-        disabled={!currentProject}
+        disabled={!currentProject || !thereAreChanges}
       >
         <ListItemIcon>
           <SaveIcon />
