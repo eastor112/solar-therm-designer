@@ -10,6 +10,7 @@ import ModalChangePlace from '../../components/Modal/ModalChangePlace';
 import ModalDatepicker from '../../components/Modal/ModalDatepicker';
 import { getLocationsInformation } from '../../redux/locationsSlice';
 import PipelineParams from '../../components/PipelineParams/PipelineParams';
+import AnglesDesigner from '../../components/AnglesDesigner/AnglesDesigner';
 
 const Designer = () => {
   const { currentProject, weatherData, currentLocation } = useAppSelector(
@@ -77,6 +78,7 @@ const Designer = () => {
               <div className='flex gap-8'>
                 <ZoneInformation handleOpen={handleOpen} />
                 <PipelineParams />
+                <AnglesDesigner />
                 <DesignerForm />
               </div>
               <DataInspectorGraph

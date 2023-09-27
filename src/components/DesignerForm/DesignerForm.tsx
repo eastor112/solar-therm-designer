@@ -1,23 +1,17 @@
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import { TextField, Typography } from '@mui/material';
+import { Button, TextField, Typography } from '@mui/material';
 import { generalStyles } from '../../styles/general';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { FocusEvent } from 'react';
-import { useNavigate } from 'react-router-dom';
 import {
   setManifoldLength,
   setPipeNumber,
-  setPipeType,
   setVolumen,
 } from '../../redux/locationsSlice';
+import { useNavigate } from 'react-router-dom';
 
 const DesignerForm = () => {
-  const { volumen, manifoldLength, pipeNumber, pipeType } = useAppSelector(
+  const { volumen, manifoldLength, pipeNumber } = useAppSelector(
     state => state.locations
   );
   const dispatch = useAppDispatch();
@@ -38,20 +32,8 @@ const DesignerForm = () => {
       <Typography variant='h3' sx={generalStyles.h3}>
         Parámetros de diseño
       </Typography>
-      <Box sx={{ display: 'flex', gap: 4, mb: 4 }}>
+      <Box sx={{ display: 'flex', gap: 4 }}>
         <div className='flex flex-col flex-1 gap-7'>
-          <TextField
-            type='number'
-            id='volumen'
-            label='Volumen'
-            variant='outlined'
-            name='volumen'
-            value={volumen || 0}
-            onChange={val => {
-              dispatch(setVolumen(+val.target.value));
-            }}
-            onFocus={selectOnFocus}
-          />
           <TextField
             type='number'
             id='manifoldLength'
@@ -64,11 +46,21 @@ const DesignerForm = () => {
             }}
             onFocus={selectOnFocus}
           />
-        </div>
-        <Box sx={{ display: 'flex', flex: 1, flexDirection: 'column', gap: 4 }}>
           <TextField
             type='number'
-            id='pipe-number'
+            id='pipeline_separation'
+            label='Separación tubos'
+            variant='outlined'
+            name='pipeline_separation'
+            value={manifoldLength || 0}
+            onChange={val => {
+              dispatch(setManifoldLength(+val.target.value));
+            }}
+            onFocus={selectOnFocus}
+          />
+          <TextField
+            type='number'
+            id='pipeNumber'
             label='Número de tubos'
             variant='outlined'
             name='pipeNumber'
@@ -78,38 +70,36 @@ const DesignerForm = () => {
             }}
             onFocus={selectOnFocus}
           />
-          <FormControl sx={{ display: 'flex' }}>
-            <InputLabel id='pipe-type-label'>Tipo de tubería</InputLabel>
-            <Select
-              type='number'
-              labelId='pipe-type-label'
-              id='pipe-type'
-              value={pipeType || 0}
-              label='Tipo de tubería'
-              sx={{
-                width: '100%',
-              }}
-              onChange={value => {
-                dispatch(setPipeType(value.target.value as number));
-              }}
+        </div>
+        <Box sx={{ display: 'flex', flex: 1, flexDirection: 'column', gap: 4 }}>
+          <TextField
+            type='number'
+            id='volumen'
+            label='Volumen'
+            variant='outlined'
+            name='volumen'
+            value={volumen || 0}
+            onChange={val => {
+              dispatch(setVolumen(+val.target.value));
+            }}
+            onFocus={selectOnFocus}
+          />
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              width: '100%',
+            }}
+          >
+            <Button
+              onClick={handleCalcular}
+              variant='contained'
+              sx={{ px: 10 }}
             >
-              <MenuItem value={0}>Tipo 1</MenuItem>
-              <MenuItem value={1}>Tipo 2</MenuItem>
-              <MenuItem value={2}>Tipo 3</MenuItem>
-            </Select>
-          </FormControl>
+              CALCULAR
+            </Button>
+          </Box>
         </Box>
-      </Box>
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          width: '100%',
-        }}
-      >
-        <Button onClick={handleCalcular} variant='contained' sx={{ px: 10 }}>
-          CALCULAR
-        </Button>
       </Box>
     </Box>
   );

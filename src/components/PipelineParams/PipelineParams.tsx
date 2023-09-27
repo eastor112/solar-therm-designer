@@ -67,7 +67,7 @@ const PipelineParams = () => {
                 fullWidth
                 value={0}
               >
-                <MenuItem value={0}>Personalizada</MenuItem>
+                <MenuItem value={0}>Personalizado</MenuItem>
               </Select>
             </Box>
             <Box sx={{ fontSize: 14 }}>
@@ -77,6 +77,17 @@ const PipelineParams = () => {
             </Box>
           </FormControl>
 
+          <TextField
+            type='number'
+            id='pipeline_length'
+            label='Longitud (m)'
+            variant='outlined'
+            name='pipeline_length'
+            sx={{
+              width: '100%',
+            }}
+          />
+
           <Box
             sx={{
               display: 'flex',
@@ -85,12 +96,16 @@ const PipelineParams = () => {
             }}
           >
             <Box className='font-bold'>
-              d<span className='text-xs'>int</span>:
-              <span className='font-normal ml-1'>{diameters[0]} mm</span>
+              D<span className='text-xs'>int</span>:
+              <span className='font-normal ml-1'>
+                {diameters[0].toFixed(2)} mm
+              </span>
             </Box>
             <Box className='font-bold'>
-              d<span className='text-xs'>ext</span>:
-              <span className='font-normal ml-1'>{diameters[1]} mm</span>
+              D<span className='text-xs'>ext</span>:
+              <span className='font-normal ml-1'>
+                {diameters[1].toFixed(2)} mm
+              </span>
             </Box>
           </Box>
 
@@ -101,20 +116,8 @@ const PipelineParams = () => {
             valueLabelDisplay='auto'
             getAriaValueText={valuetext}
             disableSwap
+            step={0.01}
           />
-
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-            <TextField
-              type='number'
-              id='pipeline_length'
-              label='Longitud (m)'
-              variant='outlined'
-              name='pipeline_length'
-              sx={{
-                width: '100%',
-              }}
-            />
-          </Box>
         </Box>
       </Box>
     </Box>

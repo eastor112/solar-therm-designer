@@ -4,6 +4,7 @@ export interface ILocation {
   country: string;
   lat: number;
   lng: number;
+  altitude: number;
   is_calculated: boolean;
   created_at: string;
   updated_at: string;
