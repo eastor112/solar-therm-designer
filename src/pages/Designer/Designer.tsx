@@ -9,6 +9,7 @@ import Modal from '@mui/material/Modal';
 import ModalChangePlace from '../../components/Modal/ModalChangePlace';
 import ModalDatepicker from '../../components/Modal/ModalDatepicker';
 import { getLocationsInformation } from '../../redux/locationsSlice';
+import PipelineParams from '../../components/PipelineParams/PipelineParams';
 
 const Designer = () => {
   const { currentProject, weatherData, currentLocation } = useAppSelector(
@@ -75,6 +76,7 @@ const Designer = () => {
               </h3>
               <div className='flex gap-8'>
                 <ZoneInformation handleOpen={handleOpen} />
+                <PipelineParams />
                 <DesignerForm />
               </div>
               <DataInspectorGraph
