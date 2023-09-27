@@ -84,6 +84,18 @@ const DesignerForm = () => {
             }}
             onFocus={selectOnFocus}
           />
+          <TextField
+            type='number'
+            id='granularity'
+            label='Granularidad'
+            variant='outlined'
+            name='granularity'
+            // defaultValue={12}
+            onChange={_val => {
+              // dispatch(setPipeNumber(+val.target.value));
+            }}
+            onFocus={selectOnFocus}
+          />
           <Box
             sx={{
               display: 'flex',
