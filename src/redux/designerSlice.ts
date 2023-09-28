@@ -1,4 +1,31 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { calculateParamService, createParamsService } from '../services/paramsServices';
+import { IParams, IParamsBody } from '../types/paramsTypes';
+import { createPipelineService } from '../services/pipelineServices';
+import { IPipeline, IPipelineBody } from '../types/pipelinesTypes';
+
+export const createPipeline = createAsyncThunk(
+  'designer/createPipeline',
+  async (body: IPipelineBody) => {
+    const pipeline = await createPipelineService(body)
+    return pipeline;
+  })
+
+export const createParam = createAsyncThunk(
+  'designer/createParam',
+  async (body: IParamsBody) => {
+    const param = await createParamsService(body);
+    return param;
+  }
+);
+
+export const calculateParam = createAsyncThunk(
+  'designer/calculateParam',
+  async (paramID: number) => {
+    const param = await calculateParamService(paramID);
+    return param;
+  }
+);
 
 interface IDesignerState {
   data: any;
@@ -12,7 +39,9 @@ interface IDesignerState {
   granularity: number,
   pipelineSeparation: number,
   inclination: number,
-  azimuth: number
+  azimuth: number,
+  currentParams: IParams | null,
+  currentPipeline: IPipeline | null
 }
 
 const initialState: IDesignerState = {
@@ -24,7 +53,9 @@ const initialState: IDesignerState = {
   granularity: 12,
   pipelineSeparation: 0.2,
   inclination: 30,
-  azimuth: 150
+  azimuth: 150,
+  currentParams: null,
+  currentPipeline: null
 };
 
 export const designerSlice = createSlice({
@@ -67,6 +98,15 @@ export const designerSlice = createSlice({
     setAzimuth: (state, action: PayloadAction<number>) => {
       state.azimuth = action.payload;
     }
+  },
+  extraReducers: builder => {
+    builder
+      .addCase(createParam.fulfilled, (state, action) => {
+        state.currentParams = action.payload;
+      })
+      .addCase(createPipeline.fulfilled, (state, action) => {
+        state.data = action.payload;
+      })
   },
 });
 

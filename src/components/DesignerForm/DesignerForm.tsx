@@ -25,7 +25,7 @@ const DesignerForm = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const handleCalcular = () => {
+  const handleCompute = () => {
     navigate('/dashboard/results');
   };
 
@@ -111,11 +111,7 @@ const DesignerForm = () => {
               width: '100%',
             }}
           >
-            <Button
-              onClick={handleCalcular}
-              variant='contained'
-              sx={{ px: 10 }}
-            >
+            <Button onClick={handleCompute} variant='contained' sx={{ px: 10 }}>
               CALCULAR
             </Button>
           </Box>

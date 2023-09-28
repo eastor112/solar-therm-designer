@@ -2,7 +2,7 @@ import envVars from '../configs';
 import { IPipeline, IPipelineBody } from '../types/pipelinesTypes';
 
 
-export const createPipeline = async (
+export const createPipelineService = async (
   body: IPipelineBody
 ) => {
   const bodyCopy = { ...body }

@@ -1,12 +1,13 @@
 import envVars from '../configs';
 import { IParams, IParamsBody } from '../types/paramsTypes';
+import { ICalculationResponse } from '../types/registersTypes';
 
 export const getAllParamsService = async () => {
   const response = await fetch(`${envVars.API_HOST}/theoretical`);
   return response.json() as Promise<IParams[]>;
 };
 
-export const getParamsService = async (id: number) => {
+export const getParamService = async (id: number) => {
   const response = await fetch(`${envVars.API_HOST}/theoretical/${id}`);
   return response.json() as Promise<IParams>;
 };
@@ -22,4 +23,10 @@ export const createParamsService = async (body: IParamsBody) => {
   });
 
   return response.json() as Promise<IParams>;
+};
+
+
+export const calculateParamService = async (paramID: number | string) => {
+  const response = await fetch(`${envVars.API_HOST}/theoretical/calculate/params/${paramID}`);
+  return response.json() as Promise<ICalculationResponse>;
 };

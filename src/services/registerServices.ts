@@ -1,7 +1,7 @@
 import envVars from "../configs";
-import { ICalculationResponse } from "../types/registersTypes";
+import { IRegister } from "../types/registersTypes";
 
-export const getAllParamsService = async (paramID: number | string) => {
-  const response = await fetch(`${envVars.API_HOST}/theoretical/calculate/params/${paramID}`);
-  return response.json() as Promise<ICalculationResponse>;
+export const getAllRegistersParamService = async (paramID: number | string) => {
+  const response = await fetch(`${envVars.API_HOST}/register/${paramID}`);
+  return response.json() as Promise<IRegister[]>;
 };
