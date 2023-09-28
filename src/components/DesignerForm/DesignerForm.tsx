@@ -9,11 +9,19 @@ import {
   setVolumen,
 } from '../../redux/locationsSlice';
 import { useNavigate } from 'react-router-dom';
+import {
+  setGranularity,
+  setPipelineSeparation,
+} from '../../redux/designerSlice';
 
 const DesignerForm = () => {
   const { volumen, manifoldLength, pipeNumber } = useAppSelector(
     state => state.locations
   );
+  const { granularity, pipelineSeparation } = useAppSelector(
+    state => state.designer
+  );
+
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -37,7 +45,7 @@ const DesignerForm = () => {
           <TextField
             type='number'
             id='manifoldLength'
-            label='Longitud de Manifold'
+            label='Longitud de Manifold (m)'
             variant='outlined'
             name='manifoldLength'
             value={manifoldLength || 0}
@@ -49,19 +57,19 @@ const DesignerForm = () => {
           <TextField
             type='number'
             id='pipeline_separation'
-            label='Separación tubos'
+            label='Separación tubos (m)'
             variant='outlined'
             name='pipeline_separation'
-            value={manifoldLength || 0}
+            value={pipelineSeparation || 0}
             onChange={val => {
-              dispatch(setManifoldLength(+val.target.value));
+              dispatch(setPipelineSeparation(+val.target.value));
             }}
             onFocus={selectOnFocus}
           />
           <TextField
             type='number'
             id='pipeNumber'
-            label='Número de tubos'
+            label='Número de tubos (u)'
             variant='outlined'
             name='pipeNumber'
             value={pipeNumber || 0}
@@ -75,7 +83,7 @@ const DesignerForm = () => {
           <TextField
             type='number'
             id='volumen'
-            label='Volumen'
+            label='Volumen (m3)'
             variant='outlined'
             name='volumen'
             value={volumen || 0}
@@ -87,12 +95,12 @@ const DesignerForm = () => {
           <TextField
             type='number'
             id='granularity'
-            label='Granularidad'
+            label='Granularidad (u)'
             variant='outlined'
             name='granularity'
-            // defaultValue={12}
-            onChange={_val => {
-              // dispatch(setPipeNumber(+val.target.value));
+            value={granularity || 0}
+            onChange={val => {
+              dispatch(setGranularity(+val.target.value));
             }}
             onFocus={selectOnFocus}
           />
