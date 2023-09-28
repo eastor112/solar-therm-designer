@@ -1,11 +1,18 @@
 import { Box, Typography } from '@mui/material';
 import { generalStyles } from '../../styles/general/index';
 import CircularSlider from 'react-circular-slider-svg';
-import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useAppSelector } from '../../hooks/reduxHooks';
+import { setAzimuth, setInclination } from '../../redux/designerSlice';
 
 const AnglesDesigner = () => {
-  const [azimuth, setAzimuth] = useState(20);
-  const [inclination, setInclination] = useState(20);
+  const dispatch = useDispatch();
+  const { azimuth, inclination } = useAppSelector(state => state.designer);
+
+  const handleOnAzimuthChange = (v: number) => dispatch(setAzimuth(v));
+
+  const handleInclinationChange = (v: number) => dispatch(setInclination(v));
+
   return (
     <Box
       sx={{
@@ -74,7 +81,7 @@ const AnglesDesigner = () => {
               }}
               handle1={{
                 value: inclination,
-                onChange: v => setInclination(v),
+                onChange: handleInclinationChange,
               }}
               arcColor='url(#arcProgress)'
               arcBackgroundColor='url(#arcBg)'
@@ -122,7 +129,7 @@ const AnglesDesigner = () => {
               }}
               handle1={{
                 value: azimuth,
-                onChange: v => setAzimuth(v),
+                onChange: handleOnAzimuthChange,
               }}
               arcColor='url(#arcProgress)'
               arcBackgroundColor='url(#arcBg)'

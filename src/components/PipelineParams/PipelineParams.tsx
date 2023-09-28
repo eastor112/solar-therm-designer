@@ -3,18 +3,27 @@ import Typography from '@mui/material/Typography';
 import { generalStyles } from '../../styles/general';
 import TextField from '@mui/material/TextField';
 import Slider from '@mui/material/Slider';
-import { useState } from 'react';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { Link as LinkRouter } from 'react-router-dom';
 import Link from '@mui/material/Link';
+import { useAppSelector } from '../../hooks/reduxHooks';
+import { useDispatch } from 'react-redux';
+import {
+  setExternalDiameter,
+  setInternalDiameter,
+  setPipelineLength,
+} from '../../redux/designerSlice';
+
+const minDistance = 1;
 
 const PipelineParams = () => {
-  const [diameters, setDiameters] = useState<number[]>([20, 37]);
-
-  const minDistance = 1;
+  const dispatch = useDispatch();
+  const { externalDiameter, internalDiameter, pipelineLength } = useAppSelector(
+    state => state.designer
+  );
 
   const handleDiameters = (
     _event: Event,
@@ -24,17 +33,19 @@ const PipelineParams = () => {
     if (!Array.isArray(newValue)) {
       return;
     }
-
     if (newValue[1] - newValue[0] < minDistance) {
       if (activeThumb === 0) {
         const clamped = Math.min(newValue[0], 100 - minDistance);
-        setDiameters([clamped, clamped + minDistance]);
+        dispatch(setInternalDiameter(clamped));
+        dispatch(setExternalDiameter(clamped + minDistance));
       } else {
         const clamped = Math.max(newValue[1], minDistance);
-        setDiameters([clamped - minDistance, clamped]);
+        dispatch(setInternalDiameter(clamped - minDistance));
+        dispatch(setExternalDiameter(clamped));
       }
     } else {
-      setDiameters(newValue as number[]);
+      dispatch(setInternalDiameter(newValue[0]));
+      dispatch(setExternalDiameter(newValue[1]));
     }
   };
 
@@ -86,6 +97,11 @@ const PipelineParams = () => {
             sx={{
               width: '100%',
             }}
+            value={pipelineLength}
+            onChange={e => {
+              let newValue = +e.target.value;
+              dispatch(setPipelineLength(newValue));
+            }}
           />
 
           <Box
@@ -98,20 +114,20 @@ const PipelineParams = () => {
             <Box className='font-bold'>
               D<span className='text-xs'>int</span>:
               <span className='font-normal ml-1'>
-                {diameters[0].toFixed(2)} mm
+                {internalDiameter.toFixed(2)} mm
               </span>
             </Box>
             <Box className='font-bold'>
               D<span className='text-xs'>ext</span>:
               <span className='font-normal ml-1'>
-                {diameters[1].toFixed(2)} mm
+                {externalDiameter.toFixed(2)} mm
               </span>
             </Box>
           </Box>
 
           <Slider
             getAriaLabel={() => 'Minimum distance shift'}
-            value={diameters}
+            value={[internalDiameter, externalDiameter]}
             onChange={handleDiameters}
             valueLabelDisplay='auto'
             getAriaValueText={valuetext}
