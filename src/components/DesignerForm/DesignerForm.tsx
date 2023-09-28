@@ -10,6 +10,7 @@ import {
 } from '../../redux/locationsSlice';
 import { useNavigate } from 'react-router-dom';
 import {
+  computeResults,
   setGranularity,
   setPipelineSeparation,
 } from '../../redux/designerSlice';
@@ -18,14 +19,15 @@ const DesignerForm = () => {
   const { volumen, manifoldLength, pipeNumber } = useAppSelector(
     state => state.locations
   );
-  const { granularity, pipelineSeparation } = useAppSelector(
+  const { granularity, pipelineSeparation, isLoading } = useAppSelector(
     state => state.designer
   );
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const handleCompute = () => {
+  const handleCompute = async () => {
+    dispatch(computeResults());
     navigate('/dashboard/results');
   };
 
@@ -111,7 +113,12 @@ const DesignerForm = () => {
               width: '100%',
             }}
           >
-            <Button onClick={handleCompute} variant='contained' sx={{ px: 10 }}>
+            <Button
+              onClick={handleCompute}
+              variant='contained'
+              sx={{ px: 10 }}
+              disabled={isLoading}
+            >
               CALCULAR
             </Button>
           </Box>

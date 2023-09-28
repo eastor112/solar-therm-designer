@@ -2,13 +2,52 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { calculateParamService, createParamsService } from '../services/paramsServices';
 import { IParams, IParamsBody } from '../types/paramsTypes';
 import { createPipelineService } from '../services/pipelineServices';
-import { IPipeline, IPipelineBody } from '../types/pipelinesTypes';
+import { IPipeline } from '../types/pipelinesTypes';
+import { RootState } from './store';
+import { IRegister } from '../types/registersTypes';
+import { getAllRegistersParamService } from '../services/registerServices';
 
-export const createPipeline = createAsyncThunk(
+export const computeResults = createAsyncThunk(
   'designer/createPipeline',
-  async (body: IPipelineBody) => {
-    const pipeline = await createPipelineService(body)
-    return pipeline;
+  async (_, { getState, dispatch }) => {
+
+    const state = getState() as RootState
+    const {
+      externalDiameter,
+      internalDiameter,
+      pipelineLength,
+      pipelineSeparation,
+      granularity,
+      azimuth,
+      inclination
+    } = state.designer
+
+    const { currentLocation } = state.locations
+
+    const pipeline = await createPipelineService({
+      external_diameter: externalDiameter / 1000,
+      internal_diameter: internalDiameter / 1000,
+      length: pipelineLength
+    })
+
+    dispatch(setCurrentPipeline(pipeline))
+
+    const param = await createParamsService({
+      inclination_deg: inclination,
+      azimuth_deg: azimuth,
+      granularity,
+      pipeline_separation: pipelineSeparation,
+      location_id: currentLocation!.id,
+      pipeline_id: pipeline.id
+    })
+
+    await calculateParamService(param.id)
+    dispatch(setCurrentParam(param))
+
+    const registers = await getAllRegistersParamService(param.id)
+    dispatch(setCurrentRegister(registers))
+
+    return registers;
   })
 
 export const createParam = createAsyncThunk(
@@ -27,6 +66,8 @@ export const calculateParam = createAsyncThunk(
   }
 );
 
+
+
 interface IDesignerState {
   data: any;
   city?: string;
@@ -40,8 +81,10 @@ interface IDesignerState {
   pipelineSeparation: number,
   inclination: number,
   azimuth: number,
-  currentParams: IParams | null,
-  currentPipeline: IPipeline | null
+  currentParam: IParams | null,
+  currentPipeline: IPipeline | null,
+  currentRegister: IRegister[],
+  isLoading: boolean,
 }
 
 const initialState: IDesignerState = {
@@ -54,8 +97,10 @@ const initialState: IDesignerState = {
   pipelineSeparation: 0.2,
   inclination: 30,
   azimuth: 150,
-  currentParams: null,
-  currentPipeline: null
+  currentParam: null,
+  currentPipeline: null,
+  currentRegister: [],
+  isLoading: false,
 };
 
 export const designerSlice = createSlice({
@@ -97,15 +142,28 @@ export const designerSlice = createSlice({
     },
     setAzimuth: (state, action: PayloadAction<number>) => {
       state.azimuth = action.payload;
+    },
+    setCurrentParam: (state, action: PayloadAction<IParams>) => {
+      state.currentParam = action.payload;
+    },
+    setCurrentPipeline: (state, action: PayloadAction<IPipeline>) => {
+      state.currentPipeline = action.payload;
+    },
+    setCurrentRegister: (state, action: PayloadAction<IRegister[]>) => {
+      state.currentRegister = action.payload;
     }
   },
   extraReducers: builder => {
     builder
       .addCase(createParam.fulfilled, (state, action) => {
-        state.currentParams = action.payload;
+        state.currentParam = action.payload;
       })
-      .addCase(createPipeline.fulfilled, (state, action) => {
-        state.data = action.payload;
+      .addCase(calculateParam.pending, (state, _action) => {
+        state.isLoading = true;
+      })
+      .addCase(computeResults.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.currentRegister = action.payload;
       })
   },
 });
@@ -122,7 +180,10 @@ export const {
   setGranularity,
   setPipelineSeparation,
   setInclination,
-  setAzimuth
+  setAzimuth,
+  setCurrentParam,
+  setCurrentPipeline,
+  setCurrentRegister
 } = designerSlice.actions;
 
 export default designerSlice.reducer;

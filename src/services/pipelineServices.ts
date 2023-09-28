@@ -17,7 +17,7 @@ export const createPipelineService = async (
       'Content-Type': 'application/json',
       Authorization: `Bearer ${localStorage.getItem('token')}`,
     },
-    body: JSON.stringify(body),
+    body: JSON.stringify(bodyCopy),
   });
 
   return response.json() as Promise<IPipeline>;

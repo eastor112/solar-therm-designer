@@ -25,7 +25,6 @@ export const createParamsService = async (body: IParamsBody) => {
   return response.json() as Promise<IParams>;
 };
 
-
 export const calculateParamService = async (paramID: number | string) => {
   const response = await fetch(`${envVars.API_HOST}/theoretical/calculate/params/${paramID}`);
   return response.json() as Promise<ICalculationResponse>;
