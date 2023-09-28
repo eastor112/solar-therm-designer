@@ -10,6 +10,7 @@ import CustomLineChart from '../../components/Graphs/LineChart';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { capitalize } from '../../utils/textTransformations';
 import { setDataType, setReturnRoute } from '../../redux/designerSlice';
+import Resume from '../../components/Resumen/Resume';
 
 const Results = () => {
   const dispatch = useAppDispatch();
@@ -88,63 +89,71 @@ const Results = () => {
             }}
           />
         </BottomNavigation>
+        <Box
+          sx={{
+            display: 'flex',
+          }}
+        >
+          <Box sx={{ mt: '20px', flex: 1 }}>
+            {data.length > 0 ||
+              (currentRegister.length > 0 && (
+                <>
+                  {chart === 'annualEnergy' && (
+                    <CustomLineChart
+                      data={currentRegister}
+                      title={'Enegía teórica anual en ' + capitalize(city)}
+                      columns={['energy']}
+                      domain={[0.4, 0.8]}
+                      size='medium'
+                      dataKey='day'
+                      date={date ? date : undefined}
+                      units='[KW-h]'
+                      interval={14}
+                    />
+                  )}
 
-        <Box sx={{ mt: '20px' }}>
-          {data.length > 0 ||
-            (currentRegister.length > 0 && (
-              <>
-                {chart === 'annualEnergy' && (
-                  <CustomLineChart
-                    data={currentRegister}
-                    title={'Enegía teórica anual en ' + capitalize(city)}
-                    columns={['energy']}
-                    domain={[0.4, 0.8]}
-                    size='medium'
-                    dataKey='day'
-                    date={date ? date : undefined}
-                    units='[KW-h]'
-                    interval={14}
-                  />
-                )}
+                  {chart === 'efficiency' && (
+                    <CustomLineChart
+                      data={data}
+                      title={
+                        'Eficiencia vs Tiempo. Ciudad de ' + capitalize(city)
+                      }
+                      columns={['Dhi', 'Dni', 'Ghi']}
+                      domain={[0, 1000]}
+                      size='medium'
+                      dataKey='date'
+                    />
+                  )}
 
-                {chart === 'efficiency' && (
-                  <CustomLineChart
-                    data={data}
-                    title={
-                      'Eficiencia vs Tiempo. Ciudad de ' + capitalize(city)
-                    }
-                    columns={['Dhi', 'Dni', 'Ghi']}
-                    domain={[0, 1000]}
-                    size='medium'
-                    dataKey='date'
-                  />
-                )}
-
-                {chart === 'power' && (
-                  <CustomLineChart
-                    data={data}
-                    title={'Potencia vs Tiempo. Ciudad de ' + capitalize(city)}
-                    columns={['AirTemp']}
-                    domain={[0, 40]}
-                    size='medium'
-                    dataKey='date'
-                  />
-                )}
-                {chart === 'energy' && (
-                  <CustomLineChart
-                    data={data}
-                    title={
-                      'Energía acumulada vs Tiempo. Ciudad de ' +
-                      capitalize(city)
-                    }
-                    columns={['WindSpeed10m']}
-                    domain={[0, 8]}
-                    size='medium'
-                    dataKey='date'
-                  />
-                )}
-              </>
-            ))}
+                  {chart === 'power' && (
+                    <CustomLineChart
+                      data={data}
+                      title={
+                        'Potencia vs Tiempo. Ciudad de ' + capitalize(city)
+                      }
+                      columns={['AirTemp']}
+                      domain={[0, 40]}
+                      size='medium'
+                      dataKey='date'
+                    />
+                  )}
+                  {chart === 'energy' && (
+                    <CustomLineChart
+                      data={data}
+                      title={
+                        'Energía acumulada vs Tiempo. Ciudad de ' +
+                        capitalize(city)
+                      }
+                      columns={['WindSpeed10m']}
+                      domain={[0, 8]}
+                      size='medium'
+                      dataKey='date'
+                    />
+                  )}
+                </>
+              ))}
+          </Box>
+          <Resume />
         </Box>
         <Box
           sx={{

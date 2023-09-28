@@ -3,7 +3,7 @@ import { getLocations } from '../services/locationServices';
 import { RootState } from './store';
 import { getWeatherDataService } from '../services/weatherServices';
 import { storageKeys } from '../types/general';
-import { convertDateToIso } from '../utils/datesUtils';
+import dayjs from '../utils/datesUtils';
 import { setOpenModal } from './UISlice';
 import {
   ILocation,
@@ -86,13 +86,17 @@ export const updateProject = createAsyncThunk(
     const { closeOnFinish } = params;
     const { locations } = getState() as RootState;
 
+    const safeDate = locations.date ?
+      dayjs(locations.date, 'DD-MM-YYYY').format('YYYY-MM-DD')
+      : undefined;
+
     const payload: IPayloadUpdateProject = {
       name: locations.currentProject?.name,
       pipeline_number: locations.pipeNumber || undefined,
       pipeline_type: locations.pipeType || undefined,
       volumen: locations.volumen || undefined,
       manifold: locations.manifoldLength || undefined,
-      date: convertDateToIso(locations.date) || undefined,
+      date: safeDate,
       location_id: locations.currentLocation?.id || undefined,
     };
 
@@ -215,7 +219,7 @@ export const locationsSlice = createSlice({
           pipeline_type !== state.pipeType ||
           volumen !== state.volumen ||
           manifold !== state.manifoldLength ||
-          date !== convertDateToIso(state.date) ||
+          date !== state.date ||
           location?.id !== state.currentLocation?.id
         ) {
           state.thereAreChanges = true;
