@@ -1,5 +1,9 @@
 import { Box } from '@mui/material';
 import { useAppSelector } from '../../hooks/reduxHooks';
+import {
+  calculateAnnualEnergyTotal,
+  findMinMaxEnergy,
+} from '../../utils/energyUtils';
 
 const Resume = () => {
   const {
@@ -10,17 +14,27 @@ const Resume = () => {
     pipelineSeparation,
     inclination,
     azimuth,
+    currentRegister,
   } = useAppSelector(state => state.designer);
-  const { currentLocation, date, manifoldLength } = useAppSelector(
+  const { currentLocation, date, manifoldLength, volumen } = useAppSelector(
     state => state.locations
   );
+  const minMax = findMinMaxEnergy(currentRegister);
   return (
-    <Box
-      sx={{
-        width: '220px',
-      }}
-    >
-      <h3 className='text-xl font-medium mt-7'>Resumen</h3>
+    <Box className='bg-white p-4 rounded-lg shadow-md w-60'>
+      <h3 className='text-xl font-medium mt-4 mb-2'>Resumen</h3>
+      <p className='text-sm'>
+        <span className='font-medium'>Energía anual:</span>{' '}
+        {calculateAnnualEnergyTotal(currentRegister).toFixed(2)} KW-h
+      </p>
+      <p className='text-sm'>
+        <span className='font-medium'>Energía mínima:</span>{' '}
+        {minMax.min?.toFixed(2)} KW-h
+      </p>
+      <p className='text-sm'>
+        <span className='font-medium'>Energía máxima:</span>{' '}
+        {minMax.max?.toFixed(2)} KW-h
+      </p>
       <ul className='my-2'>
         <li className='text-sm'>
           <span className='font-medium mr-1'>Ubicación:</span>{' '}
@@ -78,7 +92,7 @@ const Resume = () => {
         </li>
         <li className='text-sm'>
           <span className='font-medium mr-1'>Volumen:</span>{' '}
-          {azimuth.toFixed(2)}°
+          {volumen?.toFixed(2)} m3
         </li>
       </ul>
     </Box>

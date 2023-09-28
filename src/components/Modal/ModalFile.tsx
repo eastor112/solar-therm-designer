@@ -6,6 +6,7 @@ import { setOpenModal } from '../../redux/UISlice';
 import { getShortName } from '../../utils/textTransformations';
 import { formatDate, getRelativeDate } from '../../utils/datesUtils';
 import { openProject } from '../../redux/locationsSlice';
+import { useNavigate } from 'react-router-dom';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -20,6 +21,7 @@ const style = {
 };
 
 const ModalFile = () => {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { previewProject, currentProject } = useAppSelector(
     state => state.locations
@@ -31,6 +33,7 @@ const ModalFile = () => {
 
   const handleOpenProject = () => {
     if (previewProject) {
+      navigate('/dashboard/designer');
       dispatch(openProject(previewProject));
     }
     dispatch(setOpenModal(false));
