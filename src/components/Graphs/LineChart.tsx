@@ -9,7 +9,6 @@ import {
   Legend,
   ResponsiveContainer,
 } from 'recharts';
-import { IWeather } from '../../types/locationstypes';
 import dayjs from 'dayjs';
 import { Box, Typography } from '@mui/material';
 
@@ -31,12 +30,15 @@ const CustomizedXAxisTick = (props: any) => {
 const colors = ['#ce2929', '#231acc', '#27a22b'];
 
 interface SampleChartProps {
-  data: IWeather[];
+  data: any[];
   title?: string;
   columns: string[];
   domain: number[];
   size?: 'small' | 'medium' | 'big';
   units?: string;
+  dataKey: 'date' | 'day';
+  date?: string;
+  interval?: number;
 }
 
 const getheightSize = (value: string) => {
@@ -52,7 +54,7 @@ const getheightSize = (value: string) => {
   }
 };
 
-const CustomTooltip = ({ active, payload, label, units }: any) => {
+const CustomDateTooltip = ({ active, payload, label, units }: any) => {
   if (active && payload && payload.length) {
     const date = dayjs(label).format('DD/MM/YYYY - HH:mm');
     return (
@@ -78,16 +80,68 @@ const CustomTooltip = ({ active, payload, label, units }: any) => {
   return null;
 };
 
+const generateDateForDayOfYear = (
+  yearOrDate: string | number,
+  dayOfYear: number
+) => {
+  let year;
+  if (typeof yearOrDate === 'string') {
+    const parts = yearOrDate.split('-');
+    if (parts.length === 3) {
+      year = parseInt(parts[2], 10);
+    }
+  } else if (typeof yearOrDate === 'number') {
+    year = yearOrDate;
+  }
+
+  const startDate = dayjs(`${year}-01-01`);
+  const date = startDate.add(dayOfYear - 1, 'day');
+  return date;
+};
+
+const CustomDayTooltip = ({ active, payload, units, date }: any) => {
+  if (active && payload && payload.length) {
+    return (
+      <Box
+        sx={{
+          p: 2,
+          bgcolor: 'rgba(255,255,255,0.9)',
+          border: '1px solid #ccc',
+        }}
+      >
+        {payload.map((item: any, index: number) => (
+          <Box key={index}>
+            <Typography sx={{ textAlign: 'left', color: 'text.primary' }}>
+              Day:{' '}
+              {generateDateForDayOfYear(date, item.payload.day).format(
+                'DD/MM/YYYY'
+              )}
+            </Typography>
+            <Typography sx={{ textAlign: 'left', color: 'text.primary' }}>
+              Energía: {item.value.toFixed(2)} {units}
+            </Typography>
+          </Box>
+        ))}
+      </Box>
+    );
+  }
+
+  return null;
+};
+
 const CustomLineChart: React.FC<SampleChartProps> = ({
   data,
   title,
   columns,
   domain,
   units,
+  dataKey,
+  date,
+  interval,
   size = 'small',
 }) => {
   return (
-    <div className={`w-full h-9 text-center ${getheightSize(size)}`}>
+    <div className={`w-full h-9 my-2 text-center ${getheightSize(size)}`}>
       <h3 className='text-xl font-medium'>{title}</h3>
       <ResponsiveContainer width='100%' height='100%'>
         <LineChart
@@ -102,10 +156,22 @@ const CustomLineChart: React.FC<SampleChartProps> = ({
           }}
         >
           <CartesianGrid strokeDasharray='2 2' />
-          <XAxis dataKey='date' tick={<CustomizedXAxisTick />} />
+          <XAxis
+            dataKey={dataKey}
+            tick={dataKey === 'date' ? <CustomizedXAxisTick /> : undefined}
+            interval={interval}
+          />
           <YAxis domain={domain} />
-          <Tooltip content={<CustomTooltip units={units} />} />
-          <Legend />
+          <Tooltip
+            content={
+              dataKey === 'date' ? (
+                <CustomDateTooltip units={units} />
+              ) : (
+                <CustomDayTooltip units={units} date={date} />
+              )
+            }
+          />
+          <Legend layout='vertical' />
 
           {columns.map((col, index) => (
             <Line

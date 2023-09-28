@@ -73,7 +73,8 @@ const DataInspectorGraph: React.FC<DataGraphProps> = ({
                       }
                       columns={['dhi', 'dni', 'ghi']}
                       domain={[0, 1000]}
-                      units='W/m2'
+                      units='[W/m2]'
+                      dataKey='date'
                     />
                   )}
 
@@ -86,7 +87,8 @@ const DataInspectorGraph: React.FC<DataGraphProps> = ({
                       }
                       columns={['temperature']}
                       domain={[0, 40]}
-                      units='°C'
+                      units='[°C]'
+                      dataKey='date'
                     />
                   )}
                   {chart === 'windSpeed' && (
@@ -98,7 +100,8 @@ const DataInspectorGraph: React.FC<DataGraphProps> = ({
                       }
                       columns={['wind_speed']}
                       domain={[0, 8]}
-                      units='m/s'
+                      units='[m/s]'
+                      dataKey='date'
                     />
                   )}
                 </>
