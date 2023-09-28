@@ -85,7 +85,7 @@ const ModalSaveChanges = () => {
             }}
             onClick={handleSave}
           >
-            Guardar
+            Aceptar
           </Button>
         </Box>
       </Box>

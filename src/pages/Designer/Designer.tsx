@@ -13,9 +13,8 @@ import PipelineParams from '../../components/PipelineParams/PipelineParams';
 import AnglesDesigner from '../../components/AnglesDesigner/AnglesDesigner';
 
 const Designer = () => {
-  const { currentProject, weatherData, currentLocation } = useAppSelector(
-    state => state.locations
-  );
+  const { currentProject, weatherData, currentLocation, locations } =
+    useAppSelector(state => state.locations);
   const dispatch = useAppDispatch();
 
   const { isSidebarOpen } = useOutletContexRoot();
@@ -26,9 +25,10 @@ const Designer = () => {
   const [modalType, setModalType] = useState<'place' | 'date'>('place');
 
   useEffect(() => {
-    dispatch(getLocationsInformation());
-    return () => {};
-  }, []);
+    if (locations.length === 0) {
+      dispatch(getLocationsInformation());
+    }
+  }, [locations]);
 
   useEffect(() => {
     setShowGraph(false);
