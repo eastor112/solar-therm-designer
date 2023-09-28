@@ -1,22 +1,24 @@
 import { useNavigate } from 'react-router-dom';
-import TableMUI from '../../components/Tables/TableMUI';
+import WeatherTable from '../../components/Tables/WeatherTable';
 import { useAppSelector } from '../../hooks/reduxHooks';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import { exportJsonToCsv } from '../../utils/exportData';
+import ResultsTable from '../../components/Tables/ResultsTable';
 
-const RawDataInspector = () => {
+const RawDataInspector = ({}) => {
   const navigate = useNavigate();
   const { weatherData, currentLocation, date } = useAppSelector(
     state => state.locations
   );
+  const { currentRegister, dataType } = useAppSelector(state => state.designer);
 
   const handleReturn = () => {
     navigate(-1);
   };
 
   const handleDownload = () => {
-    exportJsonToCsv(weatherData);
+    exportJsonToCsv(dataType === 'weather' ? weatherData : currentRegister);
   };
 
   return (
@@ -36,10 +38,15 @@ const RawDataInspector = () => {
           Exportar a csv
         </Button>
       </Box>
-      <TableMUI
-        rows={weatherData}
-        title={`Datos ciudad de ${currentLocation?.place} - ${date}`}
-      />
+      {dataType === 'weather' && (
+        <WeatherTable
+          rows={weatherData}
+          title={`Datos ciudad de ${currentLocation?.place} - ${date}`}
+        />
+      )}
+      {dataType === 'energy' && (
+        <ResultsTable rows={currentRegister} title={`Energía anual`} />
+      )}
     </Box>
   );
 };

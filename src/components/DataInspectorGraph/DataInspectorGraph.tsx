@@ -11,6 +11,8 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router-dom';
 import { IWeather } from '../../types/locationstypes';
+import { useDispatch } from 'react-redux';
+import { setDataType } from '../../redux/designerSlice';
 
 const capitalize = (value: string | null) => {
   if (!value) return '';
@@ -32,9 +34,12 @@ const DataInspectorGraph: React.FC<DataGraphProps> = ({
   handleChangeChart,
   showGraph,
 }) => {
+  const dispatch = useDispatch();
+
   const navigate = useNavigate();
 
   const handleShowRawData = () => {
+    dispatch(setDataType('weather'));
     navigate('/dashboard/inspector');
   };
 

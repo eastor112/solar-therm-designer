@@ -66,8 +66,6 @@ export const calculateParam = createAsyncThunk(
   }
 );
 
-
-
 interface IDesignerState {
   data: any;
   city?: string;
@@ -85,6 +83,7 @@ interface IDesignerState {
   currentPipeline: IPipeline | null,
   currentRegister: IRegister[],
   isLoading: boolean,
+  dataType: "weather" | "energy"
 }
 
 const initialState: IDesignerState = {
@@ -101,6 +100,7 @@ const initialState: IDesignerState = {
   currentPipeline: null,
   currentRegister: [],
   isLoading: false,
+  dataType: "weather"
 };
 
 export const designerSlice = createSlice({
@@ -151,6 +151,9 @@ export const designerSlice = createSlice({
     },
     setCurrentRegister: (state, action: PayloadAction<IRegister[]>) => {
       state.currentRegister = action.payload;
+    },
+    setDataType: (state, action: PayloadAction<"weather" | "energy">) => {
+      state.dataType = action.payload;
     }
   },
   extraReducers: builder => {
@@ -183,7 +186,8 @@ export const {
   setAzimuth,
   setCurrentParam,
   setCurrentPipeline,
-  setCurrentRegister
+  setCurrentRegister,
+  setDataType
 } = designerSlice.actions;
 
 export default designerSlice.reducer;
