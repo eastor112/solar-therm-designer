@@ -11,10 +11,12 @@ const RawDataInspector = ({}) => {
   const { weatherData, currentLocation, date } = useAppSelector(
     state => state.locations
   );
-  const { currentRegister, dataType } = useAppSelector(state => state.designer);
+  const { currentRegister, dataType, returnRoute } = useAppSelector(
+    state => state.designer
+  );
 
   const handleReturn = () => {
-    navigate(-1);
+    navigate(returnRoute);
   };
 
   const handleDownload = () => {

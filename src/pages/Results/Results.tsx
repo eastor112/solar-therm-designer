@@ -9,14 +9,14 @@ import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import CustomLineChart from '../../components/Graphs/LineChart';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { capitalize } from '../../utils/textTransformations';
-import { setDataType } from '../../redux/designerSlice';
+import { setDataType, setReturnRoute } from '../../redux/designerSlice';
 
 const Results = () => {
+  const dispatch = useAppDispatch();
+  const { date } = useAppSelector(state => state.locations);
   const { data, city, currentRegister } = useAppSelector(
     state => state.designer
   );
-  const dispatch = useAppDispatch();
-  const { date } = useAppSelector(state => state.locations);
 
   const [chart, setChart] = useState('annualEnergy');
 
@@ -166,7 +166,10 @@ const Results = () => {
             component={LinkRouter}
             variant='contained'
             to='/dashboard/inspector'
-            onClick={() => dispatch(setDataType('energy'))}
+            onClick={() => {
+              dispatch(setDataType('energy'));
+              dispatch(setReturnRoute('/dashboard/results'));
+            }}
           >
             Resultados tabulados
           </Button>

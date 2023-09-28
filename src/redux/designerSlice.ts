@@ -83,7 +83,8 @@ interface IDesignerState {
   currentPipeline: IPipeline | null,
   currentRegister: IRegister[],
   isLoading: boolean,
-  dataType: "weather" | "energy"
+  dataType: "weather" | "energy",
+  returnRoute: string
 }
 
 const initialState: IDesignerState = {
@@ -100,7 +101,8 @@ const initialState: IDesignerState = {
   currentPipeline: null,
   currentRegister: [],
   isLoading: false,
-  dataType: "weather"
+  dataType: "weather",
+  returnRoute: "/dashboard/designer"
 };
 
 export const designerSlice = createSlice({
@@ -154,6 +156,9 @@ export const designerSlice = createSlice({
     },
     setDataType: (state, action: PayloadAction<"weather" | "energy">) => {
       state.dataType = action.payload;
+    },
+    setReturnRoute: (state, action: PayloadAction<string>) => {
+      state.returnRoute = action.payload;
     }
   },
   extraReducers: builder => {
@@ -187,7 +192,8 @@ export const {
   setCurrentParam,
   setCurrentPipeline,
   setCurrentRegister,
-  setDataType
+  setDataType,
+  setReturnRoute
 } = designerSlice.actions;
 
 export default designerSlice.reducer;
