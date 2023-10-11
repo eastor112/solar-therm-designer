@@ -43,7 +43,14 @@ const DesignerForm = () => {
         Parámetros de diseño
       </Typography>
       <Box sx={{ display: 'flex', gap: 4 }}>
-        <div className='flex flex-col flex-1 gap-7'>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            flex: 1,
+            gap: 4,
+          }}
+        >
           <TextField
             type='number'
             id='manifoldLength'
@@ -80,7 +87,8 @@ const DesignerForm = () => {
             }}
             onFocus={selectOnFocus}
           />
-        </div>
+        </Box>
+
         <Box sx={{ display: 'flex', flex: 1, flexDirection: 'column', gap: 4 }}>
           <TextField
             type='number'
@@ -116,7 +124,7 @@ const DesignerForm = () => {
             <Button
               onClick={handleCompute}
               variant='contained'
-              sx={{ px: 10 }}
+              sx={{ width: '100%' }}
               disabled={isLoading}
             >
               CALCULAR
