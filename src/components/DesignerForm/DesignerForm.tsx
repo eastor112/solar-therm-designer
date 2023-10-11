@@ -54,7 +54,7 @@ const DesignerForm = () => {
           <TextField
             type='number'
             id='manifoldLength'
-            label='Longitud de Manifold (m)'
+            label='Long. Manifold (m)'
             variant='outlined'
             name='manifoldLength'
             value={manifoldLength || 0}
@@ -66,7 +66,7 @@ const DesignerForm = () => {
           <TextField
             type='number'
             id='pipeline_separation'
-            label='Separación tubos (m)'
+            label='Sep. tubos (m)'
             variant='outlined'
             name='pipeline_separation'
             value={pipelineSeparation || 0}
@@ -78,7 +78,7 @@ const DesignerForm = () => {
           <TextField
             type='number'
             id='pipeNumber'
-            label='Número de tubos (u)'
+            label='Número tubos (u)'
             variant='outlined'
             name='pipeNumber'
             value={pipeNumber || 0}
