@@ -6,6 +6,7 @@ import { IPipeline } from '../types/pipelinesTypes';
 import { RootState } from './store';
 import { IRegister } from '../types/registersTypes';
 import { getAllRegistersParamService } from '../services/registerServices';
+import { registers } from './testData';
 
 export const computeResults = createAsyncThunk(
   'designer/createPipeline',
@@ -66,6 +67,13 @@ export const calculateParam = createAsyncThunk(
   }
 );
 
+export const getRegisters = createAsyncThunk(
+  'designer/getAllRegisters',
+  async (_) => {
+    return registers
+  }
+)
+
 interface IDesignerState {
   data: any;
   city?: string;
@@ -82,6 +90,7 @@ interface IDesignerState {
   currentParam: IParams | null,
   currentPipeline: IPipeline | null,
   currentRegister: IRegister[],
+  registers: IRegister[][],
   isLoading: boolean,
   dataType: "weather" | "energy",
   returnRoute: string
@@ -100,6 +109,7 @@ const initialState: IDesignerState = {
   currentParam: null,
   currentPipeline: null,
   currentRegister: [],
+  registers: [],
   isLoading: false,
   dataType: "weather",
   returnRoute: "/dashboard/designer"
@@ -159,6 +169,9 @@ export const designerSlice = createSlice({
     },
     setReturnRoute: (state, action: PayloadAction<string>) => {
       state.returnRoute = action.payload;
+    },
+    setRegisters: (state, action: PayloadAction<IRegister[][]>) => {
+      state.registers = action.payload;
     }
   },
   extraReducers: builder => {
@@ -172,6 +185,10 @@ export const designerSlice = createSlice({
       .addCase(computeResults.fulfilled, (state, action) => {
         state.isLoading = false;
         state.currentRegister = action.payload;
+      })
+      .addCase(getRegisters.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.registers = action.payload;
       })
   },
 });

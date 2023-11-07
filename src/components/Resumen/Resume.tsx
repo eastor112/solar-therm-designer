@@ -27,11 +27,11 @@ const Resume = () => {
         {calculateAnnualEnergyTotal(currentRegister).toFixed(2)} KW-h
       </p>
       <p className='text-sm'>
-        <span className='font-medium'>Energía mínima tubo:</span>{' '}
+        <span className='font-medium'>Energía mín. tubo:</span>{' '}
         {minMax.min?.toFixed(2)} KW-h
       </p>
       <p className='text-sm'>
-        <span className='font-medium'>Energía máxima tubo:</span>{' '}
+        <span className='font-medium'>Energía máx. tubo:</span>{' '}
         {minMax.max?.toFixed(2)} KW-h
       </p>
       <hr className='my-2' />
@@ -43,11 +43,11 @@ const Resume = () => {
         KW-h
       </p>
       <p className='text-sm'>
-        <span className='font-medium'>Energía mínima total:</span>{' '}
+        <span className='font-medium'>Energía mín. total:</span>{' '}
         {(minMax.min! * (pipeNumber || 1)).toFixed(2)} KW-h
       </p>
       <p className='text-sm'>
-        <span className='font-medium'>Energía máxima total:</span>{' '}
+        <span className='font-medium'>Energía máx. total:</span>{' '}
         {(minMax.max! * (pipeNumber || 1)).toFixed(2)} KW-h
       </p>
       <hr className='my-2' />

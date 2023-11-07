@@ -27,7 +27,8 @@ const DesignerForm = () => {
   const navigate = useNavigate();
 
   const handleCompute = async () => {
-    dispatch(computeResults());
+    await dispatch(computeResults());
+
     navigate('/dashboard/results');
   };
 

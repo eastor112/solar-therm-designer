@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
-import { Link as LinkRouter } from 'react-router-dom';
+import { Link as LinkRouter, useNavigate } from 'react-router-dom';
 import { generalStyles } from '../../styles/general';
 import Box from '@mui/material/Box';
 import { Typography } from '@mui/material';
@@ -18,8 +18,15 @@ const Results = () => {
   const { data, city, currentRegister } = useAppSelector(
     state => state.designer
   );
+  const navigate = useNavigate();
 
   const [chart, setChart] = useState('annualEnergy');
+
+  useEffect(() => {
+    if (currentRegister.length === 0) {
+      navigate('/dashboard/designer');
+    }
+  }, []);
 
   const handleChangeChart = (
     _event: React.SyntheticEvent,
@@ -89,99 +96,107 @@ const Results = () => {
             }}
           />
         </BottomNavigation>
+
         <Box
           sx={{
             display: 'flex',
           }}
         >
-          <Box sx={{ mt: '20px', flex: 1 }}>
-            {data.length > 0 ||
-              (currentRegister.length > 0 && (
-                <>
-                  {chart === 'annualEnergy' && (
-                    <CustomLineChart
-                      data={currentRegister}
-                      title={'Enegía teórica anual en ' + capitalize(city)}
-                      columns={['energy']}
-                      domain={[0, 0.8]}
-                      size='medium'
-                      dataKey='day'
-                      date={date ? date : undefined}
-                      units='[KW-h]'
-                      interval={14}
-                    />
-                  )}
+          <Box sx={{ flex: 1 }}>
+            {/* <EnhancedTable /> */}
 
-                  {chart === 'efficiency' && (
-                    <CustomLineChart
-                      data={data}
-                      title={
-                        'Eficiencia vs Tiempo. Ciudad de ' + capitalize(city)
-                      }
-                      columns={['Dhi', 'Dni', 'Ghi']}
-                      domain={[0, 1000]}
-                      size='medium'
-                      dataKey='date'
-                    />
-                  )}
+            <Box sx={{ mt: '20px' }}>
+              {data.length > 0 ||
+                (currentRegister.length > 0 && (
+                  <>
+                    {chart === 'annualEnergy' && (
+                      <CustomLineChart
+                        data={currentRegister}
+                        title={'Enegía teórica anual en ' + capitalize(city)}
+                        columns={['energy']}
+                        domain={[0, 0.8]}
+                        size='medium'
+                        dataKey='day'
+                        date={date ? date : undefined}
+                        units='[KW-h]'
+                        interval={14}
+                      />
+                    )}
 
-                  {chart === 'power' && (
-                    <CustomLineChart
-                      data={data}
-                      title={
-                        'Potencia vs Tiempo. Ciudad de ' + capitalize(city)
-                      }
-                      columns={['AirTemp']}
-                      domain={[0, 40]}
-                      size='medium'
-                      dataKey='date'
-                    />
-                  )}
-                  {chart === 'energy' && (
-                    <CustomLineChart
-                      data={data}
-                      title={
-                        'Energía acumulada vs Tiempo. Ciudad de ' +
-                        capitalize(city)
-                      }
-                      columns={['WindSpeed10m']}
-                      domain={[0, 8]}
-                      size='medium'
-                      dataKey='date'
-                    />
-                  )}
-                </>
-              ))}
+                    {chart === 'efficiency' && (
+                      <CustomLineChart
+                        data={data}
+                        title={
+                          'Eficiencia vs Tiempo. Ciudad de ' + capitalize(city)
+                        }
+                        columns={['Dhi', 'Dni', 'Ghi']}
+                        domain={[0, 1000]}
+                        size='medium'
+                        dataKey='date'
+                      />
+                    )}
+
+                    {chart === 'power' && (
+                      <CustomLineChart
+                        data={data}
+                        title={
+                          'Potencia vs Tiempo. Ciudad de ' + capitalize(city)
+                        }
+                        columns={['AirTemp']}
+                        domain={[0, 40]}
+                        size='medium'
+                        dataKey='date'
+                      />
+                    )}
+                    {chart === 'energy' && (
+                      <CustomLineChart
+                        data={data}
+                        title={
+                          'Energía acumulada vs Tiempo. Ciudad de ' +
+                          capitalize(city)
+                        }
+                        columns={['WindSpeed10m']}
+                        domain={[0, 8]}
+                        size='medium'
+                        dataKey='date'
+                      />
+                    )}
+                  </>
+                ))}
+            </Box>
           </Box>
-          <Resume />
-        </Box>
-        <Box
-          sx={{
-            display: 'flex',
-            gap: 2,
-            justifyContent: 'center',
-            marginTop: '40px',
-          }}
-        >
-          <Button
-            component={LinkRouter}
-            variant='contained'
-            to='/dashboard/designer'
-          >
-            Modificar parámetros
-          </Button>
-          {/* <Button variant='contained'>Generar Reporte</Button> */}
-          <Button
-            component={LinkRouter}
-            variant='contained'
-            to='/dashboard/inspector'
-            onClick={() => {
-              dispatch(setDataType('energy'));
-              dispatch(setReturnRoute('/dashboard/results'));
-            }}
-          >
-            Resultados tabulados
-          </Button>
+
+          <Box>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 2,
+                justifyContent: 'center',
+                marginTop: '40px',
+              }}
+            >
+              <Button
+                component={LinkRouter}
+                variant='contained'
+                to='/dashboard/designer'
+              >
+                Modificar parámetros
+              </Button>
+              <Button
+                component={LinkRouter}
+                variant='contained'
+                to='/dashboard/inspector'
+                onClick={() => {
+                  dispatch(setDataType('energy'));
+                  dispatch(setReturnRoute('/dashboard/results'));
+                }}
+              >
+                Resultados tabulados
+              </Button>
+            </Box>
+            <Resume />
+          </Box>
         </Box>
       </Box>
     </Box>
