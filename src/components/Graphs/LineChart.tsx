@@ -27,9 +27,9 @@ const CustomizedXAxisTick = (props: any) => {
   );
 };
 
-const colors = ['#ce2929', '#231acc', '#27a22b'];
+const colors = ['#ce2929', '#231acc', '#27a22b', '#000', '#238787'];
 
-interface SampleChartProps {
+interface CustomLineChartProps {
   data: any[];
   title?: string;
   columns: string[];
@@ -129,7 +129,7 @@ const CustomDayTooltip = ({ active, payload, units, date }: any) => {
   return null;
 };
 
-const CustomLineChart: React.FC<SampleChartProps> = ({
+const CustomLineChart: React.FC<CustomLineChartProps> = ({
   data,
   title,
   columns,

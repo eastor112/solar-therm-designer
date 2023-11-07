@@ -9,17 +9,21 @@ import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import CustomLineChart from '../../components/Graphs/LineChart';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { capitalize } from '../../utils/textTransformations';
-import { setDataType, setReturnRoute } from '../../redux/designerSlice';
+import {
+  getRegisters,
+  setDataType,
+  setReturnRoute,
+} from '../../redux/designerSlice';
 import Resume from '../../components/Resumen/Resume';
+import { extractEnergyKeys, transformData } from '../../redux/testData';
 
 const Results = () => {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { date } = useAppSelector(state => state.locations);
-  const { data, city, currentRegister } = useAppSelector(
+  const { data, city, currentRegister, registers } = useAppSelector(
     state => state.designer
   );
-  const navigate = useNavigate();
-
   const [chart, setChart] = useState('annualEnergy');
 
   useEffect(() => {
@@ -32,6 +36,9 @@ const Results = () => {
     _event: React.SyntheticEvent,
     newValue: string
   ) => {
+    if (newValue === 'annualEnergyComparison' && registers.length === 0) {
+      dispatch(getRegisters());
+    }
     setChart(newValue);
   };
 
@@ -64,9 +71,10 @@ const Results = () => {
             }}
             className='h-20'
           />
+
           <BottomNavigationAction
-            label='Eficiencia vs tiempo'
-            value='efficiency'
+            label='Eficiencia anual (Comparación)'
+            value='annualEnergyComparison'
             showLabel={true}
             sx={{
               height: '80px',
@@ -123,16 +131,18 @@ const Results = () => {
                       />
                     )}
 
-                    {chart === 'efficiency' && (
+                    {chart === 'annualEnergyComparison' && (
                       <CustomLineChart
-                        data={data}
+                        data={transformData(registers)}
                         title={
-                          'Eficiencia vs Tiempo. Ciudad de ' + capitalize(city)
+                          'Energía teórica anual con diferentes diseños. Ciudad de ' +
+                          capitalize(city)
                         }
-                        columns={['Dhi', 'Dni', 'Ghi']}
-                        domain={[0, 1000]}
+                        columns={extractEnergyKeys(registers)}
+                        domain={[0, 1.1]}
                         size='medium'
-                        dataKey='date'
+                        dataKey='day'
+                        units='[KW-h]'
                       />
                     )}
 
