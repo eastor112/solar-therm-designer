@@ -95,7 +95,7 @@ interface IDesignerState {
   inclination: number,
   azimuth: number,
   currentParam: IParams | null,
-  params: IParams[],
+  allParams: IParams[],
   currentPipeline: IPipeline | null,
   currentRegister: IRegister[],
   registers: IRegister[][],
@@ -115,7 +115,7 @@ const initialState: IDesignerState = {
   inclination: 30,
   azimuth: 150,
   currentParam: null,
-  params: [],
+  allParams: [],
   currentPipeline: null,
   currentRegister: [],
   registers: [],
@@ -201,7 +201,7 @@ export const designerSlice = createSlice({
       })
       .addCase(getAllProjectParams.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.params = action.payload;
+        state.allParams = action.payload;
       })
   },
 });

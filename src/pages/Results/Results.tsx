@@ -15,7 +15,7 @@ import {
   setReturnRoute,
 } from '../../redux/designerSlice';
 import Resume from '../../components/Resumen/Resume';
-import { extractEnergyKeys, transformData } from '../../redux/testData';
+import TheoricalComparison from '../../components/ResultsPartials/TheoricalComparison';
 
 const Results = () => {
   const navigate = useNavigate();
@@ -111,8 +111,6 @@ const Results = () => {
           }}
         >
           <Box sx={{ flex: 1 }}>
-            {/* <EnhancedTable /> */}
-
             <Box sx={{ mt: '20px' }}>
               {data.length > 0 ||
                 (currentRegister.length > 0 && (
@@ -132,19 +130,7 @@ const Results = () => {
                     )}
 
                     {chart === 'annualEnergyComparison' && (
-                      <CustomLineChart
-                        data={transformData(registers)}
-                        title={
-                          'Energía teórica anual con diferentes diseños. Ciudad de ' +
-                          capitalize(city)
-                        }
-                        columns={extractEnergyKeys(registers)}
-                        domain={[0, 1.1]}
-                        size='medium'
-                        dataKey='day'
-                        units='[KW-h]'
-                        legendDirection='horizontal'
-                      />
+                      <TheoricalComparison />
                     )}
 
                     {chart === 'power' && (

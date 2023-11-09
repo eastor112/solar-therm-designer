@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
@@ -20,46 +20,7 @@ import Switch from '@mui/material/Switch';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
-
-interface Data {
-  calories: number;
-  carbs: number;
-  fat: number;
-  name: string;
-  protein: number;
-}
-
-function createData(
-  name: string,
-  calories: number,
-  fat: number,
-  carbs: number,
-  protein: number
-): Data {
-  return {
-    name,
-    calories,
-    fat,
-    carbs,
-    protein,
-  };
-}
-
-const rows = [
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Donut', 452, 25.0, 51, 4.9),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-  createData('Honeycomb', 408, 3.2, 87, 6.5),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Jelly Bean', 375, 0.0, 94, 0.0),
-  createData('KitKat', 518, 26.0, 65, 7.0),
-  createData('Lollipop', 392, 0.2, 98, 0.0),
-  createData('Marshmallow', 318, 0, 81, 2.0),
-  createData('Nougat', 360, 19.0, 9, 37.0),
-  createData('Oreo', 437, 18.0, 63, 4.0),
-];
+import { IParams } from '../../types/paramsTypes';
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -102,74 +63,56 @@ function stableSort<T>(
 
 interface HeadCell {
   disablePadding: boolean;
-  id: keyof Data;
+  id: keyof ProcessedData;
   label: string;
   numeric: boolean;
 }
 
-// {
-//   "id": 13,
-//   "inclination_deg": 30.0,
-//   "azimuth_deg": 150.0,
-//   "granularity": 12,
-//   "pipeline_separation": 0.2,
-//   "location": {
-//       "id": 2,
-//       "place": "Trujillo",
-//       "country": "Peru",
-//       "lat": -8.12,
-//       "lng": -79.03,
-//       "altitude": 34.0,
-//       "is_calculated": false
-//   },
-//   "pipeline": {
-//       "id": 33,
-//       "name": "Pipeline-579",
-//       "external_diameter": 0.05836,
-//       "internal_diameter": 0.04302,
-//       "length": 1.8
-//   }
-// }
-
 const headCells: readonly HeadCell[] = [
   {
-    id: 'name',
+    id: 'id',
+    numeric: false,
+    disablePadding: true,
+    label: 'ID',
+  },
+  {
+    id: 'inclination_deg',
     numeric: false,
     disablePadding: true,
     label: 'Inclinación',
   },
   {
-    id: 'calories',
+    id: 'azimuth_deg',
     numeric: true,
     disablePadding: false,
     label: 'Azimuth',
   },
   {
-    id: 'fat',
+    id: 'granularity',
     numeric: true,
     disablePadding: false,
     label: 'Granularidad',
   },
   {
-    id: 'carbs',
+    id: 'pipeline_separation',
     numeric: true,
     disablePadding: false,
     label: 'Separación tubos',
   },
   {
-    id: 'protein',
+    id: 'external_diameter',
     numeric: true,
     disablePadding: false,
     label: 'Diametro externo',
   },
   {
-    id: 'protein',
+    id: 'internal_diameter',
     numeric: true,
     disablePadding: false,
     label: 'Diametro interno',
   },
   {
-    id: 'protein',
+    id: 'length',
     numeric: true,
     disablePadding: false,
     label: 'Longitud tubo',
@@ -180,7 +123,7 @@ interface EnhancedTableProps {
   numSelected: number;
   onRequestSort: (
     event: React.MouseEvent<unknown>,
-    property: keyof Data
+    property: keyof ProcessedData
   ) => void;
   onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
   order: Order;
@@ -188,7 +131,7 @@ interface EnhancedTableProps {
   rowCount: number;
 }
 
-function EnhancedTableHead(props: EnhancedTableProps) {
+const EnhancedTableHead = (props: EnhancedTableProps) => {
   const {
     onSelectAllClick,
     order,
@@ -197,8 +140,9 @@ function EnhancedTableHead(props: EnhancedTableProps) {
     rowCount,
     onRequestSort,
   } = props;
+
   const createSortHandler =
-    (property: keyof Data) => (event: React.MouseEvent<unknown>) => {
+    (property: keyof ProcessedData) => (event: React.MouseEvent<unknown>) => {
       onRequestSort(event, property);
     };
 
@@ -240,7 +184,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
       </TableRow>
     </TableHead>
   );
-}
+};
 
 interface EnhancedTableToolbarProps {
   numSelected: number;
@@ -279,7 +223,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
           id='tableTitle'
           component='div'
         >
-          Nutrition
+          Estudios teóricos realizados
         </Typography>
       )}
       {numSelected > 0 ? (
@@ -299,17 +243,55 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
   );
 }
 
-export default function EnhancedTable() {
-  const [order, setOrder] = React.useState<Order>('asc');
-  const [orderBy, setOrderBy] = React.useState<keyof Data>('calories');
-  const [selected, setSelected] = React.useState<readonly string[]>([]);
-  const [page, setPage] = React.useState(0);
-  const [dense, setDense] = React.useState(false);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+interface TableProps {
+  data: IParams[];
+}
+
+interface ProcessedData {
+  id: number;
+  inclination_deg: number;
+  azimuth_deg: number;
+  granularity: number;
+  pipeline_separation: number;
+  external_diameter: number;
+  internal_diameter: number;
+  length: number;
+}
+
+const transformData = (data: IParams[]): ProcessedData[] => {
+  const rows = data.map(row => {
+    return {
+      id: row.id,
+      inclination_deg: row.inclination_deg,
+      azimuth_deg: row.azimuth_deg,
+      granularity: row.granularity,
+      pipeline_separation: row.pipeline_separation,
+      external_diameter: row.pipeline.external_diameter,
+      internal_diameter: row.pipeline.internal_diameter,
+      length: row.pipeline.length,
+    };
+  });
+
+  return rows;
+};
+
+const EnhancedTable: React.FC<TableProps> = ({ data }) => {
+  const [rows, setRows] = useState<ProcessedData[]>([]);
+  const [order, setOrder] = useState<Order>('asc');
+  const [orderBy, setOrderBy] =
+    useState<keyof ProcessedData>('inclination_deg');
+  const [selected, setSelected] = useState<readonly number[]>([]);
+  const [page, setPage] = useState(0);
+  const [dense, setDense] = useState(false);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+
+  useEffect(() => {
+    setRows(transformData(data));
+  }, [data]);
 
   const handleRequestSort = (
     _: React.MouseEvent<unknown>,
-    property: keyof Data
+    property: keyof ProcessedData
   ) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
@@ -318,19 +300,19 @@ export default function EnhancedTable() {
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const newSelected = rows.map(n => n.name);
+      const newSelected = rows.map(n => n.id);
       setSelected(newSelected);
       return;
     }
     setSelected([]);
   };
 
-  const handleClick = (_: React.MouseEvent<unknown>, name: string) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected: readonly string[] = [];
+  const handleClick = (_: React.MouseEvent<unknown>, id: number) => {
+    const selectedIndex = selected.indexOf(id);
+    let newSelected: readonly number[] = [];
 
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
+      newSelected = newSelected.concat(selected, id);
     } else if (selectedIndex === 0) {
       newSelected = newSelected.concat(selected.slice(1));
     } else if (selectedIndex === selected.length - 1) {
@@ -360,25 +342,25 @@ export default function EnhancedTable() {
     setDense(event.target.checked);
   };
 
-  const isSelected = (name: string) => selected.indexOf(name) !== -1;
+  const isSelected = (id: number) => selected.indexOf(id) !== -1;
 
-  // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
-  const visibleRows = React.useMemo(
+  const visibleRows = useMemo(
     () =>
       stableSort(rows, getComparator(order, orderBy)).slice(
         page * rowsPerPage,
         page * rowsPerPage + rowsPerPage
       ),
-    [order, orderBy, page, rowsPerPage]
+    [order, orderBy, page, rowsPerPage, rows]
   );
 
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
         <EnhancedTableToolbar numSelected={selected.length} />
+
         <TableContainer>
           <Table
             sx={{ minWidth: 750 }}
@@ -395,17 +377,17 @@ export default function EnhancedTable() {
             />
             <TableBody>
               {visibleRows.map((row, index) => {
-                const isItemSelected = isSelected(row.name);
-                const labelId = `enhanced-table-checkbox-${index}`;
+                const isItemSelected = isSelected(row.id);
+                const labelId = `checkbox-${index}`;
 
                 return (
                   <TableRow
                     hover
-                    onClick={event => handleClick(event, row.name)}
+                    onClick={event => handleClick(event, row.id)}
                     role='checkbox'
                     aria-checked={isItemSelected}
                     tabIndex={-1}
-                    key={row.name}
+                    key={row.id}
                     selected={isItemSelected}
                     sx={{ cursor: 'pointer' }}
                   >
@@ -418,18 +400,16 @@ export default function EnhancedTable() {
                         }}
                       />
                     </TableCell>
-                    <TableCell
-                      component='th'
-                      id={labelId}
-                      scope='row'
-                      padding='none'
-                    >
-                      {row.name}
+                    <TableCell id={labelId}>{row.id}</TableCell>
+                    <TableCell align='right'>{row.inclination_deg}</TableCell>
+                    <TableCell align='right'>{row.azimuth_deg}</TableCell>
+                    <TableCell align='right'>{row.granularity}</TableCell>
+                    <TableCell align='right'>
+                      {row.pipeline_separation}
                     </TableCell>
-                    <TableCell align='right'>{row.calories}</TableCell>
-                    <TableCell align='right'>{row.fat}</TableCell>
-                    <TableCell align='right'>{row.carbs}</TableCell>
-                    <TableCell align='right'>{row.protein}</TableCell>
+                    <TableCell align='right'>{row.external_diameter}</TableCell>
+                    <TableCell align='right'>{row.internal_diameter}</TableCell>
+                    <TableCell align='right'>{row.length}</TableCell>
                   </TableRow>
                 );
               })}
@@ -461,4 +441,6 @@ export default function EnhancedTable() {
       />
     </Box>
   );
-}
+};
+
+export default EnhancedTable;
