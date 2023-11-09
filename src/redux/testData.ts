@@ -1,3 +1,4 @@
+import { IParams } from "../types/paramsTypes";
 import { IRegister } from "../types/registersTypes"
 
 const generateData = (): IRegister[] => {
@@ -61,3 +62,131 @@ export const extractEnergyKeys = (inputData: IRegister[][]): string[] => {
 
   return keys
 }
+
+export const testParams: IParams[] = [
+  {
+    id: 13,
+    inclination_deg: 30,
+    azimuth_deg: 150,
+    granularity: 12,
+    pipeline_separation: 0.2,
+    location: {
+      id: 2,
+      place: 'Trujillo',
+      country: 'Peru',
+      lat: -8.12,
+      lng: -79.03,
+      altitude: 34,
+      is_calculated: false,
+      created_at: "",
+      updated_at: ""
+    },
+    pipeline: {
+      id: 33,
+      name: 'Pipeline-579',
+      external_diameter: 0.05836,
+      internal_diameter: 0.04302,
+      length: 1.6
+    }
+  },
+  {
+    id: 14,
+    inclination_deg: 45,
+    azimuth_deg: 160,
+    granularity: 24,
+    pipeline_separation: 0.2,
+    location: {
+      id: 2,
+      place: 'Trujillo',
+      country: 'Peru',
+      lat: -8.12,
+      lng: -79.03,
+      altitude: 34,
+      is_calculated: false,
+      created_at: "",
+      updated_at: ""
+    },
+    pipeline: {
+      id: 33,
+      name: 'Pipeline-579',
+      external_diameter: 0.05836,
+      internal_diameter: 0.04302,
+      length: 1.7
+    }
+  },
+  {
+    id: 15,
+    inclination_deg: 60,
+    azimuth_deg: 170,
+    granularity: 48,
+    pipeline_separation: 0.2,
+    location: {
+      id: 2,
+      place: 'Trujillo',
+      country: 'Peru',
+      lat: -8.12,
+      lng: -79.03,
+      altitude: 34,
+      is_calculated: false,
+      created_at: "",
+      updated_at: ""
+    },
+    pipeline: {
+      id: 33,
+      name: 'Pipeline-579',
+      external_diameter: 0.05836,
+      internal_diameter: 0.04302,
+      length: 1.8
+    }
+  },
+  {
+    id: 16,
+    inclination_deg: 60,
+    azimuth_deg: 170,
+    granularity: 48,
+    pipeline_separation: 0.2,
+    location: {
+      id: 2,
+      place: 'Trujillo',
+      country: 'Peru',
+      lat: -8.12,
+      lng: -79.03,
+      altitude: 34,
+      is_calculated: false,
+      created_at: "",
+      updated_at: ""
+    },
+    pipeline: {
+      id: 33,
+      name: 'Pipeline-579',
+      external_diameter: 0.05836,
+      internal_diameter: 0.04302,
+      length: 1.8
+    }
+  },
+  {
+    id: 17,
+    inclination_deg: 60,
+    azimuth_deg: 170,
+    granularity: 48,
+    pipeline_separation: 0.2,
+    location: {
+      id: 2,
+      place: 'Trujillo',
+      country: 'Peru',
+      lat: -8.12,
+      lng: -79.03,
+      altitude: 34,
+      is_calculated: false,
+      created_at: "",
+      updated_at: ""
+    },
+    pipeline: {
+      id: 33,
+      name: 'Pipeline-579',
+      external_diameter: 0.05836,
+      internal_diameter: 0.04302,
+      length: 1.8
+    }
+  }
+]

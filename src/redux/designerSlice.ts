@@ -6,7 +6,7 @@ import { IPipeline } from '../types/pipelinesTypes';
 import { RootState } from './store';
 import { IRegister } from '../types/registersTypes';
 import { getAllRegistersParamService } from '../services/registerServices';
-import { registers } from './testData';
+import { registers, testParams } from './testData';
 
 export const computeResults = createAsyncThunk(
   'designer/createPipeline',
@@ -74,6 +74,13 @@ export const getRegisters = createAsyncThunk(
   }
 )
 
+export const getAllProjectParams = createAsyncThunk(
+  'designer/getAllParams',
+  async (_) => {
+    return testParams
+  }
+)
+
 interface IDesignerState {
   data: any;
   city?: string;
@@ -88,6 +95,7 @@ interface IDesignerState {
   inclination: number,
   azimuth: number,
   currentParam: IParams | null,
+  params: IParams[],
   currentPipeline: IPipeline | null,
   currentRegister: IRegister[],
   registers: IRegister[][],
@@ -107,6 +115,7 @@ const initialState: IDesignerState = {
   inclination: 30,
   azimuth: 150,
   currentParam: null,
+  params: [],
   currentPipeline: null,
   currentRegister: [],
   registers: [],
@@ -189,6 +198,10 @@ export const designerSlice = createSlice({
       .addCase(getRegisters.fulfilled, (state, action) => {
         state.isLoading = false;
         state.registers = action.payload;
+      })
+      .addCase(getAllProjectParams.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.params = action.payload;
       })
   },
 });

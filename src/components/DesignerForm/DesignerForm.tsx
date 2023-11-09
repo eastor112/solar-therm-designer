@@ -11,6 +11,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import {
   computeResults,
+  getAllProjectParams,
   setGranularity,
   setPipelineSeparation,
 } from '../../redux/designerSlice';
@@ -27,6 +28,7 @@ const DesignerForm = () => {
   const navigate = useNavigate();
 
   const handleCompute = async () => {
+    await dispatch(getAllProjectParams());
     await dispatch(computeResults());
 
     navigate('/dashboard/results');
