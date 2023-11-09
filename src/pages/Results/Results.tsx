@@ -143,6 +143,7 @@ const Results = () => {
                         size='medium'
                         dataKey='day'
                         units='[KW-h]'
+                        legendDirection='horizontal'
                       />
                     )}
 

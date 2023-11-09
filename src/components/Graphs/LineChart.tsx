@@ -39,6 +39,7 @@ interface CustomLineChartProps {
   dataKey: 'date' | 'day';
   date?: string;
   interval?: number;
+  legendDirection?: 'horizontal' | 'vertical';
 }
 
 const getheightSize = (value: string) => {
@@ -139,6 +140,7 @@ const CustomLineChart: React.FC<CustomLineChartProps> = ({
   date,
   interval,
   size = 'small',
+  legendDirection = 'vertical',
 }) => {
   return (
     <div className={`w-full h-9 my-2 text-center ${getheightSize(size)}`}>
@@ -171,7 +173,7 @@ const CustomLineChart: React.FC<CustomLineChartProps> = ({
               )
             }
           />
-          <Legend layout='vertical' />
+          <Legend layout={legendDirection} />
 
           {columns.map((col, index) => (
             <Line
