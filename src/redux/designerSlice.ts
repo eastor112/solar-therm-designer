@@ -101,7 +101,8 @@ interface IDesignerState {
   registers: IRegister[][],
   isLoading: boolean,
   dataType: "weather" | "energy",
-  returnRoute: string
+  returnRoute: string,
+  selectedParams: number[]
 }
 
 const initialState: IDesignerState = {
@@ -121,7 +122,8 @@ const initialState: IDesignerState = {
   registers: [],
   isLoading: false,
   dataType: "weather",
-  returnRoute: "/dashboard/designer"
+  returnRoute: "/dashboard/designer",
+  selectedParams: []
 };
 
 export const designerSlice = createSlice({
@@ -181,6 +183,9 @@ export const designerSlice = createSlice({
     },
     setRegisters: (state, action: PayloadAction<IRegister[][]>) => {
       state.registers = action.payload;
+    },
+    setSelectedParams: (state, action: PayloadAction<number[]>) => {
+      state.selectedParams = action.payload;
     }
   },
   extraReducers: builder => {
@@ -223,7 +228,8 @@ export const {
   setCurrentPipeline,
   setCurrentRegister,
   setDataType,
-  setReturnRoute
+  setReturnRoute,
+  setSelectedParams
 } = designerSlice.actions;
 
 export default designerSlice.reducer;

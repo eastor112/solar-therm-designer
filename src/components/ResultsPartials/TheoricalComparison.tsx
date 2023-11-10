@@ -2,15 +2,21 @@ import Box from '@mui/material/Box';
 import CustomLineChart from '../../components/Graphs/LineChart';
 import { capitalize } from '../../utils/textTransformations';
 import { extractEnergyKeys, transformData } from '../../redux/testData';
-import { useAppSelector } from '../../hooks/reduxHooks';
+import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import EnhancedTable from '../Tables/ComparisonTable';
+import { setSelectedParams } from '../../redux/designerSlice';
 
 interface TheoricalComparisonProps {}
 
 const TheoricalComparison: React.FC<TheoricalComparisonProps> = () => {
-  const { registers, city, allParams } = useAppSelector(
+  const { registers, city, allParams, selectedParams } = useAppSelector(
     state => state.designer
   );
+  const dispatch = useAppDispatch();
+
+  const setSelected = (value: number[]) => {
+    dispatch(setSelectedParams(value));
+  };
 
   return (
     <Box>
@@ -19,7 +25,11 @@ const TheoricalComparison: React.FC<TheoricalComparisonProps> = () => {
           pb: '60px',
         }}
       >
-        <EnhancedTable data={allParams} />
+        <EnhancedTable
+          data={allParams}
+          selectedParams={selectedParams}
+          setSelectedParams={setSelected}
+        />
       </Box>
 
       <CustomLineChart

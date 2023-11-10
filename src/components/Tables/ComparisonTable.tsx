@@ -243,10 +243,6 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
   );
 }
 
-interface TableProps {
-  data: IParams[];
-}
-
 interface ProcessedData {
   id: number;
   inclination_deg: number;
@@ -275,12 +271,21 @@ const transformData = (data: IParams[]): ProcessedData[] => {
   return rows;
 };
 
-const EnhancedTable: React.FC<TableProps> = ({ data }) => {
+interface TableProps {
+  data: IParams[];
+  selectedParams: number[];
+  setSelectedParams: (params: number[]) => void;
+}
+
+const EnhancedTable: React.FC<TableProps> = ({
+  data,
+  selectedParams,
+  setSelectedParams,
+}) => {
   const [rows, setRows] = useState<ProcessedData[]>([]);
   const [order, setOrder] = useState<Order>('asc');
   const [orderBy, setOrderBy] =
     useState<keyof ProcessedData>('inclination_deg');
-  const [selected, setSelected] = useState<readonly number[]>([]);
   const [page, setPage] = useState(0);
   const [dense, setDense] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -301,30 +306,30 @@ const EnhancedTable: React.FC<TableProps> = ({ data }) => {
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
       const newSelected = rows.map(n => n.id);
-      setSelected(newSelected);
+      setSelectedParams(newSelected);
       return;
     }
-    setSelected([]);
+    setSelectedParams([]);
   };
 
   const handleClick = (_: React.MouseEvent<unknown>, id: number) => {
-    const selectedIndex = selected.indexOf(id);
-    let newSelected: readonly number[] = [];
+    const selectedIndex = selectedParams.indexOf(id);
+    let newSelected: number[] = [];
 
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, id);
+      newSelected = newSelected.concat(selectedParams, id);
     } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
+      newSelected = newSelected.concat(selectedParams.slice(1));
+    } else if (selectedIndex === selectedParams.length - 1) {
+      newSelected = newSelected.concat(selectedParams.slice(0, -1));
     } else if (selectedIndex > 0) {
       newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
+        selectedParams.slice(0, selectedIndex),
+        selectedParams.slice(selectedIndex + 1)
       );
     }
 
-    setSelected(newSelected);
+    setSelectedParams(newSelected);
   };
 
   const handleChangePage = (_: unknown, newPage: number) => {
@@ -342,7 +347,7 @@ const EnhancedTable: React.FC<TableProps> = ({ data }) => {
     setDense(event.target.checked);
   };
 
-  const isSelected = (id: number) => selected.indexOf(id) !== -1;
+  const isSelected = (id: number) => selectedParams.indexOf(id) !== -1;
 
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
@@ -359,7 +364,7 @@ const EnhancedTable: React.FC<TableProps> = ({ data }) => {
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
-        <EnhancedTableToolbar numSelected={selected.length} />
+        <EnhancedTableToolbar numSelected={selectedParams.length} />
 
         <TableContainer>
           <Table
@@ -368,7 +373,7 @@ const EnhancedTable: React.FC<TableProps> = ({ data }) => {
             size={dense ? 'small' : 'medium'}
           >
             <EnhancedTableHead
-              numSelected={selected.length}
+              numSelected={selectedParams.length}
               order={order}
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
