@@ -5,6 +5,7 @@ import { extractEnergyKeys, transformData } from '../../redux/testData';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import EnhancedTable from '../Tables/ComparisonTable';
 import { setSelectedParams } from '../../redux/designerSlice';
+import { useMemo } from 'react';
 
 interface TheoricalComparisonProps {}
 
@@ -17,6 +18,23 @@ const TheoricalComparison: React.FC<TheoricalComparisonProps> = () => {
   const setSelected = (value: number[]) => {
     dispatch(setSelectedParams(value));
   };
+
+  console.log(selectedParams);
+
+  const filteredRegisters = useMemo(() => {
+    const filtered = registers.filter(reg => {
+      console.log(reg[0].params_id);
+      if (selectedParams.includes(reg[0].params_id)) {
+        return true;
+      }
+      return false;
+    });
+    console.log(filtered.map(f => f[0].params_id));
+
+    return filtered;
+  }, [selectedParams, registers]);
+
+  console.log(filteredRegisters.length);
 
   return (
     <Box>
@@ -33,12 +51,12 @@ const TheoricalComparison: React.FC<TheoricalComparisonProps> = () => {
       </Box>
 
       <CustomLineChart
-        data={transformData(registers)}
+        data={transformData(filteredRegisters)}
         title={
           'Energía teórica anual con diferentes diseños. Ciudad de ' +
           capitalize(city)
         }
-        columns={extractEnergyKeys(registers)}
+        columns={extractEnergyKeys(filteredRegisters)}
         domain={[0, 1.1]}
         size='medium'
         dataKey='day'
