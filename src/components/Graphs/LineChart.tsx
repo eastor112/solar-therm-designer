@@ -8,6 +8,7 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
+  Brush,
 } from 'recharts';
 import dayjs from 'dayjs';
 import { Box, Typography } from '@mui/material';
@@ -185,6 +186,7 @@ const CustomLineChart: React.FC<CustomLineChartProps> = ({
               dot={{ r: 0 }}
             />
           ))}
+          <Brush height={20} alwaysShowText />
         </LineChart>
       </ResponsiveContainer>
     </div>

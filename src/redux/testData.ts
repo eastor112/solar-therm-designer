@@ -1,9 +1,8 @@
 import { IParams } from "../types/paramsTypes";
 import { IRegister } from "../types/registersTypes"
 
-const generateData = (): IRegister[] => {
+const generateData = (params_id: number): IRegister[] => {
   const data: IRegister[] = [];
-  const params_id = Math.floor(Math.random() * 20);
 
   for (let i = 1; i <= 365; i++) {
     const id = Math.floor(Math.random() * 10000000);
@@ -20,14 +19,14 @@ const generateData = (): IRegister[] => {
   return data;
 };
 
-export const currentRegister: IRegister[] = generateData()
+export const currentRegister: IRegister[] = generateData(12)
 
 export const registers: IRegister[][] = [
-  generateData(),
-  generateData(),
-  generateData(),
-  generateData(),
-  generateData(),
+  generateData(13),
+  generateData(14),
+  generateData(15),
+  generateData(16),
+  generateData(17),
 ]
 
 export const transformData = (inputData: any) => {

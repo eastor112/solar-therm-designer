@@ -19,22 +19,16 @@ const TheoricalComparison: React.FC<TheoricalComparisonProps> = () => {
     dispatch(setSelectedParams(value));
   };
 
-  console.log(selectedParams);
-
   const filteredRegisters = useMemo(() => {
     const filtered = registers.filter(reg => {
-      console.log(reg[0].params_id);
       if (selectedParams.includes(reg[0].params_id)) {
         return true;
       }
       return false;
     });
-    console.log(filtered.map(f => f[0].params_id));
 
     return filtered;
   }, [selectedParams, registers]);
-
-  console.log(filteredRegisters.length);
 
   return (
     <Box>
@@ -57,7 +51,7 @@ const TheoricalComparison: React.FC<TheoricalComparisonProps> = () => {
           capitalize(city)
         }
         columns={extractEnergyKeys(filteredRegisters)}
-        domain={[0, 1.1]}
+        domain={[0, 1]}
         size='medium'
         dataKey='day'
         units='[KW-h]'

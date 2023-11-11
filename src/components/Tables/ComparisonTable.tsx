@@ -72,7 +72,7 @@ const headCells: readonly HeadCell[] = [
   {
     id: 'id',
     numeric: false,
-    disablePadding: true,
+    disablePadding: false,
     label: 'ID',
   },
   {
@@ -97,25 +97,25 @@ const headCells: readonly HeadCell[] = [
     id: 'pipeline_separation',
     numeric: true,
     disablePadding: false,
-    label: 'Separación tubos',
+    label: 'Separación tubos (cm)',
   },
   {
     id: 'external_diameter',
     numeric: true,
     disablePadding: false,
-    label: 'Diametro externo',
+    label: 'Diametro ext. (mm)',
   },
   {
     id: 'internal_diameter',
     numeric: true,
     disablePadding: false,
-    label: 'Diametro interno',
+    label: 'Diametro int. (mm)',
   },
   {
     id: 'length',
     numeric: true,
     disablePadding: false,
-    label: 'Longitud tubo',
+    label: 'Long. tubo (m)',
   },
 ];
 
@@ -190,9 +190,9 @@ interface EnhancedTableToolbarProps {
   numSelected: number;
 }
 
-function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
-  const { numSelected } = props;
-
+const EnhancedTableToolbar: React.FC<EnhancedTableToolbarProps> = ({
+  numSelected,
+}) => {
   return (
     <Toolbar
       sx={{
@@ -214,7 +214,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
           variant='subtitle1'
           component='div'
         >
-          {numSelected} selected
+          {numSelected} seleccionados
         </Typography>
       ) : (
         <Typography
@@ -241,7 +241,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
       )}
     </Toolbar>
   );
-}
+};
 
 interface ProcessedData {
   id: number;
@@ -405,16 +405,22 @@ const EnhancedTable: React.FC<TableProps> = ({
                         }}
                       />
                     </TableCell>
-                    <TableCell id={labelId}>{row.id}</TableCell>
+                    <TableCell id={labelId}>{`e${row.id}`}</TableCell>
                     <TableCell align='right'>{row.inclination_deg}</TableCell>
                     <TableCell align='right'>{row.azimuth_deg}</TableCell>
                     <TableCell align='right'>{row.granularity}</TableCell>
-                    <TableCell align='right'>
-                      {row.pipeline_separation}
+                    <TableCell align='right' sx={{ width: '100px' }}>
+                      {(row.pipeline_separation * 100).toFixed(2)}
                     </TableCell>
-                    <TableCell align='right'>{row.external_diameter}</TableCell>
-                    <TableCell align='right'>{row.internal_diameter}</TableCell>
-                    <TableCell align='right'>{row.length}</TableCell>
+                    <TableCell align='right' sx={{ width: '140px' }}>
+                      {(row.external_diameter * 1000).toFixed(2)}
+                    </TableCell>
+                    <TableCell align='right' sx={{ width: '140px' }}>
+                      {(row.internal_diameter * 1000).toFixed(2)}
+                    </TableCell>
+                    <TableCell align='right' sx={{ width: '140px' }}>
+                      {row.length}
+                    </TableCell>
                   </TableRow>
                 );
               })}
@@ -438,11 +444,15 @@ const EnhancedTable: React.FC<TableProps> = ({
           page={page}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
+          labelRowsPerPage='Filas por página'
+          labelDisplayedRows={({ from, to, count }) =>
+            `${from}-${to} de ${count !== -1 ? count : to}`
+          }
         />
       </Paper>
       <FormControlLabel
         control={<Switch checked={dense} onChange={handleChangeDense} />}
-        label='Dense padding'
+        label='Ajustar'
       />
     </Box>
   );
