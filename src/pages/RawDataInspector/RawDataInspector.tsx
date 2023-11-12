@@ -4,13 +4,13 @@ import { useAppSelector } from '../../hooks/reduxHooks';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import { exportJsonToCsv } from '../../utils/exportData';
-import ResultsTable from '../../components/Tables/ResultsTable';
+import ResultsRawTable from '../../components/Tables/ResultsRawTable';
 import {
   extendedAllParams,
   transformParams,
   transformRegisters,
 } from '../../redux/testData';
-import CoparisonRawTable from '../../components/Tables/CoparisonRawTable';
+import AllParamsRawTable from '../../components/Tables/AllParamsRawTable';
 
 const RawDataInspector = ({}) => {
   const navigate = useNavigate();
@@ -32,6 +32,7 @@ const RawDataInspector = ({}) => {
     navigate(returnRoute);
   };
 
+  console.log(registersTransformed);
   const handleDownload = () => {
     switch (dataType) {
       case 'weather':
@@ -73,10 +74,15 @@ const RawDataInspector = ({}) => {
         />
       )}
       {dataType === 'energy' && (
-        <ResultsTable rows={currentRegister} title={`Energía anual`} />
+        <ResultsRawTable rows={currentRegister} title={`Energía anual`} />
       )}
       {dataType === 'comparison' && (
-        <CoparisonRawTable rows={paramsTransformed} title={`Energía anual`} />
+        <Box>
+          <AllParamsRawTable
+            rows={paramsTransformed}
+            title={`Cálculos teóricos realizados`}
+          />
+        </Box>
       )}
     </Box>
   );

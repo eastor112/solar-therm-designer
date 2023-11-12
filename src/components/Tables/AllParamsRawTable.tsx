@@ -13,27 +13,6 @@ interface Column {
   format?: (value: number) => string;
 }
 
-// const columns: Column[] = [
-//   {
-//     id: 'day',
-//     label: 'Día',
-//     minWidth: 120,
-//     align: 'center',
-//     format: (value: number) => {
-//       return dayjs.utc(value).local().format('DD-MM-YYYY HH:mm:ss');
-//     },
-//   },
-//   {
-//     id: 'energy',
-//     label: 'Energía',
-//     minWidth: 60,
-//     align: 'center',
-//     format: (value: number) => {
-//       return value.toFixed(2);
-//     },
-//   },
-// ];
-
 const columns: Column[] = [
   {
     id: 'id',
@@ -53,15 +32,15 @@ const columns: Column[] = [
   },
   {
     id: 'pipeline_separation',
-    label: 'Separación tubos (cm)',
+    label: 'Separación tubos (m)',
   },
   {
     id: 'external_diameter',
-    label: 'Diametro ext. (mm)',
+    label: 'Diametro ext. (m)',
   },
   {
     id: 'internal_diameter',
-    label: 'Diametro int. (mm)',
+    label: 'Diametro int. (m)',
   },
   {
     id: 'length',
@@ -78,7 +57,7 @@ interface ResultsTableProps {
   title: string;
 }
 
-const CoparisonRawTable: React.FC<ResultsTableProps> = ({ rows, title }) => {
+const AllParamsRawTable: React.FC<ResultsTableProps> = ({ rows, title }) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(25);
 
@@ -102,4 +81,4 @@ const CoparisonRawTable: React.FC<ResultsTableProps> = ({ rows, title }) => {
   );
 };
 
-export default CoparisonRawTable;
+export default AllParamsRawTable;

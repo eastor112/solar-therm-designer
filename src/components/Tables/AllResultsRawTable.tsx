@@ -39,7 +39,7 @@ interface ResultsTableProps {
   title: string;
 }
 
-const ResultsTable: React.FC<ResultsTableProps> = ({ rows, title }) => {
+const ResultsRawTable: React.FC<ResultsTableProps> = ({ rows, title }) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(25);
 
@@ -63,4 +63,4 @@ const ResultsTable: React.FC<ResultsTableProps> = ({ rows, title }) => {
   );
 };
 
-export default ResultsTable;
+export default ResultsRawTable;
