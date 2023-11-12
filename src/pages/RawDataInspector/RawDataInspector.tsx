@@ -11,6 +11,7 @@ import {
   transformRegisters,
 } from '../../redux/testData';
 import AllParamsRawTable from '../../components/Tables/AllParamsRawTable';
+import AllResultsRawTable from '../../components/Tables/AllResultsRawTable';
 
 const RawDataInspector = ({}) => {
   const navigate = useNavigate();
@@ -32,7 +33,6 @@ const RawDataInspector = ({}) => {
     navigate(returnRoute);
   };
 
-  console.log(registersTransformed);
   const handleDownload = () => {
     switch (dataType) {
       case 'weather':
@@ -81,6 +81,10 @@ const RawDataInspector = ({}) => {
           <AllParamsRawTable
             rows={paramsTransformed}
             title={`Cálculos teóricos realizados`}
+          />
+          <AllResultsRawTable
+            rows={registersTransformed}
+            title={`Registros diarios por cada cálculo`}
           />
         </Box>
       )}

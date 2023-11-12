@@ -89,6 +89,8 @@ export const transformParams = (params: ExtendedParams[]): ParamsToExport[] => {
 export const extractEnergyKeys = (inputData: IRegister[][]): string[] => {
   const keys: string[] = []
 
+  if (inputData.length === 0) return keys
+
   inputData.forEach((reg: IRegister[]) => {
     keys.push(`e${reg[0].params_id}`)
   })

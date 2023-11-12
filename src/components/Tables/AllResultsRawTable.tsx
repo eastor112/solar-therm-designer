@@ -1,47 +1,45 @@
-import dayjs from 'dayjs';
 import { useState } from 'react';
 import TableBase from './TableBase';
-import { IRegister } from '../../types/registersTypes';
 import { Paper, Typography } from '@mui/material';
 import { generalStyles } from '../../styles/general/index';
 
 interface Column {
-  id: 'day' | 'energy';
+  id: string;
   label: string;
   minWidth?: number;
   align?: 'right' | 'center' | 'left';
   format?: (value: number) => string;
 }
 
-const columns: Column[] = [
-  {
-    id: 'day',
-    label: 'Día',
-    minWidth: 120,
-    align: 'center',
-    format: (value: number) => {
-      return dayjs.utc(value).local().format('DD-MM-YYYY HH:mm:ss');
-    },
-  },
-  {
-    id: 'energy',
-    label: 'Energía',
-    minWidth: 60,
-    align: 'center',
-    format: (value: number) => {
-      return value.toFixed(2);
-    },
-  },
-];
-
 interface ResultsTableProps {
-  rows: IRegister[];
+  rows: any;
   title: string;
 }
 
-const ResultsRawTable: React.FC<ResultsTableProps> = ({ rows, title }) => {
+const getColums = (data: any) => {
+  const columns: Column[] = [];
+
+  Object.keys(data).forEach(key => {
+    columns.push({
+      id: key,
+      label: key,
+      format: value => {
+        if (key !== 'day') {
+          return value.toFixed(6);
+        }
+        return value.toString();
+      },
+    });
+  });
+
+  return columns;
+};
+
+const AllResultsRawTable: React.FC<ResultsTableProps> = ({ rows, title }) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(25);
+
+  const dynamicColumns = getColums(rows[0]);
 
   return (
     <Paper>
@@ -53,7 +51,7 @@ const ResultsRawTable: React.FC<ResultsTableProps> = ({ rows, title }) => {
       </Typography>
       <TableBase
         rows={rows}
-        columns={columns}
+        columns={dynamicColumns}
         page={page}
         rowsPerPage={rowsPerPage}
         setPage={setPage}
@@ -63,4 +61,4 @@ const ResultsRawTable: React.FC<ResultsTableProps> = ({ rows, title }) => {
   );
 };
 
-export default ResultsRawTable;
+export default AllResultsRawTable;
