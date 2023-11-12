@@ -1,4 +1,4 @@
-export const exportJsonToCsv = (jsonData: any[]) => {
+export const exportJsonToCsv = (jsonData: any[], name: string = "") => {
   const keys = Object.keys(jsonData[0]);
   const csvRows = [];
   csvRows.push(keys.join(','));
@@ -15,7 +15,7 @@ export const exportJsonToCsv = (jsonData: any[]) => {
   const downloadLink = document.createElement('a');
   downloadLink.href =
     'data:text/csv;charset=utf-8,' + encodeURIComponent(csvData);
-  downloadLink.download = 'datos_' + Date.now() + '.csv';
+  downloadLink.download = `solartherm_${name}_${Date.now()}.csv`;
 
   downloadLink.click();
 };

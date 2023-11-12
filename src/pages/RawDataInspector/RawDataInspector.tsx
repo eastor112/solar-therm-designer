@@ -26,15 +26,16 @@ const RawDataInspector = ({}) => {
   const handleDownload = () => {
     switch (dataType) {
       case 'weather':
-        exportJsonToCsv(weatherData);
+        exportJsonToCsv(weatherData, 'wheather');
         break;
       case 'energy':
-        exportJsonToCsv(currentRegister);
+        exportJsonToCsv(currentRegister, 'energy');
         break;
       case 'comparison':
-        exportJsonToCsv(transformRegisters(registers));
+        exportJsonToCsv(transformRegisters(registers), 'registers');
         exportJsonToCsv(
-          transformParams(extendedAllParams(allParams, registers))
+          transformParams(extendedAllParams(allParams, registers)),
+          'params'
         );
         break;
       default:
