@@ -12,7 +12,7 @@ import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router-dom';
 import { IWeather } from '../../types/locationstypes';
 import { useDispatch } from 'react-redux';
-import { setDataType } from '../../redux/designerSlice';
+import { setDataType, setReturnRoute } from '../../redux/designerSlice';
 
 const capitalize = (value: string | null) => {
   if (!value) return '';
@@ -38,6 +38,7 @@ const DataInspectorGraph: React.FC<DataGraphProps> = ({
   const navigate = useNavigate();
 
   const handleShowRawData = () => {
+    dispatch(setReturnRoute('/dashboard/designer'));
     dispatch(setDataType('weather'));
     navigate('/dashboard/inspector');
   };

@@ -284,7 +284,7 @@ const EnhancedTable: React.FC<TableProps> = ({
   const [orderBy, setOrderBy] =
     useState<keyof ProcessedData>('inclination_deg');
   const [page, setPage] = useState(0);
-  const [dense, setDense] = useState(false);
+  const [dense, setDense] = useState(true);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
   useEffect(() => {

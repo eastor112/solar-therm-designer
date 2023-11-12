@@ -51,7 +51,8 @@ const TheoricalComparison: React.FC<TheoricalComparisonProps> = ({
           pb: '60px',
         }}
       >
-        <Box>
+        <Box sx={{ display: 'flex', pb: '20px' }}>
+          <Box sx={{ flex: 1 }}></Box>
           <Box
             sx={{
               display: 'flex',
@@ -59,6 +60,7 @@ const TheoricalComparison: React.FC<TheoricalComparisonProps> = ({
               gap: 2,
               justifyContent: 'center',
               marginTop: '40px',
+              width: '240px',
             }}
           >
             <Button

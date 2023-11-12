@@ -6,10 +6,11 @@ import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import { Box } from '@mui/material';
+import { Box, Link } from '@mui/material';
 import { MainListItems, SecondaryListItems } from './MenuItems';
 import Logo from '../Logo/Logo';
 import RecentFilesList from '../RecentFilesList/RecentFilesList';
+import { Link as LinkRouter } from 'react-router-dom';
 
 const drawerWidth: number = 240;
 
@@ -67,15 +68,24 @@ const DashboardContent: React.FC<DashboardContentProps> = ({
         }}
       >
         <Box>
-          <Box
+          <Link
+            to='/dashboard/designer'
+            component={LinkRouter}
             sx={{
-              display: 'flex',
-              alignItems: 'center',
-              paddingLeft: 2,
+              color: 'black',
+              textDecoration: 'none',
             }}
           >
-            <Logo />
-          </Box>
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                paddingLeft: 2,
+              }}
+            >
+              <Logo />
+            </Box>
+          </Link>
 
           <Box
             sx={{

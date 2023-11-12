@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import TableBase from './TableBase';
-import { Paper, Typography } from '@mui/material';
+import { Box, Paper, Typography } from '@mui/material';
 import { generalStyles } from '../../styles/general/index';
 
 interface Column {
@@ -49,14 +49,16 @@ const AllResultsRawTable: React.FC<ResultsTableProps> = ({ rows, title }) => {
       >
         {title}
       </Typography>
-      <TableBase
-        rows={rows}
-        columns={dynamicColumns}
-        page={page}
-        rowsPerPage={rowsPerPage}
-        setPage={setPage}
-        setRowsPerPage={setRowsPerPage}
-      />
+      <Box sx={{ p: '20px' }}>
+        <TableBase
+          rows={rows}
+          columns={dynamicColumns}
+          page={page}
+          rowsPerPage={rowsPerPage}
+          setPage={setPage}
+          setRowsPerPage={setRowsPerPage}
+        />
+      </Box>
     </Paper>
   );
 };

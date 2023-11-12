@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import TableBase from './TableBase';
 import { ProcessedData } from '../../types/registersTypes';
-import { Paper, Typography } from '@mui/material';
+import { Box, Paper, Typography } from '@mui/material';
 import { generalStyles } from '../../styles/general/index';
 import { ParamsToExport } from '../../redux/testData';
 
@@ -70,14 +70,16 @@ const AllParamsRawTable: React.FC<ResultsTableProps> = ({ rows, title }) => {
       >
         {title}
       </Typography>
-      <TableBase
-        rows={rows}
-        columns={columns}
-        page={page}
-        rowsPerPage={rowsPerPage}
-        setPage={setPage}
-        setRowsPerPage={setRowsPerPage}
-      />
+      <Box sx={{ p: '20px' }}>
+        <TableBase
+          rows={rows}
+          columns={columns}
+          page={page}
+          rowsPerPage={rowsPerPage}
+          setPage={setPage}
+          setRowsPerPage={setRowsPerPage}
+        />
+      </Box>
     </Paper>
   );
 };

@@ -5,16 +5,19 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import { exportJsonToCsv } from '../../utils/exportData';
 import ResultsRawTable from '../../components/Tables/ResultsRawTable';
+import AllParamsRawTable from '../../components/Tables/AllParamsRawTable';
+import AllResultsRawTable from '../../components/Tables/AllResultsRawTable';
 import {
   extendedAllParams,
   transformParams,
   transformRegisters,
 } from '../../redux/testData';
-import AllParamsRawTable from '../../components/Tables/AllParamsRawTable';
-import AllResultsRawTable from '../../components/Tables/AllResultsRawTable';
+import { useOutletContexRoot } from '../RootLayout';
+import { useEffect } from 'react';
 
 const RawDataInspector = ({}) => {
   const navigate = useNavigate();
+  const { isSidebarOpen } = useOutletContexRoot();
   const { weatherData, currentLocation, date } = useAppSelector(
     state => state.locations
   );
@@ -32,6 +35,17 @@ const RawDataInspector = ({}) => {
   const handleReturn = () => {
     navigate(returnRoute);
   };
+
+  useEffect(() => {
+    if (
+      !(weatherData.length > 0) &&
+      !(registers.length > 0) &&
+      !(allParams.length > 0) &&
+      !(currentRegister.length > 0)
+    ) {
+      navigate('/dashboard/designer');
+    }
+  }, []);
 
   const handleDownload = () => {
     switch (dataType) {
@@ -58,6 +72,7 @@ const RawDataInspector = ({}) => {
           display: 'flex',
           gap: 1,
           pb: 1,
+          maxWidth: isSidebarOpen ? '82vw' : '95vw',
         }}
       >
         <Button onClick={handleReturn} variant='contained'>
@@ -77,7 +92,13 @@ const RawDataInspector = ({}) => {
         <ResultsRawTable rows={currentRegister} title={`Energía anual`} />
       )}
       {dataType === 'comparison' && (
-        <Box>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: ' column',
+            gap: '20px',
+          }}
+        >
           <AllParamsRawTable
             rows={paramsTransformed}
             title={`Cálculos teóricos realizados`}
