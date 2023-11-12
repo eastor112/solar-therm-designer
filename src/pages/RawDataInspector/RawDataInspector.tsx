@@ -5,22 +5,41 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import { exportJsonToCsv } from '../../utils/exportData';
 import ResultsTable from '../../components/Tables/ResultsTable';
+import {
+  extendedAllParams,
+  transformParams,
+  transformRegisters,
+} from '../../redux/testData';
 
 const RawDataInspector = ({}) => {
   const navigate = useNavigate();
   const { weatherData, currentLocation, date } = useAppSelector(
     state => state.locations
   );
-  const { currentRegister, dataType, returnRoute } = useAppSelector(
-    state => state.designer
-  );
+  const { currentRegister, dataType, returnRoute, registers, allParams } =
+    useAppSelector(state => state.designer);
 
   const handleReturn = () => {
     navigate(returnRoute);
   };
 
   const handleDownload = () => {
-    exportJsonToCsv(dataType === 'weather' ? weatherData : currentRegister);
+    switch (dataType) {
+      case 'weather':
+        exportJsonToCsv(weatherData);
+        break;
+      case 'energy':
+        exportJsonToCsv(currentRegister);
+        break;
+      case 'comparison':
+        exportJsonToCsv(transformRegisters(registers));
+        exportJsonToCsv(
+          transformParams(extendedAllParams(allParams, registers))
+        );
+        break;
+      default:
+        break;
+    }
   };
 
   return (
@@ -47,6 +66,9 @@ const RawDataInspector = ({}) => {
         />
       )}
       {dataType === 'energy' && (
+        <ResultsTable rows={currentRegister} title={`Energía anual`} />
+      )}
+      {dataType === 'comparison' && (
         <ResultsTable rows={currentRegister} title={`Energía anual`} />
       )}
     </Box>

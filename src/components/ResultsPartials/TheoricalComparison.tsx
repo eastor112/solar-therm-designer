@@ -1,13 +1,21 @@
 import Box from '@mui/material/Box';
 import CustomLineChart from '../../components/Graphs/LineChart';
 import { capitalize } from '../../utils/textTransformations';
-import { extractEnergyKeys, transformData } from '../../redux/testData';
+import {
+  extendedAllParams,
+  extractEnergyKeys,
+  transformRegisters,
+} from '../../redux/testData';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import EnhancedTable from '../Tables/ComparisonTable';
-import { setSelectedParams } from '../../redux/designerSlice';
+import {
+  setDataType,
+  setReturnRoute,
+  setSelectedParams,
+} from '../../redux/designerSlice';
 import { useMemo } from 'react';
-import { ExtendedParams, IParams } from '../../types/paramsTypes';
-import { calculateAnnualEnergyTotal } from '../../utils/energyUtils';
+import { Button } from '@mui/material';
+import { Link as LinkRouter } from 'react-router-dom';
 
 interface TheoricalComparisonProps {
   showGraph: boolean;
@@ -36,13 +44,6 @@ const TheoricalComparison: React.FC<TheoricalComparisonProps> = ({
     return filtered;
   }, [selectedParams, registers]);
 
-  const extendedAllParams = (allParams: IParams[]): ExtendedParams[] => {
-    return allParams.map(param => {
-      const r = registers.find(reg => reg[0].params_id === param.id);
-      return { ...param, annualEnergy: calculateAnnualEnergyTotal(r!) };
-    });
-  };
-
   return (
     <Box>
       <Box
@@ -50,19 +51,51 @@ const TheoricalComparison: React.FC<TheoricalComparisonProps> = ({
           pb: '60px',
         }}
       >
-        {registers.length > 0 && (
-          <EnhancedTable
-            data={extendedAllParams(allParams)}
-            selectedParams={selectedParams}
-            setSelectedParams={setSelected}
-          />
-        )}
+        <Box>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 2,
+              justifyContent: 'center',
+              marginTop: '40px',
+            }}
+          >
+            <Button
+              component={LinkRouter}
+              variant='contained'
+              to='/dashboard/designer'
+            >
+              Modificar parámetros
+            </Button>
+            <Button
+              component={LinkRouter}
+              variant='contained'
+              to='/dashboard/inspector'
+              onClick={() => {
+                dispatch(setDataType('comparison'));
+                dispatch(setReturnRoute('/dashboard/results'));
+              }}
+            >
+              Resultados tabulados
+            </Button>
+          </Box>
+        </Box>
+        <Box>
+          {registers.length > 0 && (
+            <EnhancedTable
+              data={extendedAllParams(allParams, registers)}
+              selectedParams={selectedParams}
+              setSelectedParams={setSelected}
+            />
+          )}
+        </Box>
       </Box>
       <Box sx={{ display: 'flex' }}>
         <Box sx={{ flex: 1 }}>
           {showGraph && (
             <CustomLineChart
-              data={transformData(filteredRegisters)}
+              data={transformRegisters(filteredRegisters)}
               title={
                 'Energía teórica anual con diferentes diseños. Ciudad de ' +
                 capitalize(city)

@@ -15,7 +15,7 @@ export const exportJsonToCsv = (jsonData: any[]) => {
   const downloadLink = document.createElement('a');
   downloadLink.href =
     'data:text/csv;charset=utf-8,' + encodeURIComponent(csvData);
-  downloadLink.download = 'datos.csv';
+  downloadLink.download = 'datos_' + Date.now() + '.csv';
 
   downloadLink.click();
 };

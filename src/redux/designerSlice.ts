@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { calculateParamService, createParamsService } from '../services/paramsServices';
-import { IParams, IParamsBody } from '../types/paramsTypes';
+import { IParams, IParamsBody, RawType } from '../types/paramsTypes';
 import { createPipelineService } from '../services/pipelineServices';
 import { IPipeline } from '../types/pipelinesTypes';
 import { RootState } from './store';
@@ -81,6 +81,7 @@ export const getAllProjectParams = createAsyncThunk(
   }
 )
 
+
 interface IDesignerState {
   data: any;
   city?: string;
@@ -100,10 +101,11 @@ interface IDesignerState {
   currentRegister: IRegister[],
   registers: IRegister[][],
   isLoading: boolean,
-  dataType: "weather" | "energy",
+  dataType: RawType,
   returnRoute: string,
   selectedParams: number[]
 }
+
 
 const initialState: IDesignerState = {
   data: [],
@@ -175,7 +177,7 @@ export const designerSlice = createSlice({
     setCurrentRegister: (state, action: PayloadAction<IRegister[]>) => {
       state.currentRegister = action.payload;
     },
-    setDataType: (state, action: PayloadAction<"weather" | "energy">) => {
+    setDataType: (state, action: PayloadAction<RawType>) => {
       state.dataType = action.payload;
     },
     setReturnRoute: (state, action: PayloadAction<string>) => {

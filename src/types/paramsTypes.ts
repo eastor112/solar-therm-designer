@@ -23,3 +23,5 @@ export interface IParams {
 export interface ExtendedParams extends IParams {
   annualEnergy: number;
 }
+
+export type RawType = "weather" | "energy" | "comparison"

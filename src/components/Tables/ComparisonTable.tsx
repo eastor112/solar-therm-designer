@@ -21,6 +21,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
 import { ExtendedParams } from '../../types/paramsTypes';
+import { ProcessedData } from '../../types/registersTypes';
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -77,7 +78,7 @@ const headCells: readonly HeadCell[] = [
   },
   {
     id: 'inclination_deg',
-    numeric: false,
+    numeric: true,
     disablePadding: false,
     label: 'Inclinación',
   },
@@ -248,18 +249,6 @@ const EnhancedTableToolbar: React.FC<EnhancedTableToolbarProps> = ({
     </Toolbar>
   );
 };
-
-interface ProcessedData {
-  id: number;
-  inclination_deg: number;
-  azimuth_deg: number;
-  granularity: number;
-  pipeline_separation: number;
-  external_diameter: number;
-  internal_diameter: number;
-  length: number;
-  annualEnergy: number;
-}
 
 const transformData = (data: ExtendedParams[]): ProcessedData[] => {
   const rows = data.map(row => {

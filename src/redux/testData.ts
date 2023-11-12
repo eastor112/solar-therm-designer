@@ -1,5 +1,6 @@
-import { IParams } from "../types/paramsTypes";
-import { IRegister } from "../types/registersTypes"
+import { ExtendedParams, IParams } from "../types/paramsTypes";
+import { IRegister } from '../types/registersTypes';
+import { calculateAnnualEnergyTotal } from "../utils/energyUtils";
 
 const generateData = (params_id: number): IRegister[] => {
   const data: IRegister[] = [];
@@ -29,7 +30,7 @@ export const registers: IRegister[][] = [
   generateData(17),
 ]
 
-export const transformData = (inputData: any) => {
+export const transformRegisters = (inputData: any) => {
   let transformedData: any[] = []
 
   for (let i = 1; i <= 365; i++) {
@@ -51,6 +52,27 @@ export const transformData = (inputData: any) => {
   return transformedData;
 };
 
+export const extendedAllParams = (allParams: IParams[], registers: IRegister[][]): ExtendedParams[] => {
+  return allParams.map(param => {
+    const r = registers.find(reg => reg[0].params_id === param.id);
+    return { ...param, annualEnergy: calculateAnnualEnergyTotal(r!) };
+  });
+};
+
+export const transformParams = (params: ExtendedParams[]) => {
+  return params.map(param => ({
+    id: param.id,
+    inclination_deg: param.inclination_deg,
+    azimuth_deg: param.azimuth_deg,
+    granularity: param.granularity,
+    pipeline_separation: param.pipeline_separation,
+    external_diameter: param.pipeline.external_diameter,
+    internal_diameter: param.pipeline.internal_diameter,
+    length: param.pipeline.length,
+    annualEnergy: param.annualEnergy
+  }
+  ));
+}
 
 export const extractEnergyKeys = (inputData: IRegister[][]): string[] => {
   const keys: string[] = []
