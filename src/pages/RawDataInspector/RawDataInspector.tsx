@@ -10,6 +10,7 @@ import {
   transformParams,
   transformRegisters,
 } from '../../redux/testData';
+import CoparisonRawTable from '../../components/Tables/CoparisonRawTable';
 
 const RawDataInspector = ({}) => {
   const navigate = useNavigate();
@@ -18,6 +19,14 @@ const RawDataInspector = ({}) => {
   );
   const { currentRegister, dataType, returnRoute, registers, allParams } =
     useAppSelector(state => state.designer);
+
+  const paramsTransformed =
+    dataType === 'comparison'
+      ? transformParams(extendedAllParams(allParams, registers))
+      : [];
+
+  const registersTransformed =
+    dataType === 'comparison' ? transformRegisters(registers) : [];
 
   const handleReturn = () => {
     navigate(returnRoute);
@@ -32,11 +41,8 @@ const RawDataInspector = ({}) => {
         exportJsonToCsv(currentRegister, 'energy');
         break;
       case 'comparison':
-        exportJsonToCsv(transformRegisters(registers), 'registers');
-        exportJsonToCsv(
-          transformParams(extendedAllParams(allParams, registers)),
-          'params'
-        );
+        exportJsonToCsv(registersTransformed, 'registers');
+        exportJsonToCsv(paramsTransformed, 'params');
         break;
       default:
         break;
@@ -70,7 +76,7 @@ const RawDataInspector = ({}) => {
         <ResultsTable rows={currentRegister} title={`Energía anual`} />
       )}
       {dataType === 'comparison' && (
-        <ResultsTable rows={currentRegister} title={`Energía anual`} />
+        <CoparisonRawTable rows={paramsTransformed} title={`Energía anual`} />
       )}
     </Box>
   );

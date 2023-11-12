@@ -59,7 +59,19 @@ export const extendedAllParams = (allParams: IParams[], registers: IRegister[][]
   });
 };
 
-export const transformParams = (params: ExtendedParams[]) => {
+export interface ParamsToExport {
+  id: number,
+  inclination_deg: number,
+  azimuth_deg: number,
+  granularity: number,
+  pipeline_separation: number,
+  external_diameter: number,
+  internal_diameter: number,
+  length: number,
+  annualEnergy: number
+}
+
+export const transformParams = (params: ExtendedParams[]): ParamsToExport[] => {
   return params.map(param => ({
     id: param.id,
     inclination_deg: param.inclination_deg,

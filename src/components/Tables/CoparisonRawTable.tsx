@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import TableBase from './TableBase';
-import { IRegister, ProcessedData } from '../../types/registersTypes';
+import { ProcessedData } from '../../types/registersTypes';
 import { Paper, Typography } from '@mui/material';
 import { generalStyles } from '../../styles/general/index';
+import { ParamsToExport } from '../../redux/testData';
 
 interface Column {
   id: keyof ProcessedData;
@@ -32,6 +33,7 @@ interface Column {
 //     },
 //   },
 // ];
+
 const columns: Column[] = [
   {
     id: 'id',
@@ -72,11 +74,11 @@ const columns: Column[] = [
 ];
 
 interface ResultsTableProps {
-  rows: IRegister[];
+  rows: ParamsToExport[];
   title: string;
 }
 
-const ResultsTable: React.FC<ResultsTableProps> = ({ rows, title }) => {
+const CoparisonRawTable: React.FC<ResultsTableProps> = ({ rows, title }) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(25);
 
@@ -100,4 +102,4 @@ const ResultsTable: React.FC<ResultsTableProps> = ({ rows, title }) => {
   );
 };
 
-export default ResultsTable;
+export default CoparisonRawTable;
