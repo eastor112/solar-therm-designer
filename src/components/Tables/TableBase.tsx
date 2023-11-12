@@ -33,7 +33,6 @@ const TableBase: React.FC<TableBaseProps> = ({
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
-
   return (
     <>
       <TableContainer sx={{ minHeight: 200 }}>
@@ -56,7 +55,12 @@ const TableBase: React.FC<TableBaseProps> = ({
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row: any) => {
                 return (
-                  <TableRow hover role='checkbox' tabIndex={-1} key={row.date}>
+                  <TableRow
+                    hover
+                    role='checkbox'
+                    tabIndex={-1}
+                    key={row.date || row.day || row.id}
+                  >
                     {columns.map(column => {
                       const value = row[column.id];
                       return (
