@@ -6,6 +6,8 @@ import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import EnhancedTable from '../Tables/ComparisonTable';
 import { setSelectedParams } from '../../redux/designerSlice';
 import { useMemo } from 'react';
+import { ExtendedParams, IParams } from '../../types/paramsTypes';
+import { calculateAnnualEnergyTotal } from '../../utils/energyUtils';
 
 interface TheoricalComparisonProps {
   showGraph: boolean;
@@ -34,6 +36,13 @@ const TheoricalComparison: React.FC<TheoricalComparisonProps> = ({
     return filtered;
   }, [selectedParams, registers]);
 
+  const extendedAllParams = (allParams: IParams[]): ExtendedParams[] => {
+    return allParams.map(param => {
+      const r = registers.find(reg => reg[0].params_id === param.id);
+      return { ...param, annualEnergy: calculateAnnualEnergyTotal(r!) };
+    });
+  };
+
   return (
     <Box>
       <Box
@@ -41,27 +50,33 @@ const TheoricalComparison: React.FC<TheoricalComparisonProps> = ({
           pb: '60px',
         }}
       >
-        <EnhancedTable
-          data={allParams}
-          selectedParams={selectedParams}
-          setSelectedParams={setSelected}
-        />
+        {registers.length > 0 && (
+          <EnhancedTable
+            data={extendedAllParams(allParams)}
+            selectedParams={selectedParams}
+            setSelectedParams={setSelected}
+          />
+        )}
       </Box>
-      {showGraph && (
-        <CustomLineChart
-          data={transformData(filteredRegisters)}
-          title={
-            'Energía teórica anual con diferentes diseños. Ciudad de ' +
-            capitalize(city)
-          }
-          columns={extractEnergyKeys(filteredRegisters)}
-          domain={[0, 1]}
-          size='medium'
-          dataKey='day'
-          units='[KW-h]'
-          legendDirection='horizontal'
-        />
-      )}
+      <Box sx={{ display: 'flex' }}>
+        <Box sx={{ flex: 1 }}>
+          {showGraph && (
+            <CustomLineChart
+              data={transformData(filteredRegisters)}
+              title={
+                'Energía teórica anual con diferentes diseños. Ciudad de ' +
+                capitalize(city)
+              }
+              columns={extractEnergyKeys(filteredRegisters)}
+              domain={[0, 1]}
+              size='medium'
+              dataKey='day'
+              units='[KW-h]'
+              legendDirection='horizontal'
+            />
+          )}
+        </Box>
+      </Box>
     </Box>
   );
 };

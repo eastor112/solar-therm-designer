@@ -20,7 +20,7 @@ import Switch from '@mui/material/Switch';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
-import { IParams } from '../../types/paramsTypes';
+import { ExtendedParams } from '../../types/paramsTypes';
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -78,7 +78,7 @@ const headCells: readonly HeadCell[] = [
   {
     id: 'inclination_deg',
     numeric: false,
-    disablePadding: true,
+    disablePadding: false,
     label: 'Inclinación',
   },
   {
@@ -116,6 +116,12 @@ const headCells: readonly HeadCell[] = [
     numeric: true,
     disablePadding: false,
     label: 'Long. tubo (m)',
+  },
+  {
+    id: 'annualEnergy',
+    numeric: true,
+    disablePadding: false,
+    label: 'Energía anual (KW-h)',
   },
 ];
 
@@ -252,9 +258,10 @@ interface ProcessedData {
   external_diameter: number;
   internal_diameter: number;
   length: number;
+  annualEnergy: number;
 }
 
-const transformData = (data: IParams[]): ProcessedData[] => {
+const transformData = (data: ExtendedParams[]): ProcessedData[] => {
   const rows = data.map(row => {
     return {
       id: row.id,
@@ -265,6 +272,7 @@ const transformData = (data: IParams[]): ProcessedData[] => {
       external_diameter: row.pipeline.external_diameter,
       internal_diameter: row.pipeline.internal_diameter,
       length: row.pipeline.length,
+      annualEnergy: row.annualEnergy,
     };
   });
 
@@ -272,7 +280,7 @@ const transformData = (data: IParams[]): ProcessedData[] => {
 };
 
 interface TableProps {
-  data: IParams[];
+  data: ExtendedParams[];
   selectedParams: number[];
   setSelectedParams: (params: number[]) => void;
 }
@@ -409,17 +417,18 @@ const EnhancedTable: React.FC<TableProps> = ({
                     <TableCell align='right'>{row.inclination_deg}</TableCell>
                     <TableCell align='right'>{row.azimuth_deg}</TableCell>
                     <TableCell align='right'>{row.granularity}</TableCell>
-                    <TableCell align='right' sx={{ width: '100px' }}>
+                    <TableCell align='right'>
                       {(row.pipeline_separation * 100).toFixed(2)}
                     </TableCell>
-                    <TableCell align='right' sx={{ width: '140px' }}>
+                    <TableCell align='right'>
                       {(row.external_diameter * 1000).toFixed(2)}
                     </TableCell>
-                    <TableCell align='right' sx={{ width: '140px' }}>
+                    <TableCell align='right'>
                       {(row.internal_diameter * 1000).toFixed(2)}
                     </TableCell>
-                    <TableCell align='right' sx={{ width: '140px' }}>
-                      {row.length}
+                    <TableCell align='right'>{row.length}</TableCell>
+                    <TableCell align='right'>
+                      {row.annualEnergy.toFixed(2)}
                     </TableCell>
                   </TableRow>
                 );

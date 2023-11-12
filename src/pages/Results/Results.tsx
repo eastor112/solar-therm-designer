@@ -41,7 +41,14 @@ const Results = () => {
   return (
     <Box>
       <h3 className='text-3xl font-bold mb-8'>SOLARTHERM DESIGNER V0.020</h3>
-      <Box sx={{ ...generalStyles.cardLayout, minWidth: 380, flex: 1 }}>
+      <Box
+        sx={{
+          ...generalStyles.cardLayout,
+          minWidth: 380,
+          flex: 1,
+          maxWidth: isSidebarOpen ? '82vw' : '95vw',
+        }}
+      >
         <Typography variant='h3' sx={generalStyles.h3}>
           Resultados
         </Typography>

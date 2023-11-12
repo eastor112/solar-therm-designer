@@ -19,3 +19,7 @@ export interface IParams {
   location: ILocation;
   pipeline: IPipeline;
 }
+
+export interface ExtendedParams extends IParams {
+  annualEnergy: number;
+}
