@@ -35,7 +35,6 @@ const DataInspectorGraph: React.FC<DataGraphProps> = ({
   showGraph,
 }) => {
   const dispatch = useDispatch();
-
   const navigate = useNavigate();
 
   const handleShowRawData = () => {

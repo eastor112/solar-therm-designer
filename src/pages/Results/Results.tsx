@@ -16,6 +16,8 @@ import {
 } from '../../redux/designerSlice';
 import Resume from '../../components/Resumen/Resume';
 import TheoricalComparison from '../../components/ResultsPartials/TheoricalComparison';
+import { useOutletContexRoot } from '../RootLayout';
+import { useGraphVisibility } from '../../hooks/useGraphVisibility';
 
 const Results = () => {
   const navigate = useNavigate();
@@ -25,6 +27,8 @@ const Results = () => {
     state => state.designer
   );
   const [chart, setChart] = useState('annualEnergy');
+  const { isSidebarOpen } = useOutletContexRoot();
+  const showGraph = useGraphVisibility(isSidebarOpen);
 
   useEffect(() => {
     if (currentRegister.length === 0) {
@@ -83,7 +87,7 @@ const Results = () => {
             }}
             className='h-20'
           />
-          <BottomNavigationAction
+          {/* <BottomNavigationAction
             label='Potencia vs tiempo'
             value='power'
             showLabel={true}
@@ -102,7 +106,7 @@ const Results = () => {
               paddingY: '10px',
               border: '1px solid #ddd',
             }}
-          />
+          /> */}
         </BottomNavigation>
 
         <Box
@@ -130,10 +134,10 @@ const Results = () => {
                     )}
 
                     {chart === 'annualEnergyComparison' && (
-                      <TheoricalComparison />
+                      <TheoricalComparison showGraph={showGraph} />
                     )}
 
-                    {chart === 'power' && (
+                    {/* {chart === 'power' && (
                       <CustomLineChart
                         data={data}
                         title={
@@ -157,7 +161,7 @@ const Results = () => {
                         size='medium'
                         dataKey='date'
                       />
-                    )}
+                    )} */}
                   </>
                 ))}
             </Box>

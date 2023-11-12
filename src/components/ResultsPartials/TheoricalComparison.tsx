@@ -7,9 +7,13 @@ import EnhancedTable from '../Tables/ComparisonTable';
 import { setSelectedParams } from '../../redux/designerSlice';
 import { useMemo } from 'react';
 
-interface TheoricalComparisonProps {}
+interface TheoricalComparisonProps {
+  showGraph: boolean;
+}
 
-const TheoricalComparison: React.FC<TheoricalComparisonProps> = () => {
+const TheoricalComparison: React.FC<TheoricalComparisonProps> = ({
+  showGraph,
+}) => {
   const { registers, city, allParams, selectedParams } = useAppSelector(
     state => state.designer
   );
@@ -43,20 +47,21 @@ const TheoricalComparison: React.FC<TheoricalComparisonProps> = () => {
           setSelectedParams={setSelected}
         />
       </Box>
-
-      <CustomLineChart
-        data={transformData(filteredRegisters)}
-        title={
-          'Energía teórica anual con diferentes diseños. Ciudad de ' +
-          capitalize(city)
-        }
-        columns={extractEnergyKeys(filteredRegisters)}
-        domain={[0, 1]}
-        size='medium'
-        dataKey='day'
-        units='[KW-h]'
-        legendDirection='horizontal'
-      />
+      {showGraph && (
+        <CustomLineChart
+          data={transformData(filteredRegisters)}
+          title={
+            'Energía teórica anual con diferentes diseños. Ciudad de ' +
+            capitalize(city)
+          }
+          columns={extractEnergyKeys(filteredRegisters)}
+          domain={[0, 1]}
+          size='medium'
+          dataKey='day'
+          units='[KW-h]'
+          legendDirection='horizontal'
+        />
+      )}
     </Box>
   );
 };
