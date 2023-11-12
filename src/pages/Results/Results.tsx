@@ -1,29 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import Button from '@mui/material/Button';
-import { Link as LinkRouter, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { generalStyles } from '../../styles/general';
 import Box from '@mui/material/Box';
 import { Typography } from '@mui/material';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
-import CustomLineChart from '../../components/Graphs/LineChart';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
-import { capitalize } from '../../utils/textTransformations';
-import {
-  getRegisters,
-  setDataType,
-  setReturnRoute,
-} from '../../redux/designerSlice';
-import Resume from '../../components/Resumen/Resume';
+import { getRegisters } from '../../redux/designerSlice';
 import TheoricalComparison from '../../components/ResultsPartials/TheoricalComparison';
 import { useOutletContexRoot } from '../RootLayout';
 import { useGraphVisibility } from '../../hooks/useGraphVisibility';
+import TheoricalResults from '../../components/ResultsPartials/TheoricalResults';
 
 const Results = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { date } = useAppSelector(state => state.locations);
-  const { data, city, currentRegister, registers } = useAppSelector(
+  const { data, currentRegister, registers } = useAppSelector(
     state => state.designer
   );
   const [chart, setChart] = useState('annualEnergy');
@@ -120,17 +112,7 @@ const Results = () => {
                 (currentRegister.length > 0 && (
                   <>
                     {chart === 'annualEnergy' && (
-                      <CustomLineChart
-                        data={currentRegister}
-                        title={'Enegía teórica anual en ' + capitalize(city)}
-                        columns={['energy']}
-                        domain={[0, 0.8]}
-                        size='medium'
-                        dataKey='day'
-                        date={date ? date : undefined}
-                        units='[KW-h]'
-                        interval={14}
-                      />
+                      <TheoricalResults showGraph={showGraph} />
                     )}
 
                     {chart === 'annualEnergyComparison' && (
@@ -165,38 +147,6 @@ const Results = () => {
                   </>
                 ))}
             </Box>
-          </Box>
-
-          <Box>
-            <Box
-              sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: 2,
-                justifyContent: 'center',
-                marginTop: '40px',
-              }}
-            >
-              <Button
-                component={LinkRouter}
-                variant='contained'
-                to='/dashboard/designer'
-              >
-                Modificar parámetros
-              </Button>
-              <Button
-                component={LinkRouter}
-                variant='contained'
-                to='/dashboard/inspector'
-                onClick={() => {
-                  dispatch(setDataType('energy'));
-                  dispatch(setReturnRoute('/dashboard/results'));
-                }}
-              >
-                Resultados tabulados
-              </Button>
-            </Box>
-            <Resume />
           </Box>
         </Box>
       </Box>
