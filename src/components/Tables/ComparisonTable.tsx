@@ -280,9 +280,8 @@ const EnhancedTable: React.FC<TableProps> = ({
   setSelectedParams,
 }) => {
   const [rows, setRows] = useState<ProcessedData[]>([]);
-  const [order, setOrder] = useState<Order>('asc');
-  const [orderBy, setOrderBy] =
-    useState<keyof ProcessedData>('inclination_deg');
+  const [order, setOrder] = useState<Order>('desc');
+  const [orderBy, setOrderBy] = useState<keyof ProcessedData>('id');
   const [page, setPage] = useState(0);
   const [dense, setDense] = useState(true);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -403,8 +402,12 @@ const EnhancedTable: React.FC<TableProps> = ({
                       />
                     </TableCell>
                     <TableCell id={labelId}>{`e${row.id}`}</TableCell>
-                    <TableCell align='right'>{row.inclination_deg}</TableCell>
-                    <TableCell align='right'>{row.azimuth_deg}</TableCell>
+                    <TableCell align='right'>
+                      {row.inclination_deg.toFixed(2)}
+                    </TableCell>
+                    <TableCell align='right'>
+                      {row.azimuth_deg.toFixed(2)}
+                    </TableCell>
                     <TableCell align='right'>{row.granularity}</TableCell>
                     <TableCell align='right'>
                       {(row.pipeline_separation * 100).toFixed(2)}

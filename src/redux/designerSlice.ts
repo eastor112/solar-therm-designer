@@ -1,12 +1,11 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { calculateParamService, createParamsService } from '../services/paramsServices';
+import { calculateParamService, createParamsService, getAllParamsProject } from '../services/paramsServices';
 import { IParams, IParamsBody, RawType } from '../types/paramsTypes';
 import { createPipelineService } from '../services/pipelineServices';
 import { IPipeline } from '../types/pipelinesTypes';
 import { RootState } from './store';
 import { IRegister } from '../types/registersTypes';
-import { getAllRegistersParamService } from '../services/registerServices';
-import { registers, testParams } from './testData';
+import { getAllRegisterFromProjectService, getAllRegistersParamService } from '../services/registerServices';
 
 export const computeResults = createAsyncThunk(
   'designer/createPipeline',
@@ -20,10 +19,10 @@ export const computeResults = createAsyncThunk(
       pipelineSeparation,
       granularity,
       azimuth,
-      inclination
+      inclination,
     } = state.designer
 
-    const { currentLocation } = state.locations
+    const { currentLocation, currentProject } = state.locations
 
     const pipeline = await createPipelineService({
       external_diameter: externalDiameter / 1000,
@@ -34,6 +33,7 @@ export const computeResults = createAsyncThunk(
     dispatch(setCurrentPipeline(pipeline))
 
     const param = await createParamsService({
+      project_id: currentProject?.id!,
       inclination_deg: inclination,
       azimuth_deg: azimuth,
       granularity,
@@ -67,17 +67,19 @@ export const calculateParam = createAsyncThunk(
   }
 );
 
-export const getRegisters = createAsyncThunk(
+export const getProjectRegisters = createAsyncThunk(
   'designer/getAllRegisters',
-  async (_) => {
+  async (project_id: number) => {
+    const registers = await getAllRegisterFromProjectService(project_id)
     return registers
   }
 )
 
 export const getAllProjectParams = createAsyncThunk(
   'designer/getAllParams',
-  async (_) => {
-    return testParams
+  async (project_id: number) => {
+    const params = await getAllParamsProject(project_id)
+    return params
   }
 )
 
@@ -202,7 +204,7 @@ export const designerSlice = createSlice({
         state.isLoading = false;
         state.currentRegister = action.payload;
       })
-      .addCase(getRegisters.fulfilled, (state, action) => {
+      .addCase(getProjectRegisters.fulfilled, (state, action) => {
         state.isLoading = false;
         state.registers = action.payload;
       })

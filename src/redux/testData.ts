@@ -55,7 +55,7 @@ export const transformRegisters = (inputData: any) => {
 export const extendedAllParams = (allParams: IParams[], registers: IRegister[][]): ExtendedParams[] => {
   return allParams.map(param => {
     const r = registers.find(reg => reg[0].params_id === param.id);
-    return { ...param, annualEnergy: calculateAnnualEnergyTotal(r!) };
+    return { ...param, annualEnergy: r ? calculateAnnualEnergyTotal(r) : 0 };
   });
 };
 

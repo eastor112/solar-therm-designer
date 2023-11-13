@@ -17,9 +17,8 @@ import {
 } from '../../redux/designerSlice';
 
 const DesignerForm = () => {
-  const { volumen, manifoldLength, pipeNumber } = useAppSelector(
-    state => state.locations
-  );
+  const { volumen, manifoldLength, pipeNumber, currentProject } =
+    useAppSelector(state => state.locations);
   const { granularity, pipelineSeparation, isLoading } = useAppSelector(
     state => state.designer
   );
@@ -28,7 +27,7 @@ const DesignerForm = () => {
   const navigate = useNavigate();
 
   const handleCompute = async () => {
-    await dispatch(getAllProjectParams());
+    await dispatch(getAllProjectParams(currentProject?.id!));
     await dispatch(computeResults());
 
     navigate('/dashboard/results');

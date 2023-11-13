@@ -5,8 +5,7 @@ import Box from '@mui/material/Box';
 import { Typography } from '@mui/material';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
-import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
-import { getRegisters } from '../../redux/designerSlice';
+import { useAppSelector } from '../../hooks/reduxHooks';
 import TheoricalComparison from '../../components/ResultsPartials/TheoricalComparison';
 import { useOutletContexRoot } from '../RootLayout';
 import { useGraphVisibility } from '../../hooks/useGraphVisibility';
@@ -14,10 +13,7 @@ import TheoricalResults from '../../components/ResultsPartials/TheoricalResults'
 
 const Results = () => {
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
-  const { data, currentRegister, registers } = useAppSelector(
-    state => state.designer
-  );
+  const { data, currentRegister } = useAppSelector(state => state.designer);
   const [chart, setChart] = useState('annualEnergy');
   const { isSidebarOpen } = useOutletContexRoot();
   const showGraph = useGraphVisibility(isSidebarOpen);
@@ -32,9 +28,6 @@ const Results = () => {
     _event: React.SyntheticEvent,
     newValue: string
   ) => {
-    if (newValue === 'annualEnergyComparison' && registers.length === 0) {
-      dispatch(getRegisters());
-    }
     setChart(newValue);
   };
 

@@ -28,7 +28,7 @@ const TheoricalResults: React.FC<TheoricalResultsProps> = ({ showGraph }) => {
             data={currentRegister}
             title={'Enegía teórica anual en ' + capitalize(city)}
             columns={['energy']}
-            domain={[0, 0.8]}
+            domain={[0, 1]}
             size='medium'
             dataKey='day'
             date={date ? date : undefined}

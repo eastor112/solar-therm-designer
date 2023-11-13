@@ -9,11 +9,12 @@ import {
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import EnhancedTable from '../Tables/ComparisonTable';
 import {
+  getProjectRegisters,
   setDataType,
   setReturnRoute,
   setSelectedParams,
 } from '../../redux/designerSlice';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Button } from '@mui/material';
 import { Link as LinkRouter } from 'react-router-dom';
 
@@ -27,7 +28,12 @@ const TheoricalComparison: React.FC<TheoricalComparisonProps> = ({
   const { registers, city, allParams, selectedParams } = useAppSelector(
     state => state.designer
   );
+  const { currentProject } = useAppSelector(state => state.locations);
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(getProjectRegisters(currentProject?.id!));
+  }, [currentProject]);
 
   const setSelected = (value: number[]) => {
     dispatch(setSelectedParams(value));

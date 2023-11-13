@@ -2,6 +2,7 @@ import { ILocation } from "./locationstypes";
 import { IPipeline } from "./pipelinesTypes";
 
 export interface IParamsBody {
+  project_id: number;
   inclination_deg: number;
   azimuth_deg: number;
   granularity: number;
