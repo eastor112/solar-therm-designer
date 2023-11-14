@@ -30,7 +30,6 @@ const AnglesDesigner = () => {
           sx={{
             display: 'flex',
             flexDirection: 'column',
-            // gap: 2,
             color: 'primary.main',
             fontSize: '1.5rem',
             position: 'relative',
@@ -39,12 +38,7 @@ const AnglesDesigner = () => {
         >
           <svg width='0' height='0'>
             <defs>
-              <linearGradient
-                id='arcProgress'
-                x1='100%'
-                x2='0%'
-                //gradientTransform="rotate(0)"
-              >
+              <linearGradient id='arcProgress' x1='100%' x2='0%'>
                 <stop offset='0%' stopColor='#ccdcff' stopOpacity='1' />
                 <stop offset='100%' stopColor='#556cd6' stopOpacity='1' />
               </linearGradient>

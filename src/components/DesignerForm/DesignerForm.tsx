@@ -61,7 +61,7 @@ const DesignerForm = () => {
             label='Long. Manifold (m)'
             variant='outlined'
             name='manifoldLength'
-            value={manifoldLength || 0}
+            value={manifoldLength || 2}
             onChange={val => {
               dispatch(setManifoldLength(+val.target.value));
             }}
@@ -85,7 +85,7 @@ const DesignerForm = () => {
             label='Número tubos (u)'
             variant='outlined'
             name='pipeNumber'
-            value={pipeNumber || 0}
+            value={pipeNumber || 10}
             onChange={val => {
               dispatch(setPipeNumber(+val.target.value));
             }}
@@ -100,7 +100,7 @@ const DesignerForm = () => {
             label='Volumen (m3)'
             variant='outlined'
             name='volumen'
-            value={volumen || 0}
+            value={volumen || 1}
             onChange={val => {
               dispatch(setVolumen(+val.target.value));
             }}
@@ -112,7 +112,7 @@ const DesignerForm = () => {
             label='Granularidad (u)'
             variant='outlined'
             name='granularity'
-            value={granularity || 0}
+            value={granularity || 12}
             onChange={val => {
               dispatch(setGranularity(+val.target.value));
             }}

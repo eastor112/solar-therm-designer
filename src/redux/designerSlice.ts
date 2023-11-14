@@ -172,10 +172,10 @@ export const designerSlice = createSlice({
       state.pipelineSeparation = action.payload;
     },
     setInclination: (state, action: PayloadAction<number>) => {
-      state.inclination = action.payload;
+      state.inclination = +action.payload.toFixed(2);
     },
     setAzimuth: (state, action: PayloadAction<number>) => {
-      state.azimuth = action.payload;
+      state.azimuth = +action.payload.toFixed(2);
     },
     setCurrentParam: (state, action: PayloadAction<IParams>) => {
       state.currentParam = action.payload;
