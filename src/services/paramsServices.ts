@@ -31,19 +31,32 @@ export const calculateParamService = async (paramID: number | string) => {
   return response.json() as Promise<ICalculationResponse>;
 };
 
-export const getAllParamsProject = async (project_id: number) => {
-  const response = await fetch(`${envVars.API_HOST}/theoretical/project/${project_id}`);
+export const getAllParamsProject = async (projectID: number) => {
+  const response = await fetch(`${envVars.API_HOST}/theoretical/project/${projectID}`);
 
   return response.json() as Promise<IParams[]>;
 }
 
-export const deleteParamsService = async (param_id: number) => {
-  const response = await fetch(`${envVars.API_HOST}/theoretical/${param_id}`, {
+export const deleteParamsService = async (paramID: number) => {
+  const response = await fetch(`${envVars.API_HOST}/theoretical/${paramID}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${localStorage.getItem('token')}`,
     },
+  });
+
+  return response.json();
+}
+
+export const deleteAllParamsSelectedService = async (paramsIDs: number[]) => {
+  const response = await fetch(`${envVars.API_HOST}/theoretical/delete/multiple`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    },
+    body: JSON.stringify({ params_ids: paramsIDs }),
   });
 
   return response.json();

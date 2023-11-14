@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { calculateParamService, createParamsService, getAllParamsProject } from '../services/paramsServices';
+import { calculateParamService, createParamsService, getAllParamsProject, deleteAllParamsSelectedService } from '../services/paramsServices';
 import { IParams, IParamsBody, RawType } from '../types/paramsTypes';
 import { createPipelineService } from '../services/pipelineServices';
 import { IPipeline } from '../types/pipelinesTypes';
@@ -69,20 +69,27 @@ export const calculateParam = createAsyncThunk(
 
 export const getProjectRegisters = createAsyncThunk(
   'designer/getAllRegisters',
-  async (project_id: number) => {
-    const registers = await getAllRegisterFromProjectService(project_id)
+  async (projectID: number) => {
+    const registers = await getAllRegisterFromProjectService(projectID)
     return registers
   }
 )
 
 export const getAllProjectParams = createAsyncThunk(
   'designer/getAllParams',
-  async (project_id: number) => {
-    const params = await getAllParamsProject(project_id)
+  async (projectID: number) => {
+    const params = await getAllParamsProject(projectID)
     return params
   }
 )
 
+export const deleteParamsSelected = createAsyncThunk(
+  'designer/deleteParamsSelected',
+  async (paramsIDs: number[]) => {
+    const params = await deleteAllParamsSelectedService(paramsIDs)
+    return params
+  }
+)
 
 interface IDesignerState {
   data: any;
@@ -211,6 +218,9 @@ export const designerSlice = createSlice({
       .addCase(getAllProjectParams.fulfilled, (state, action) => {
         state.isLoading = false;
         state.allParams = action.payload;
+      })
+      .addCase(deleteParamsSelected.fulfilled, (state, _action) => {
+        state.isLoading = false;
       })
   },
 });

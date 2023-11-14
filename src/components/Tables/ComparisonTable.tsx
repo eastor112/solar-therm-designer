@@ -22,6 +22,9 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
 import { ExtendedParams } from '../../types/paramsTypes';
 import { ProcessedData } from '../../types/registersTypes';
+import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
+import { deleteParamsSelected } from '../../redux/designerSlice';
+import { useNavigate } from 'react-router-dom';
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -195,11 +198,25 @@ const EnhancedTableHead = (props: EnhancedTableProps) => {
 
 interface EnhancedTableToolbarProps {
   numSelected: number;
+  selectedParams: number[];
 }
 
 const EnhancedTableToolbar: React.FC<EnhancedTableToolbarProps> = ({
   numSelected,
+  selectedParams,
 }) => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const { currentLocation } = useAppSelector(state => state.locations);
+
+  const handleDeleteParam = async () => {
+    await dispatch(deleteParamsSelected(selectedParams));
+
+    if (currentLocation && currentLocation.id in selectedParams) {
+      navigate(`/dashboard/designer`);
+    }
+  };
+
   return (
     <Toolbar
       sx={{
@@ -235,7 +252,7 @@ const EnhancedTableToolbar: React.FC<EnhancedTableToolbarProps> = ({
       )}
       {numSelected > 0 ? (
         <Tooltip title='Delete'>
-          <IconButton>
+          <IconButton onClick={handleDeleteParam}>
             <DeleteIcon />
           </IconButton>
         </Tooltip>
@@ -360,7 +377,10 @@ const EnhancedTable: React.FC<TableProps> = ({
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
-        <EnhancedTableToolbar numSelected={selectedParams.length} />
+        <EnhancedTableToolbar
+          numSelected={selectedParams.length}
+          selectedParams={selectedParams}
+        />
 
         <TableContainer>
           <Table

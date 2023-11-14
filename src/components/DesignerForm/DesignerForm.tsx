@@ -27,8 +27,10 @@ const DesignerForm = () => {
   const navigate = useNavigate();
 
   const handleCompute = async () => {
-    await dispatch(getAllProjectParams(currentProject?.id!));
     await dispatch(computeResults());
+    if (currentProject) {
+      await dispatch(getAllProjectParams(currentProject.id));
+    }
 
     navigate('/dashboard/results');
   };
