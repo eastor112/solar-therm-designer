@@ -66,7 +66,7 @@ const RawDataInspector = ({}) => {
 
   return (
     <Box>
-      <h3 className='text-3xl font-bold mb-8'>SOLARTHERM DESIGNER V0.020</h3>
+      <h3 className='text-3xl font-bold mb-8'>SOLARTHERM DESIGNER</h3>
       <Box
         sx={{
           display: 'flex',

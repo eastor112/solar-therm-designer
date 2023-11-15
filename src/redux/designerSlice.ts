@@ -118,7 +118,7 @@ interface IDesignerState {
 
 const initialState: IDesignerState = {
   data: [],
-  city: 'piura',
+  city: 'Trujillo',
   internalDiameter: 43.02,
   externalDiameter: 58.36,
   pipelineLength: 1.8,

@@ -72,7 +72,7 @@ const Designer = () => {
           {currentProject && (
             <>
               <h3 className='text-3xl font-bold'>
-                SOLARTHERM DESIGNER V0.3{' '}
+                SOLARTHERM DESIGNER{' '}
                 {currentProject.name ? `- ${currentProject.name}` : ''}
               </h3>
               <div className='flex gap-8'>
