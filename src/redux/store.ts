@@ -2,12 +2,14 @@ import { configureStore } from '@reduxjs/toolkit';
 import designerSlice from './designerSlice';
 import UISlice from './UISlice';
 import locationsSlice from './locationsSlice';
+import usersSlice from './usersSlice';
 
 const store = configureStore({
   reducer: {
     designer: designerSlice,
     ui: UISlice,
-    locations: locationsSlice
+    locations: locationsSlice,
+    users: usersSlice
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
