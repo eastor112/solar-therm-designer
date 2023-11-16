@@ -207,6 +207,9 @@ export const designerSlice = createSlice({
       .addCase(calculateParam.pending, (state, _action) => {
         state.isLoading = true;
       })
+      .addCase(calculateParam.fulfilled, (state, _action) => {
+        state.isLoading = false;
+      })
       .addCase(computeResults.fulfilled, (state, action) => {
         state.isLoading = false;
         state.currentRegister = action.payload;

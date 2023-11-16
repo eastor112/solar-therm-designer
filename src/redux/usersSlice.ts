@@ -1,11 +1,25 @@
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { LoginData, UserData } from '../types/usersTypes';
-import { login } from '../services/usersServices';
+import { loginRequest, validateTokenRequest } from '../services/usersServices';
 
 export const loginUser = createAsyncThunk(
-  'designer/calculateParam',
+  'users/login',
   async (loginData: LoginData) => {
-    const userData = await login(loginData);
+    const userData = await loginRequest(loginData);
+    if (userData) {
+      localStorage.setItem('data', JSON.stringify(userData));
+    }
+    return userData;
+  }
+);
+
+export const validateToken = createAsyncThunk(
+  'users/refresh',
+  async (token: string) => {
+    const userData = await validateTokenRequest(token);
+    if (userData) {
+      localStorage.setItem('data', JSON.stringify(userData));
+    }
     return userData;
   }
 );
@@ -31,6 +45,16 @@ export const locationsSlice = createSlice({
     setError: (state, action: PayloadAction<string | null>) => {
       state.error = action.payload;
     },
+    logout: (state) => {
+      localStorage.removeItem("data")
+      state.userData = null;
+      state.isAuthenticated = false;
+      state.token = null;
+      state.error = null;
+    },
+    setUserData: (state, action: PayloadAction<UserData>) => {
+      state.userData = action.payload;
+    }
   },
   extraReducers: builder => {
     builder
@@ -47,11 +71,26 @@ export const locationsSlice = createSlice({
           state.token = null;
         }
       })
+      .addCase(validateToken.fulfilled, (state, action) => {
+        if (action.payload) {
+          state.userData = action.payload;
+          state.isAuthenticated = true;
+          state.error = null;
+          state.token = action.payload.token;
+        } else {
+          state.userData = null;
+          state.isAuthenticated = false;
+          state.error = "Credenciales incorrectas"
+          state.token = null;
+        }
+      })
   },
 });
 
 export const {
-  setError
+  setError,
+  logout,
+  setUserData
 } = locationsSlice.actions;
 
 export default locationsSlice.reducer;

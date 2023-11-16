@@ -1,21 +1,19 @@
+import { Navigate } from 'react-router-dom';
 import Designer from '../pages/Designer/Designer';
 import Login from '../pages/Login/Login';
 import RawDataInspector from '../pages/RawDataInspector/RawDataInspector';
 import Results from '../pages/Results/Results';
 import RootLayout from '../pages/RootLayout';
+import PrivateRoute from './PrivateRoute';
 
 export const routes = [
-  {
-    path: '/',
-    element: <Login />,
-  },
   {
     path: '/login',
     element: <Login />,
   },
   {
     path: '/dashboard',
-    element: <RootLayout />,
+    element: <PrivateRoute component={<RootLayout />} />,
     children: [
       {
         path: '/dashboard/designer',
@@ -29,6 +27,11 @@ export const routes = [
         path: '/dashboard/inspector',
         element: <RawDataInspector />,
       },
+      {
+        path: '*',
+        element: <Navigate to='/dashboard/designer' replace />,
+      },
     ],
   },
+  { path: '*', element: <Navigate to='/login' replace /> },
 ];

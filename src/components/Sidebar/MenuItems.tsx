@@ -5,11 +5,11 @@ import Folder from '@mui/icons-material/Folder';
 // import NewspaperIcon from '@mui/icons-material/Newspaper';
 import LogoutIcon from '@mui/icons-material/Logout';
 import InfoIcon from '@mui/icons-material/Info';
-import { Link } from 'react-router-dom';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Cancel';
 import NoteAddIcon from '@mui/icons-material/NoteAdd';
-import { useAppSelector } from '../../hooks/reduxHooks';
+import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
+import { logout } from '../../redux/usersSlice';
 
 interface MainListItemsProps {
   handleOpenGlobalModal: (value: string) => void;
@@ -74,6 +74,8 @@ interface SecondaryListItemsProps {
 export const SecondaryListItems: React.FC<SecondaryListItemsProps> = ({
   handleOpenGlobalModal,
 }) => {
+  const dispatch = useAppDispatch();
+
   return (
     <>
       <ListItemButton onClick={() => handleOpenGlobalModal('about')}>
@@ -82,7 +84,11 @@ export const SecondaryListItems: React.FC<SecondaryListItemsProps> = ({
         </ListItemIcon>
         <ListItemText primary='Acerca de' />
       </ListItemButton>
-      <ListItemButton component={Link} to='/login'>
+      <ListItemButton
+        onClick={() => {
+          dispatch(logout());
+        }}
+      >
         <ListItemIcon>
           <LogoutIcon />
         </ListItemIcon>

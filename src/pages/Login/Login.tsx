@@ -8,9 +8,10 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { useEffect, useState } from 'react';
-import { loginUser, setError } from '../../redux/usersSlice';
+import { loginUser, setError, validateToken } from '../../redux/usersSlice';
 import { Alert } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { UserData } from '../../types/usersTypes';
 
 const Copyright = (props: any) => {
   return (
@@ -38,8 +39,21 @@ const Login = () => {
   const [password, setPassword] = useState('');
 
   useEffect(() => {
+    if (!isAuthenticated) {
+      const userData = localStorage.getItem('data');
+      if (userData) {
+        const parsedData = JSON.parse(userData) as UserData;
+
+        dispatch(validateToken(parsedData.token));
+      } else {
+        navigate('/login');
+      }
+    }
+  }, []);
+
+  useEffect(() => {
     if (isAuthenticated) {
-      navigate('/dashboard');
+      navigate('/dashboard/designer');
     }
   }, [isAuthenticated]);
 
