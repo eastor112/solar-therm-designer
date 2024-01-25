@@ -9,7 +9,7 @@
         },
         {
           "key": "X-Frame-Options",
-          "value": "ALLOW-FROM http://127.0.0.1:5500"
+          "value": "DENY"
         },
         {
           "key": "X-XSS-Protection",
