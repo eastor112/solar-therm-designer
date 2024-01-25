@@ -8,10 +8,6 @@
           "value": "nosniff"
         },
         {
-          "key": "Content-Security-Policy",
-          "value": "frame-ancestors http://127.0.0.1:7000"
-        },
-        {
           "key": "X-Frame-Options",
           "value": "DENY"
         },
