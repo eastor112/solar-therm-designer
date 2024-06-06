@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState, FC } from 'react';
 import Box from '@mui/material/Box';
 
 import {
@@ -26,12 +26,18 @@ const rectangleBounds: LatLngBoundsLiteral = [
   [-18.5, -68],
 ];
 
-const MapLeafleat = () => {
+interface MapLeafleatProps {
+  onMarkerClick: (lat: number, lon: number) => void;
+  defaultCoordinates: { lat: number; lon: number };
+}
+
+const MapLeafleat: FC<MapLeafleatProps> = ({
+  onMarkerClick = () => {},
+  defaultCoordinates,
+}) => {
   const mapRef = useRef();
-  const [coord, setCoord] = useState({
-    lat: -8.11599,
-    lng: -79.02998,
-  });
+  const [coord, setCoord] = useState(defaultCoordinates);
+  const [reversePlace, setReversePlace] = useState<string | null>(null);
 
   useEffect(() => {
     const map: any = mapRef.current;
@@ -45,18 +51,23 @@ const MapLeafleat = () => {
     };
   }, []);
 
+  useEffect(() => {
+    reverseGeocode(coord.lat, coord.lon);
+  }, [coord]);
+
   function handleMouseMove(event: any) {
-    const { lat, lng } = event.latlng;
+    const { lat, lng: lon } = event.latlng;
     if (
       lat <= rectangleBounds[0][0] &&
       lat >= rectangleBounds[1][0] &&
-      lng >= rectangleBounds[0][1] &&
-      lng <= rectangleBounds[1][1]
+      lon >= rectangleBounds[0][1] &&
+      lon <= rectangleBounds[1][1]
     ) {
       setCoord({
         lat,
-        lng,
+        lon,
       });
+      onMarkerClick(lat, lon);
     }
   }
 
@@ -67,6 +78,18 @@ const MapLeafleat = () => {
     return null;
   }
 
+  const reverseGeocode = async (lat: number, lon: number) => {
+    const response = await fetch(
+      `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`
+    );
+    const data = await response.json();
+    setReversePlace(
+      `${data.address.region ? data.address.region : 'Desconocido'} - ${
+        data.address.state
+      }` || 'Desconocido'
+    );
+  };
+
   return (
     <Box
       sx={{
@@ -74,8 +97,8 @@ const MapLeafleat = () => {
       }}
     >
       <Box>
-        <Typography>Latitud: {coord.lat}</Typography>
-        <Typography>Longitud: {coord.lng}</Typography>
+        <Typography>Latitud: {coord.lat.toFixed(5)}</Typography>
+        <Typography>Longitud: {coord.lon.toFixed(5)}</Typography>
       </Box>
       <MapContainer
         center={[-8.11599, -79.02998]}
@@ -87,14 +110,12 @@ const MapLeafleat = () => {
           url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
         />
         <MarkerClusterGroup>
-          <Marker position={[coord.lat, coord.lng]} icon={mark}>
-            <Popup>Trujillo</Popup>
-          </Marker>
-          <Marker position={[-8.11599, -70.02998]} icon={mark}>
-            <Popup>Trujillo</Popup>
-          </Marker>
-          <Marker position={[-5.11599, -70.02998]} icon={mark}>
-            <Popup>Trujillo</Popup>
+          <Marker position={[coord.lat, coord.lon]} icon={mark}>
+            <Popup>
+              {reversePlace && <Box>{reversePlace}</Box>}
+              <Box>{`Latitud: ${coord.lat}`}</Box>
+              <Box>{`Longitud: ${coord.lon}`}</Box>
+            </Popup>
           </Marker>
         </MarkerClusterGroup>
         <MapEvents />

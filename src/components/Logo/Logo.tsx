@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { ReactComponent as LogoSD } from '../../assets/logo.svg';
 

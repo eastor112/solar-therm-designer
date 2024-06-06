@@ -5,6 +5,7 @@ import RawDataInspector from '../pages/RawDataInspector/RawDataInspector';
 import Results from '../pages/Results/Results';
 import RootLayout from '../pages/RootLayout';
 import PrivateRoute from './PrivateRoute';
+import ExternalService from '../pages/ExternalService/ExternalService';
 
 export const routes = [
   {
@@ -26,6 +27,10 @@ export const routes = [
       {
         path: '/dashboard/inspector',
         element: <RawDataInspector />,
+      },
+      {
+        path: '/dashboard/external',
+        element: <ExternalService />,
       },
       {
         path: '*',

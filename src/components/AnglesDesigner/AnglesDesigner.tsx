@@ -1,4 +1,5 @@
-import { Box, Typography } from '@mui/material';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 import { generalStyles } from '../../styles/general/index';
 import CircularSlider from 'react-circular-slider-svg';
 import { useDispatch } from 'react-redux';

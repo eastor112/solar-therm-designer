@@ -48,4 +48,17 @@ export const getRelativeDate = (dateTime: string | undefined) => {
   return localDate.locale('es').fromNow();
 }
 
+export const transformToDayjs = (input: string) => {
+  const [datePart, timePart] = input.split(':');
+  const year = datePart.slice(0, 4);
+  const month = datePart.slice(4, 6);
+  const day = datePart.slice(6, 8);
+  const hour = timePart.slice(0, 2);
+  const minute = timePart.slice(2, 4);
+
+  const isoString = `${year}-${month}-${day}T${hour}:${minute}:00Z`;
+  const dateInGMTMinus5 = dayjs(isoString).tz('Etc/GMT+5');
+  return dateInGMTMinus5;
+};
+
 export default dayjs;

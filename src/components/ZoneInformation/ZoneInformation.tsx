@@ -1,6 +1,8 @@
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import { IconButton, SxProps, Theme, Typography } from '@mui/material';
+import { SxProps, Theme } from '@mui/material/';
+import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
 import { generalStyles } from '../../styles/general';
 import { useAppSelector, useAppDispatch } from '../../hooks/reduxHooks';
 import { useEffect } from 'react';

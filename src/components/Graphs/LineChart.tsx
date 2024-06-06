@@ -37,7 +37,7 @@ interface CustomLineChartProps {
   domain: number[];
   size?: 'small' | 'medium' | 'big';
   units?: string;
-  dataKey: 'date' | 'day';
+  dataKey: 'date' | 'day' | 'time';
   date?: string;
   interval?: number;
   legendDirection?: 'horizontal' | 'vertical';

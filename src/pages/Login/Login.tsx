@@ -9,7 +9,7 @@ import Container from '@mui/material/Container';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { useEffect, useState } from 'react';
 import { loginUser, setError, validateToken } from '../../redux/usersSlice';
-import { Alert } from '@mui/material';
+import Alert from '@mui/material/Alert';
 import { useNavigate } from 'react-router-dom';
 import { UserData } from '../../types/usersTypes';
 
