@@ -67,7 +67,6 @@ const Designer = () => {
   };
   const handleClose = () => setOpen(false);
 
-  console.log(studyType);
   return (
     <>
       <Box sx={{ flex: 1 }}>
