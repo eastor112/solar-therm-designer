@@ -1,5 +1,4 @@
 import ZoneInformation from '../../components/ZoneInformation/ZoneInformation';
-import DesignerForm from '../../components/DesignerForm/DesignerForm';
 import PipelineParams from '../../components/PipelineParams/PipelineParams';
 import AnglesDesigner from '../../components/AnglesDesigner/AnglesDesigner';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
@@ -8,6 +7,7 @@ import Modal from '@mui/material/Modal';
 import { getLocationsInformation } from '../../redux/locationsSlice';
 import ModalChangePlace from '../../components/Modal/ModalChangePlace';
 import ModalDatepicker from '../../components/Modal/ModalDatepicker';
+import DesignerFormTheoretical from '../../components/DesignerForm/DesignerFormTheoretical';
 
 const Theoretical = () => {
   const { locations } = useAppSelector(state => state.locations);
@@ -33,7 +33,7 @@ const Theoretical = () => {
         <ZoneInformation handleOpen={handleOpen} />
         <PipelineParams />
         <AnglesDesigner />
-        <DesignerForm />
+        <DesignerFormTheoretical />
       </div>
 
       <Modal
