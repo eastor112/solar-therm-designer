@@ -5,7 +5,7 @@ import TextField from '@mui/material/TextField';
 import Slider from '@mui/material/Slider';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
-import Select from '@mui/material/Select';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { Link as LinkRouter } from 'react-router-dom';
 import Link from '@mui/material/Link';
@@ -16,6 +16,8 @@ import {
   setInternalDiameter,
   setPipelineLength,
 } from '../../redux/designerSlice';
+import { pipelines } from './helper';
+import { useEffect, useState } from 'react';
 
 const minDistance = 1;
 
@@ -24,6 +26,23 @@ const PipelineParams = () => {
   const { externalDiameter, internalDiameter, pipelineLength } = useAppSelector(
     state => state.designer
   );
+  const [standarPipeSelected, setStandarPipeSelected] = useState('0');
+
+  useEffect(() => {
+    // check if values are the same of a standar pipeline
+    const standarPipe = pipelines.find(
+      pipeline =>
+        pipeline.length === pipelineLength &&
+        pipeline.innerDiameter === internalDiameter &&
+        pipeline.outerDiameter === externalDiameter
+    );
+
+    if (standarPipe) {
+      setStandarPipeSelected(standarPipe.id.toString());
+    } else {
+      setStandarPipeSelected('0');
+    }
+  }, [externalDiameter, internalDiameter, pipelineLength]);
 
   const handleDiameters = (
     _event: Event,
@@ -49,9 +68,22 @@ const PipelineParams = () => {
     }
   };
 
-  function valuetext(value: number) {
+  const valuetext = (value: number) => {
     return `${value}°C`;
-  }
+  };
+
+  const handleChange = (event: SelectChangeEvent) => {
+    const selected = event.target.value;
+    const pipelineSelected = pipelines.find(
+      pipeline => pipeline.id.toString() === selected
+    );
+    if (pipelineSelected) {
+      dispatch(setPipelineLength(pipelineSelected.length));
+      dispatch(setInternalDiameter(pipelineSelected.innerDiameter));
+      dispatch(setExternalDiameter(pipelineSelected.outerDiameter));
+    }
+    setStandarPipeSelected(selected);
+  };
 
   return (
     <Box
@@ -76,9 +108,26 @@ const PipelineParams = () => {
                 label='Tipo'
                 name='pipeline_type'
                 fullWidth
-                value={0}
+                value={standarPipeSelected}
+                onChange={handleChange}
               >
-                <MenuItem value={0}>Personalizado</MenuItem>
+                <MenuItem value={0} sx={{ fontSize: 14 }}>
+                  Personalizado
+                </MenuItem>
+                {pipelines.map(pipeline => {
+                  const name = `D=${pipeline.length.toFixed(2)}m, Di=${
+                    pipeline.innerDiameter
+                  }mm, De=${pipeline.outerDiameter}mm`;
+                  return (
+                    <MenuItem
+                      key={pipeline.id}
+                      value={pipeline.id.toString()}
+                      sx={{ fontSize: 14 }}
+                    >
+                      {name}
+                    </MenuItem>
+                  );
+                })}
               </Select>
             </Box>
             <Box sx={{ fontSize: 14 }}>
