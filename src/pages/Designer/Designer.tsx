@@ -11,6 +11,9 @@ import ModalDatepicker from '../../components/Modal/ModalDatepicker';
 import { getLocationsInformation } from '../../redux/locationsSlice';
 import PipelineParams from '../../components/PipelineParams/PipelineParams';
 import AnglesDesigner from '../../components/AnglesDesigner/AnglesDesigner';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
 
 const Designer = () => {
   const { currentProject, weatherData, currentLocation, locations } =
@@ -23,6 +26,9 @@ const Designer = () => {
   const [showGraph, setShowGraph] = useState(true);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [modalType, setModalType] = useState<'place' | 'date'>('place');
+  const [studyType, setStudyType] = useState<'theoretical' | 'real'>(
+    'theoretical'
+  );
 
   useEffect(() => {
     if (locations.length === 0) {
@@ -61,20 +67,43 @@ const Designer = () => {
   };
   const handleClose = () => setOpen(false);
 
+  console.log(studyType);
   return (
     <>
-      <Box
-        sx={{
-          flex: 1,
-        }}
-      >
+      <Box sx={{ flex: 1 }}>
         <div className='flex flex-col gap-8'>
           {currentProject && (
             <>
-              <h3 className='text-3xl font-bold'>
-                SOLARTHERM DESIGNER{' '}
-                {currentProject.name ? `- ${currentProject.name}` : ''}
-              </h3>
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}
+              >
+                <Typography
+                  sx={{
+                    fontSize: '2rem',
+                    fontWeight: 'bold',
+                  }}
+                >
+                  SOLARTHERM DESIGNER{' '}
+                  {currentProject.name ? `- ${currentProject.name}` : ''}
+                </Typography>
+
+                <Button
+                  variant='contained'
+                  startIcon={<ChangeCircleIcon />}
+                  onClick={() => {
+                    setStudyType(
+                      studyType === 'theoretical' ? 'real' : 'theoretical'
+                    );
+                  }}
+                  sx={{ width: 120 }}
+                >
+                  {studyType == 'theoretical' ? 'Teórico' : 'Real'}
+                </Button>
+              </Box>
               <div className='flex gap-8'>
                 <ZoneInformation handleOpen={handleOpen} />
                 <PipelineParams />
