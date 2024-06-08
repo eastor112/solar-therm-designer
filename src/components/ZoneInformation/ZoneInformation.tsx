@@ -32,43 +32,45 @@ const ZoneInformation: React.FC<ZoneInformationProps> = ({ handleOpen }) => {
 
   return (
     <Box sx={styles.container}>
-      <Typography variant='h3' sx={generalStyles.h3}>
-        Zona de análisis
-      </Typography>
-      <Typography sx={styles.cardPlace}>
-        <span className='font-bold'>Ciudad:</span>{' '}
-        {currentLocation?.place || 'no definido'}
-      </Typography>
-      <Typography sx={styles.cardPlace}>
-        <span className='font-bold'>Latitud:</span>{' '}
-        {currentLocation?.lat || 'no definido'}
-      </Typography>
-      <Typography sx={styles.cardPlace}>
-        <span className='font-bold'>Longitud:</span>{' '}
-        {currentLocation?.lng || 'no definido'}
-      </Typography>
-      <Typography sx={styles.cardPlace}>
+      <Box>
+        <Typography variant='h3' sx={generalStyles.h3}>
+          Zona de análisis
+        </Typography>
+        <Typography sx={styles.cardPlace}>
+          <span className='font-bold'>Ciudad:</span>{' '}
+          {currentLocation?.place || 'no definido'}
+        </Typography>
+        <Typography sx={styles.cardPlace}>
+          <span className='font-bold'>Latitud:</span>{' '}
+          {currentLocation?.lat || 'no definido'}
+        </Typography>
+        <Typography sx={styles.cardPlace}>
+          <span className='font-bold'>Longitud:</span>{' '}
+          {currentLocation?.lng || 'no definido'}
+        </Typography>
+        {/* <Typography sx={styles.cardPlace}>
         <span className='font-bold'>Altitud:</span>{' '}
         {currentLocation?.altitude || 'no definido'}
-      </Typography>
-      <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: 1,
-          mb: 2,
-        }}
-      >
-        <Typography sx={{ ...styles.cardPlace, mb: 0 }}>
-          <span className='font-bold'>Fecha:</span>{' '}
-          {date ? convertIsoToDate(date) : 'no definido'}
-        </Typography>
-        <IconButton
-          sx={{ width: '35px', p: '2px', color: 'primary.main' }}
-          onClick={() => handleOpen('date')}
+        </Typography> */}
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 1,
+            mb: 2,
+          }}
         >
-          <EditCalendarIcon sx={{ height: '20px', m: 0 }} />
-        </IconButton>
+          <Typography sx={{ ...styles.cardPlace, mb: 0 }}>
+            <span className='font-bold'>Fecha:</span>{' '}
+            {date ? convertIsoToDate(date) : 'no definido'}
+          </Typography>
+          <IconButton
+            sx={{ width: '35px', p: '2px', color: 'primary.main' }}
+            onClick={() => handleOpen('date')}
+          >
+            <EditCalendarIcon sx={{ height: '20px', m: 0 }} />
+          </IconButton>
+        </Box>
       </Box>
       <Box sx={{ textAlign: 'center' }}>
         <Button variant='contained' onClick={() => handleOpen('place')}>
@@ -87,6 +89,9 @@ const styles: StylesMui = {
     minWidth: 200,
     maxWidth: 280,
     flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
   },
   containerParams: {
     width: '45%',
