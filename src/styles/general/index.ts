@@ -13,9 +13,9 @@ export const generalStyles: StylesMui = {
   },
 
   h3: {
-    fontSize: 20,
+    fontSize: 18,
     textTransform: 'uppercase',
     fontWeight: 'bold',
-    mb: 3,
+    mb: 1.5,
   },
 };
