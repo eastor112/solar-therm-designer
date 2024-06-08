@@ -3,7 +3,7 @@ import { Button, TextField, Typography } from '@mui/material';
 import { generalStyles } from '../../styles/general';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { FocusEvent } from 'react';
-import { setPipeNumber, setVolumen } from '../../redux/locationsSlice';
+import { setPipeNumber } from '../../redux/locationsSlice';
 import { useNavigate } from 'react-router-dom';
 import {
   computeResults,
@@ -13,7 +13,7 @@ import {
 } from '../../redux/designerSlice';
 
 const DesignerFormTheoretical = () => {
-  const { volumen, pipeNumber, currentProject } = useAppSelector(
+  const { pipeNumber, currentProject } = useAppSelector(
     state => state.locations
   );
   const { granularity, pipelineSeparation, isLoading } = useAppSelector(
@@ -79,7 +79,7 @@ const DesignerFormTheoretical = () => {
             onFocus={selectOnFocus}
           />
 
-          <TextField
+          {/* <TextField
             type='number'
             size='small'
             id='volumen'
@@ -91,7 +91,7 @@ const DesignerFormTheoretical = () => {
               dispatch(setVolumen(+val.target.value));
             }}
             onFocus={selectOnFocus}
-          />
+          /> */}
           <TextField
             type='number'
             size='small'

@@ -7,8 +7,8 @@ import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
-import { Link as LinkRouter } from 'react-router-dom';
-import Link from '@mui/material/Link';
+// import { Link as LinkRouter } from 'react-router-dom';
+// import Link from '@mui/material/Link';
 import { useAppSelector } from '../../hooks/reduxHooks';
 import { useDispatch } from 'react-redux';
 import {
@@ -130,11 +130,11 @@ const PipelineParams = () => {
                 })}
               </Select>
             </Box>
-            <Box sx={{ fontSize: 14 }}>
+            {/* <Box sx={{ fontSize: 14 }}>
               <Link to='/dashboard/place/new' component={LinkRouter} sx={{}}>
                 + Nuevo tipo
               </Link>
-            </Box>
+            </Box> */}
           </FormControl>
 
           <TextField
