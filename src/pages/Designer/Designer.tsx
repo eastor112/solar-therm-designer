@@ -5,7 +5,7 @@ import { getLocationsInformation } from '../../redux/locationsSlice';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
-import Theoretical from './Theoretical';
+import TheoreticalStudy from './TheoreticalStudy';
 import Real from './Real';
 
 const Designer = () => {
@@ -60,7 +60,7 @@ const Designer = () => {
                   {studyType == 'theoretical' ? 'Teórico' : 'Real'}
                 </Button>
               </Box>
-              {studyType === 'theoretical' ? <Theoretical /> : <Real />}
+              {studyType === 'theoretical' ? <TheoreticalStudy /> : <Real />}
             </>
           )}
         </div>

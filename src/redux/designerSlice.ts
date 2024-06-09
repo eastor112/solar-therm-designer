@@ -21,7 +21,6 @@ export const computeResults = createAsyncThunk(
       azimuth,
       inclination,
     } = state.designer
-
     const { currentLocation, currentProject } = state.locations
 
     const pipeline = await createPipelineService({

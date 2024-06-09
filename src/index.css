@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  background-color: #d4d4d4aa !important;
+}
+
 .leaflet-container {
   height: 400px;
 }

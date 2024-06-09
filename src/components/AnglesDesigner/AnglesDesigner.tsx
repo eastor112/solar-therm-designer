@@ -15,14 +15,7 @@ const AnglesDesigner = () => {
   const handleInclinationChange = (v: number) => dispatch(setInclination(v));
 
   return (
-    <Box
-      sx={{
-        ...generalStyles.cardLayout,
-        minWidth: 260,
-        maxWidth: 260,
-        flex: 1,
-      }}
-    >
+    <Box>
       <Typography variant='h3' sx={generalStyles.h3}>
         Ángulos
       </Typography>

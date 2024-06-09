@@ -124,6 +124,45 @@ export const getWeatherData = createAsyncThunk(
   }
 );
 
+export const areThereChanges = createAsyncThunk(
+  'locations/areThereChanges',
+  async (_, { getState, dispatch }) => {
+    const state = getState() as RootState
+    const { designer, locations } = state;
+
+    if (locations.currentProject) {
+      const {
+        pipeline_number,
+        pipeline_type,
+        volumen,
+        manifold,
+        date,
+        location,
+      } = locations.currentProject;
+
+      // const {
+      //   azimuth,
+      //   inclination,
+      //   pipelineSeparation,
+      //   pipelineLength,
+
+      // } = designer;
+
+      if (
+        pipeline_number !== locations.pipeNumber ||
+        pipeline_type !== locations.pipeType ||
+        volumen !== locations.volumen ||
+        manifold !== locations.manifoldLength ||
+        date !== locations.date ||
+        location?.id !== locations.currentLocation?.id
+      ) {
+        return true;
+      }
+    }
+    return false;
+  }
+)
+
 interface ILocationsState {
   projectsData: IProjectData | null;
   recentFiles: IProjectData | null;
@@ -203,31 +242,31 @@ export const locationsSlice = createSlice({
     setCurrentProject: (state, action: PayloadAction<IProject>) => {
       state.currentProject = action.payload;
     },
-    areThereChanges: state => {
-      if (state.currentProject) {
-        const {
-          pipeline_number,
-          pipeline_type,
-          volumen,
-          manifold,
-          date,
-          location,
-        } = state.currentProject;
+    // areThereChanges: state => {
+    //   if (state.currentProject) {
+    //     const {
+    //       pipeline_number,
+    //       pipeline_type,
+    //       volumen,
+    //       manifold,
+    //       date,
+    //       location,
+    //     } = state.currentProject;
 
-        if (
-          pipeline_number !== state.pipeNumber ||
-          pipeline_type !== state.pipeType ||
-          volumen !== state.volumen ||
-          manifold !== state.manifoldLength ||
-          date !== state.date ||
-          location?.id !== state.currentLocation?.id
-        ) {
-          state.thereAreChanges = true;
-        } else {
-          state.thereAreChanges = false;
-        }
-      }
-    },
+    //     if (
+    //       pipeline_number !== state.pipeNumber ||
+    //       pipeline_type !== state.pipeType ||
+    //       volumen !== state.volumen ||
+    //       manifold !== state.manifoldLength ||
+    //       date !== state.date ||
+    //       location?.id !== state.currentLocation?.id
+    //     ) {
+    //       state.thereAreChanges = true;
+    //     } else {
+    //       state.thereAreChanges = false;
+    //     }
+    //   }
+    // },
     closeProject: () => {
       clearProjectStorage()
       return initialState;
@@ -298,6 +337,9 @@ export const locationsSlice = createSlice({
       })
       .addCase(getRecentFiles.fulfilled, (state, action) => {
         state.recentFiles = action.payload;
+      })
+      .addCase(areThereChanges.fulfilled, (state, action) => {
+        state.thereAreChanges = action.payload;
       });
   },
 });
@@ -310,7 +352,7 @@ export const {
   setPipeNumber,
   setPipeType,
   setCurrentProject,
-  areThereChanges,
+  // areThereChanges,
   closeProject,
   setPreviewProject,
   setWantsToSave,

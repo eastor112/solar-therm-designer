@@ -86,14 +86,7 @@ const PipelineParams = () => {
   };
 
   return (
-    <Box
-      sx={{
-        ...generalStyles.cardLayout,
-        minWidth: 260,
-        maxWidth: 320,
-        flex: 1,
-      }}
-    >
+    <Box>
       <Typography variant='h3' sx={generalStyles.h3}>
         Tubo de vacío
       </Typography>
@@ -101,7 +94,7 @@ const PipelineParams = () => {
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
           <FormControl fullWidth>
             <Box sx={{ flex: 1 }}>
-              <InputLabel id='type-select-label'>Tipo </InputLabel>
+              <InputLabel id='type-select-label'>Tipo</InputLabel>
               <Select
                 labelId='type-select-label'
                 id='pipeline_type'
@@ -110,11 +103,13 @@ const PipelineParams = () => {
                 fullWidth
                 value={standarPipeSelected}
                 onChange={handleChange}
+                size='small'
               >
                 <MenuItem value={0} sx={{ fontSize: 14 }}>
                   Personalizado
                 </MenuItem>
-                {pipelines.map(pipeline => {
+
+                {pipelines.map((pipeline, index) => {
                   const name = `D=${pipeline.length.toFixed(2)}m, Di=${
                     pipeline.innerDiameter
                   }mm, De=${pipeline.outerDiameter}mm`;
@@ -122,9 +117,14 @@ const PipelineParams = () => {
                     <MenuItem
                       key={pipeline.id}
                       value={pipeline.id.toString()}
-                      sx={{ fontSize: 14 }}
+                      sx={{
+                        fontSize: 14,
+                        display: 'flex',
+                        alignItems: 'center',
+                      }}
                     >
-                      {name}
+                      {`Estandar ${index + 1}`}
+                      <span className='text-[12px] ml-1'>({name})</span>
                     </MenuItem>
                   );
                 })}
@@ -151,38 +151,47 @@ const PipelineParams = () => {
               let newValue = +e.target.value;
               dispatch(setPipelineLength(newValue));
             }}
+            size='small'
           />
 
           <Box
             sx={{
               display: 'flex',
-              justifyContent: 'space-between',
+              flexDirection: 'column',
               flex: 1,
             }}
           >
-            <Box className='font-bold'>
-              D<span className='text-xs'>int</span>:
-              <span className='font-normal ml-1'>
-                {internalDiameter.toFixed(2)} mm
-              </span>
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                flex: 1,
+                gap: 2,
+              }}
+            >
+              <Box className='font-bold'>
+                D<span className='text-xs'>int</span>:
+                <span className='font-normal ml-1'>
+                  {internalDiameter.toFixed(2)} mm
+                </span>
+              </Box>
+              <Box className='font-bold'>
+                D<span className='text-xs'>ext</span>:
+                <span className='font-normal ml-1'>
+                  {externalDiameter.toFixed(2)} mm
+                </span>
+              </Box>
             </Box>
-            <Box className='font-bold'>
-              D<span className='text-xs'>ext</span>:
-              <span className='font-normal ml-1'>
-                {externalDiameter.toFixed(2)} mm
-              </span>
-            </Box>
+            <Slider
+              getAriaLabel={() => 'Minimum distance shift'}
+              value={[internalDiameter, externalDiameter]}
+              onChange={handleDiameters}
+              valueLabelDisplay='auto'
+              getAriaValueText={valuetext}
+              disableSwap
+              step={0.01}
+            />
           </Box>
-
-          <Slider
-            getAriaLabel={() => 'Minimum distance shift'}
-            value={[internalDiameter, externalDiameter]}
-            onChange={handleDiameters}
-            valueLabelDisplay='auto'
-            getAriaValueText={valuetext}
-            disableSwap
-            step={0.01}
-          />
         </Box>
       </Box>
     </Box>

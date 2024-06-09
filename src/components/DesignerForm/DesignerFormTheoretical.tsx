@@ -39,9 +39,9 @@ const DesignerFormTheoretical = () => {
   };
 
   return (
-    <Box sx={{ ...generalStyles.cardLayout, flex: 1 }}>
+    <Box>
       <Typography variant='h3' sx={generalStyles.h3}>
-        Parámetros de diseño
+        Parámetros
       </Typography>
       <Box sx={{ display: 'flex', gap: 4 }}>
         <Box
@@ -78,20 +78,6 @@ const DesignerFormTheoretical = () => {
             }}
             onFocus={selectOnFocus}
           />
-
-          {/* <TextField
-            type='number'
-            size='small'
-            id='volumen'
-            label='Volumen (m3)'
-            variant='outlined'
-            name='volumen'
-            value={volumen || 1}
-            onChange={val => {
-              dispatch(setVolumen(+val.target.value));
-            }}
-            onFocus={selectOnFocus}
-          /> */}
           <TextField
             type='number'
             size='small'

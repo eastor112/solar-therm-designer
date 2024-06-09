@@ -28,7 +28,8 @@
     "react-router-dom": "^6.11.2",
     "react-table": "^7.8.0",
     "recharts": "^2.5.0",
-    "vite-plugin-svgr": "^3.2.0"
+    "vite-plugin-svgr": "^3.2.0",
+    "zustand": "^4.5.2"
   },
   "devDependencies": {
     "@rollup/plugin-dsv": "^3.0.2",

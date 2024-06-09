@@ -9,7 +9,7 @@ export const generalStyles: StylesMui = {
     position: 'relative',
     p: 4,
     background: '#FFF',
-    borderRadius: '10px',
+    borderRadius: '4px',
   },
 
   h3: {
@@ -17,5 +17,6 @@ export const generalStyles: StylesMui = {
     textTransform: 'uppercase',
     fontWeight: 'bold',
     mb: 1.5,
+    color: '#38383c',
   },
 };

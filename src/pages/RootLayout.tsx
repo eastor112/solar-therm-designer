@@ -25,6 +25,7 @@ const RootLayout = () => {
     thereAreChanges,
     wantsToSave,
   } = useAppSelector(state => state.locations);
+
   const { modalComponent } = useAppSelector(state => state.ui);
 
   const dispatch = useAppDispatch();
@@ -91,7 +92,7 @@ const RootLayout = () => {
 
   return (
     <>
-      <div className='flex bg-gray-400'>
+      <div className='flex'>
         <Sidebar
           open={open}
           toggleDrawer={toggleDrawer}

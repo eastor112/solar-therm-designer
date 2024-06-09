@@ -1,6 +1,5 @@
 import ZoneInformation from '../../components/ZoneInformation/ZoneInformation';
 import PipelineParams from '../../components/PipelineParams/PipelineParams';
-import AnglesDesigner from '../../components/AnglesDesigner/AnglesDesigner';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { useEffect, useState } from 'react';
 import Modal from '@mui/material/Modal';
@@ -8,8 +7,9 @@ import { getLocationsInformation } from '../../redux/locationsSlice';
 import ModalChangePlace from '../../components/Modal/ModalChangePlace';
 import ModalDatepicker from '../../components/Modal/ModalDatepicker';
 import DesignerFormTheoretical from '../../components/DesignerForm/DesignerFormTheoretical';
+import AnglesDesignerSimplify from '../../components/AnglesDesigner/AngleDesignerSimpify';
 
-const Theoretical = () => {
+const TheoreticalStudy = () => {
   const { locations } = useAppSelector(state => state.locations);
   const dispatch = useAppDispatch();
 
@@ -31,9 +31,12 @@ const Theoretical = () => {
     <>
       <div className='flex gap-8'>
         <ZoneInformation handleOpen={handleOpen} />
+      </div>
+
+      <div className='flex flex-col gap-8 w-[240px]'>
         <PipelineParams />
-        <AnglesDesigner />
         <DesignerFormTheoretical />
+        <AnglesDesignerSimplify />
       </div>
 
       <Modal
@@ -55,4 +58,4 @@ const Theoretical = () => {
   );
 };
 
-export default Theoretical;
+export default TheoreticalStudy;

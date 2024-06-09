@@ -31,7 +31,7 @@ const ZoneInformation: React.FC<ZoneInformationProps> = ({ handleOpen }) => {
   }, [currentLocation, date]);
 
   return (
-    <Box sx={styles.container}>
+    <Box>
       <Box>
         <Typography variant='h3' sx={generalStyles.h3}>
           Lugar
@@ -44,7 +44,7 @@ const ZoneInformation: React.FC<ZoneInformationProps> = ({ handleOpen }) => {
           }}
         >
           <Typography>
-            <span className='font-bold'>Ciudad:</span>{' '}
+            <span className='font-medium'>Ciudad:</span>{' '}
             {currentLocation?.place || 'no definido'}
           </Typography>
 
@@ -56,15 +56,16 @@ const ZoneInformation: React.FC<ZoneInformationProps> = ({ handleOpen }) => {
           </IconButton>
         </Box>
         <Typography sx={styles.cardPlace}>
-          <span className='font-bold'>Latitud:</span>{' '}
+          <span className='font-medium'>Latitud:</span>{' '}
           {currentLocation?.lat || 'no definido'}
         </Typography>
         <Typography sx={styles.cardPlace}>
-          <span className='font-bold'>Longitud:</span>{' '}
+          <span className='font-medium'>Longitud:</span>{' '}
           {currentLocation?.lng || 'no definido'}
         </Typography>
       </Box>
-      <Box>
+
+      <Box sx={{ mt: 2 }}>
         <Typography variant='h3' sx={generalStyles.h3}>
           Día
         </Typography>
@@ -102,8 +103,9 @@ const styles: StylesMui = {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
+    gap: 2,
   },
   cardPlace: {
-    mb: 1.75,
+    mb: 1,
   },
 };
