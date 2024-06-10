@@ -7,6 +7,7 @@ import Button from '@mui/material/Button';
 import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
 import TheoreticalStudy from './TheoreticalStudy';
 import Real from './Real';
+import GeneralData from '../../components/GeneralData/GeneralData';
 
 const Designer = () => {
   const { currentProject, locations } = useAppSelector(
@@ -30,36 +31,7 @@ const Designer = () => {
         <div className='flex flex-col gap-8'>
           {currentProject && (
             <>
-              <Box
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                }}
-              >
-                <Typography
-                  sx={{
-                    fontSize: '2rem',
-                    fontWeight: 'bold',
-                  }}
-                >
-                  SOLARTHERM DESIGNER{' '}
-                  {currentProject.name ? `- ${currentProject.name}` : ''}
-                </Typography>
-
-                <Button
-                  variant='contained'
-                  startIcon={<ChangeCircleIcon />}
-                  onClick={() => {
-                    setStudyType(
-                      studyType === 'theoretical' ? 'real' : 'theoretical'
-                    );
-                  }}
-                  sx={{ width: 120 }}
-                >
-                  {studyType == 'theoretical' ? 'Teórico' : 'Real'}
-                </Button>
-              </Box>
+              <GeneralData />
               {studyType === 'theoretical' ? <TheoreticalStudy /> : <Real />}
             </>
           )}

@@ -8,12 +8,11 @@ import ModalChangePlace from '../../components/Modal/ModalChangePlace';
 import ModalDatepicker from '../../components/Modal/ModalDatepicker';
 import DesignerFormTheoretical from '../../components/DesignerForm/DesignerFormTheoretical';
 import AnglesDesignerSimplify from '../../components/AnglesDesigner/AngleDesignerSimpify';
+import EditIcon from '@mui/icons-material/Edit';
 
 const TheoreticalStudy = () => {
   const { locations } = useAppSelector(state => state.locations);
   const dispatch = useAppDispatch();
-
-  const [modalType, setModalType] = useState<'place' | 'date'>('place');
 
   useEffect(() => {
     if (locations.length === 0) {
@@ -21,39 +20,13 @@ const TheoreticalStudy = () => {
     }
   }, [locations]);
 
-  const [open, setOpen] = useState(false);
-  const handleOpen = (value: 'place' | 'date') => {
-    setModalType(value);
-    setOpen(true);
-  };
-  const handleClose = () => setOpen(false);
   return (
     <>
-      <div className='flex gap-8'>
-        <ZoneInformation handleOpen={handleOpen} />
-      </div>
-
       <div className='flex flex-col gap-8 w-[240px]'>
         <PipelineParams />
         <DesignerFormTheoretical />
         <AnglesDesignerSimplify />
       </div>
-
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby='modal-modal-title'
-        aria-describedby='modal-modal-description'
-      >
-        <>
-          {modalType === 'place' && (
-            <ModalChangePlace handleClose={handleClose} />
-          )}
-          {modalType === 'date' && (
-            <ModalDatepicker handleClose={handleClose} />
-          )}
-        </>
-      </Modal>
     </>
   );
 };
