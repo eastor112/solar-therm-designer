@@ -20,7 +20,7 @@ const Resume = () => {
     useAppSelector(state => state.locations);
   const minMax = findMinMaxEnergy(currentRegister);
   return (
-    <Box className='bg-white p-4 rounded-lg shadow-md w-60'>
+    <Box className='bg-white p-4 rounded shadow-md w-60'>
       <h3 className='text-xl font-medium mt-4 mb-2'>Resumen</h3>
       <p className='text-sm'>
         <span className='font-medium'>Energía anual tubo:</span>{' '}

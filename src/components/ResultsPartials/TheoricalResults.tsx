@@ -18,9 +18,11 @@ const TheoricalResults: React.FC<TheoricalResultsProps> = ({ showGraph }) => {
 
   return (
     <Box
-      sx={{
-        display: 'flex',
-      }}
+      sx={
+        {
+          // display: 'flex',
+        }
+      }
     >
       <Box sx={{ flex: 1 }}>
         {showGraph && (

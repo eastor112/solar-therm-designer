@@ -21,7 +21,7 @@ const DesignerFormTheoretical = () => {
   );
 
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const handleCompute = async () => {
     await dispatch(computeResults());
@@ -29,7 +29,7 @@ const DesignerFormTheoretical = () => {
       await dispatch(getAllProjectParams(currentProject.id));
     }
 
-    navigate('/dashboard/results');
+    // navigate('/dashboard/results');
   };
 
   const selectOnFocus = (
