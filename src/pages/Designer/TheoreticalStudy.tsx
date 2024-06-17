@@ -5,12 +5,12 @@ import { getLocationsInformation } from '../../redux/locationsSlice';
 import DesignerFormTheoretical from '../../components/DesignerForm/DesignerFormTheoretical';
 import AnglesDesignerSimplify from '../../components/AnglesDesigner/AngleDesignerSimpify';
 import Box from '@mui/material/Box';
-import TheoricalResults from '../../components/ResultsPartials/TheoricalResults';
 import { useGraphVisibility } from '../../hooks/useGraphVisibility';
 import { useOutletContexRoot } from '../RootLayout';
 import CustomLineChart from '../../components/Graphs/LineChart';
 import { capitalize } from '../../utils/textTransformations';
-import Resume from '../../components/Resumen/Resume';
+import ResumeTheoretical from '../../components/Resumen/ResumeTheoretical';
+import { generalStyles } from '../../styles/general';
 
 const TheoreticalStudy = () => {
   const { locations, date } = useAppSelector(state => state.locations);
@@ -28,22 +28,31 @@ const TheoreticalStudy = () => {
 
   return (
     <>
-      <Box sx={{ display: 'flex' }}>
+      <Box sx={{ display: 'flex', gap: 2 }}>
         <Box
           sx={{
+            ...generalStyles.cardLayout,
+            width: '280px',
             display: 'flex',
             flexDirection: 'column',
-            gap: '20px',
-            width: '240px',
+            gap: 3,
           }}
         >
           <PipelineParams />
-          <DesignerFormTheoretical />
           <AnglesDesignerSimplify />
+          <DesignerFormTheoretical />
         </Box>
-        <Box sx={{ flex: 1 }}>
-          <Box>
-            {showGraph && (
+        <Box
+          sx={{
+            ...generalStyles.cardLayout,
+            flex: 1,
+            gap: 4,
+            display: 'flex',
+            flexDirection: 'column',
+          }}
+        >
+          {showGraph && currentRegister.length ? (
+            <>
               <CustomLineChart
                 data={currentRegister}
                 title={'Enegía teórica anual en ' + capitalize(city)}
@@ -55,9 +64,9 @@ const TheoreticalStudy = () => {
                 units='[KW-h]'
                 interval={14}
               />
-            )}
-          </Box>
-          {showGraph && <Resume />}
+              <ResumeTheoretical />
+            </>
+          ) : null}
         </Box>
       </Box>
     </>

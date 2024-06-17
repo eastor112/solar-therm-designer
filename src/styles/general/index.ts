@@ -7,7 +7,7 @@ export interface StylesMui {
 export const generalStyles: StylesMui = {
   cardLayout: {
     position: 'relative',
-    p: 4,
+    p: 2,
     background: '#FFF',
     borderRadius: '4px',
   },

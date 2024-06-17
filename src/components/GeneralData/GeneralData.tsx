@@ -77,7 +77,7 @@ const GeneralData = () => {
                 fontSize: '12px',
               }}
             >
-              (Lat: ${-7.32453}, Lon:${-71.34534})
+              (Lat: {-7.32453}, Lon:{-71.34534})
             </Typography>
             <IconButton
               sx={{ width: '20px', height: '20px', color: 'primary.main' }}
