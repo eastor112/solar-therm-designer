@@ -1,8 +1,5 @@
-import ZoneInformation from '../../components/ZoneInformation/ZoneInformation';
 import DesignerForm from '../../components/DesignerForm/DesignerForm';
 import DataInspectorGraph from '../../components/DataInspectorGraph/DataInspectorGraph';
-import PipelineParams from '../../components/PipelineParams/PipelineParams';
-import AnglesDesigner from '../../components/AnglesDesigner/AnglesDesigner';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { useOutletContexRoot } from '../RootLayout';
 import { useEffect, useState } from 'react';
@@ -10,8 +7,12 @@ import Modal from '@mui/material/Modal';
 import { getLocationsInformation } from '../../redux/locationsSlice';
 import ModalChangePlace from '../../components/Modal/ModalChangePlace';
 import ModalDatepicker from '../../components/Modal/ModalDatepicker';
+import PipelineParamsV2 from '../../components/PipelineParams/PipelineParamsV2';
+import TankParams from '../../components/TankParams/TankParams';
+import AditionalParams from '../AditionalParams/AditionalParams';
+import AnglesDesignerSimplify from '../../components/AnglesDesigner/AngleDesignerSimpify';
 
-const Real = () => {
+const RealStudy = () => {
   const { weatherData, currentLocation, locations } = useAppSelector(
     state => state.locations
   );
@@ -22,7 +23,7 @@ const Real = () => {
   const [chart, setChart] = useState('temperature');
   const [showGraph, setShowGraph] = useState(true);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  const [modalType, setModalType] = useState<'place' | 'date'>('place');
+  const [modalType] = useState<'place' | 'date'>('place');
 
   useEffect(() => {
     if (locations.length === 0) {
@@ -55,17 +56,15 @@ const Real = () => {
   };
 
   const [open, setOpen] = useState(false);
-  const handleOpen = (value: 'place' | 'date') => {
-    setModalType(value);
-    setOpen(true);
-  };
+
   const handleClose = () => setOpen(false);
   return (
     <>
       <div className='flex gap-8'>
-        <ZoneInformation handleOpen={handleOpen} />
-        <PipelineParams />
-        <AnglesDesigner />
+        <AnglesDesignerSimplify />
+        <TankParams />
+        <PipelineParamsV2 />
+        <AditionalParams />
         <DesignerForm />
       </div>
       <DataInspectorGraph
@@ -94,4 +93,4 @@ const Real = () => {
   );
 };
 
-export default Real;
+export default RealStudy;

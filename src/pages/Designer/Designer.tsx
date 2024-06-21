@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { getLocationsInformation } from '../../redux/locationsSlice';
 import TheoreticalStudy from './TheoreticalStudy';
-import Real from './Real';
+import RealStudy from './RealStudy';
 import GeneralData from '../../components/GeneralData/GeneralData';
 import { useDesignerStore } from '../../store/designerStore';
 
@@ -28,7 +28,11 @@ const Designer = () => {
           {currentProject && (
             <>
               <GeneralData />
-              {studyType === 'theoretical' ? <TheoreticalStudy /> : <Real />}
+              {studyType === 'theoretical' ? (
+                <TheoreticalStudy />
+              ) : (
+                <RealStudy />
+              )}
             </>
           )}
         </div>
