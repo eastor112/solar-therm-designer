@@ -30,18 +30,29 @@ export const useDesignerStore = create<DesignerState>()(
     persist(
       (set) => ({
         studyType: "theoretical",
+
         currentLocation: null,
+
         setStudyType: (type) => set({ studyType: type }),
+
         setCurrentLocation: (location) => set({ currentLocation: location }),
+
         currentProject: null,
+
         setCurrentProject: (project) => set({ currentProject: project }),
 
         date: null,
+
         setDate: (date) => set({ date: date }),
+
         pipeNumber: null,
+
         setPipeNumber: (pipeNumber) => set({ pipeNumber: pipeNumber }),
+
         pipeType: null,
+
         setPipeType: (pipeType) => set({ pipeType: pipeType }),
+
         getProject: async (projectId: number) => {
           const project = await getProjectService(projectId);
           if (project.location) {
@@ -51,9 +62,13 @@ export const useDesignerStore = create<DesignerState>()(
           set({ pipeNumber: project.pipeline_number ? project.pipeline_number : 0 })
           set({ pipeType: project.pipeline_type ? project.pipeline_type : 0 })
         },
+
         previewProject: null,
+
         setPreviewProject: (project) => set({ previewProject: project }),
+
         locations: [],
+
         getLocationsInformation: async () => {
           const locations: any = await getLocations();
           set({ locations: locations });
