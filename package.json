@@ -30,6 +30,7 @@
     "react-table": "^7.8.0",
     "recharts": "^2.5.0",
     "vite-plugin-svgr": "^3.2.0",
+    "yup": "^1.4.0",
     "zustand": "^4.5.2"
   },
   "devDependencies": {
@@ -40,6 +41,7 @@
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
     "@types/react-table": "^7.7.14",
+    "@types/yup": "^0.32.0",
     "@vitejs/plugin-react": "^4.0.0-beta.0",
     "autoprefixer": "^10.4.14",
     "postcss": "^8.4.23",
