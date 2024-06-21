@@ -71,12 +71,7 @@ const GeneralData = () => {
             >
               Trujillo
             </Typography>
-            <Typography
-              sx={{
-                color: 'gray',
-                fontSize: '12px',
-              }}
-            >
+            <Typography sx={{ color: '#555' }} variant='caption'>
               (Lat: {-7.32453}, Lon:{-71.34534})
             </Typography>
             <IconButton
