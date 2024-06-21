@@ -38,8 +38,8 @@ const TheoreticalStudy = () => {
             gap: 3,
           }}
         >
-          <PipelineParams />
           <AnglesDesignerSimplify />
+          <PipelineParams />
           <DesignerFormTheoretical />
         </Box>
         <Box

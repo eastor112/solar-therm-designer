@@ -88,6 +88,55 @@ const GeneralData = () => {
               />
             </IconButton>
           </Box>
+
+          <Box sx={{ display: 'flex', gap: '4px' }}>
+            <Box sx={{ display: 'flex', gap: '15px' }}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '3px',
+                }}
+              >
+                <Typography
+                  variant='caption'
+                  sx={{
+                    display: 'flex',
+                    gap: '4px',
+                    alignItems: 'center',
+                    color: '#555',
+                  }}
+                >
+                  T. ambiente: 22.5 °C
+                </Typography>
+              </Box>
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '3px',
+                }}
+              >
+                <Typography
+                  variant='caption'
+                  sx={{
+                    display: 'flex',
+                    gap: '4px',
+                    alignItems: 'center',
+                    color: '#555',
+                  }}
+                >
+                  V. viento: 5 m/s
+                </Typography>
+              </Box>
+            </Box>
+            <IconButton
+              sx={{ width: '20px', height: '20px', color: 'primary.main' }}
+            >
+              <EditIcon sx={{ height: '20px', width: '20px', p: 0, m: 0 }} />
+            </IconButton>
+          </Box>
+
           <Box
             sx={{
               display: 'flex',
