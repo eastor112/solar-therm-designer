@@ -16,7 +16,47 @@ const style = {
 const ModalOtherTankParams = () => {
   return (
     <Box sx={style}>
-      <InputField />
+      <InputField
+        type='number'
+        id='k_tk'
+        label='K tanque'
+        variant='outlined'
+        name='k_tk'
+        value={0}
+        tooltipText='Coeficiente de '
+      />
+      <InputField
+        type='number'
+        id='k_aisl'
+        label='K aislante'
+        variant='outlined'
+        name='k_aisl'
+        value={0}
+      />
+      <InputField
+        type='number'
+        id='k_cub'
+        label='K cub.'
+        variant='outlined'
+        name='k_cub'
+        value={0}
+      />
+      <InputField
+        type='number'
+        id='h_int'
+        label='h interior.'
+        variant='outlined'
+        name='h_int'
+        value={0}
+      />
+      <InputField
+        type='number'
+        id='h_ext'
+        label='h exterior'
+        variant='outlined'
+        name='h_ext'
+        value={0}
+      />
     </Box>
   );
 };

@@ -20,7 +20,7 @@ const InputField: FC<CustomInputProps> = ({ tooltipText, ...rest }) => {
       InputProps={{
         endAdornment: tooltipText ? (
           <InputAdornment position='end'>
-            <Tooltip title='Volumen del tanque de agua' placement='top'>
+            <Tooltip title={tooltipText} placement='top'>
               <InfoIcon sx={{ width: '18px' }} />
             </Tooltip>
           </InputAdornment>

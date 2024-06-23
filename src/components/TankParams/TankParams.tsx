@@ -5,8 +5,18 @@ import TextField from '@mui/material/TextField';
 import InfoIcon from '@mui/icons-material/Info';
 import InputAdornment from '@mui/material/InputAdornment';
 import Tooltip from '@mui/material/Tooltip';
+import { useAppDispatch } from '../../hooks/reduxHooks';
+import { ModalType, getModalSelector } from '../Modal/getModalSelector';
+import { setModalComponent, setOpenModal } from '../../redux/UISlice';
+import SettingsIcon from '@mui/icons-material/Settings';
 
 const TankParams = () => {
+  const dispatch = useAppDispatch();
+
+  const handleSetCoeficients = () => {
+    dispatch(setOpenModal(true));
+    dispatch(setModalComponent(getModalSelector[ModalType.OTHER_TANK_PARAMS]));
+  };
   return (
     <Box>
       <Typography variant='h3' sx={generalStyles.h3}>
@@ -49,34 +59,10 @@ const TankParams = () => {
           />
           <TextField
             type='number'
-            id='k_tk'
-            label='K tanque'
-            variant='outlined'
-            name='k_tk'
-            sx={{
-              width: '100%',
-            }}
-            value={0}
-            size='small'
-          />
-          <TextField
-            type='number'
             id='e_aisl'
             label='Espesor aislante'
             variant='outlined'
             name='e_aisl'
-            sx={{
-              width: '100%',
-            }}
-            value={0}
-            size='small'
-          />
-          <TextField
-            type='number'
-            id='k_aisl'
-            label='K aislante'
-            variant='outlined'
-            name='k_aisl'
             sx={{
               width: '100%',
             }}
@@ -95,43 +81,28 @@ const TankParams = () => {
             value={0}
             size='small'
           />
-          <TextField
-            type='number'
-            id='k_cub'
-            label='K cub.'
-            variant='outlined'
-            name='k_cub'
-            sx={{
-              width: '100%',
-            }}
-            value={0}
-            size='small'
-          />
-          <TextField
-            type='number'
-            id='h_int'
-            label='h interior.'
-            variant='outlined'
-            name='h_int'
-            sx={{
-              width: '100%',
-            }}
-            value={0}
-            size='small'
-          />
-          <TextField
-            type='number'
-            id='h_ext'
-            label='h exterior'
-            variant='outlined'
-            name='h_ext'
-            sx={{
-              width: '100%',
-            }}
-            value={0}
-            size='small'
-          />
         </Box>
+        <Typography
+          color='initial'
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '2px',
+            mt: 1,
+            color: 'secondary',
+            cursor: 'pointer',
+            fontSize: '12px',
+            fontWeight: 400,
+            '&:hover': {
+              color: 'blue',
+              textDecoration: 'underline',
+            },
+          }}
+          onClick={handleSetCoeficients}
+        >
+          <SettingsIcon sx={{ width: '16px' }} />
+          Configurar coeficientes
+        </Typography>
       </Box>
     </Box>
   );
