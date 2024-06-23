@@ -1,12 +1,36 @@
+import React from 'react';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
-import { generalStyles } from '../../styles/general/index';
 import { useDispatch } from 'react-redux';
-import { useAppSelector } from '../../hooks/reduxHooks';
 import { setAzimuth, setInclination } from '../../redux/designerSlice';
 import InputField from '../InputField/InputField';
+
+const style = {
+  position: 'absolute' as 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 300,
+  bgcolor: 'background.paper',
+  borderRadius: '5px',
+  boxShadow: 24,
+  p: 4,
+};
+
+const fieldInfo = {
+  inclination: {
+    label: 'Inclinación',
+    tooltip: 'Ángulo de inclinación del panel solar (0-90 grados)',
+    initialValue: 15,
+  },
+  azimuth: {
+    label: 'Azimuth',
+    tooltip: 'Ángulo de azimuth del panel solar (0-360 grados)',
+    initialValue: 180,
+  },
+};
 
 const validationSchema = yup.object({
   inclination: yup
@@ -21,14 +45,14 @@ const validationSchema = yup.object({
     .max(360, 'El azimuth debe ser menor o igual a 360'),
 });
 
-const AnglesDesignerSimplify = () => {
+const AnglesDesignerSimplify: React.FC = () => {
   const dispatch = useDispatch();
-  const { azimuth, inclination } = useAppSelector(state => state.designer);
+  // const { azimuth, inclination } = useAppSelector(state => state.designer);
 
   const formik = useFormik({
     initialValues: {
-      inclination,
-      azimuth,
+      inclination: fieldInfo.inclination.initialValue,
+      azimuth: fieldInfo.azimuth.initialValue,
     },
     validationSchema: validationSchema,
     onSubmit: values => {
@@ -38,51 +62,40 @@ const AnglesDesignerSimplify = () => {
   });
 
   return (
-    <Box>
-      <Typography variant='h3' sx={generalStyles.h3}>
+    <Box sx={style}>
+      <Typography
+        id='modal-modal-title'
+        variant='h6'
+        component='h2'
+        sx={{ mb: 2 }}
+      >
         Ángulos
       </Typography>
       <form onSubmit={formik.handleSubmit}>
-        <Box
-          sx={{
-            width: '100%',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 2,
-          }}
-        >
+        {Object.entries(fieldInfo).map(([field, info]) => (
           <InputField
-            id='inclination'
-            name='inclination'
-            label='Inclinación'
+            key={field}
+            id={field}
+            name={field}
+            label={info.label}
             type='number'
-            value={formik.values.inclination}
+            value={formik.values[field as keyof typeof formik.values]}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             error={
-              formik.touched.inclination && Boolean(formik.errors.inclination)
+              formik.touched[field as keyof typeof formik.touched] &&
+              Boolean(formik.errors[field as keyof typeof formik.errors])
             }
-            helperText={formik.touched.inclination && formik.errors.inclination}
-            tooltipText='Ángulo de inclinación del panel solar (0-90 grados)'
-            sx={{ width: '100%' }}
+            helperText={
+              formik.touched[field as keyof typeof formik.touched] &&
+              formik.errors[field as keyof typeof formik.errors]
+            }
+            tooltipText={info.tooltip}
+            sx={{ width: '100%', mb: 2 }}
             size='small'
+            margin='normal'
           />
-
-          <InputField
-            id='azimuth'
-            name='azimuth'
-            label='Azimuth'
-            type='number'
-            value={formik.values.azimuth}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            error={formik.touched.azimuth && Boolean(formik.errors.azimuth)}
-            helperText={formik.touched.azimuth && formik.errors.azimuth}
-            tooltipText='Ángulo de azimuth del panel solar (0-360 grados)'
-            sx={{ width: '100%' }}
-            size='small'
-          />
-        </Box>
+        ))}
       </form>
     </Box>
   );
