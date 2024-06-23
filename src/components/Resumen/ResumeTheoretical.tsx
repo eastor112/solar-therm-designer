@@ -1,4 +1,3 @@
-import { Box, Grid } from '@mui/material';
 import { useAppSelector } from '../../hooks/reduxHooks';
 import Typography from '@mui/material/Typography';
 import {
@@ -6,6 +5,8 @@ import {
   findMinMaxEnergy,
 } from '../../utils/energyUtils';
 import { generalStyles } from '../../styles/general';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
 
 const ResumeTheoretical = () => {
   const { currentRegister } = useAppSelector(state => state.designer);
