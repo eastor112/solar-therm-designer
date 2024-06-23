@@ -1,109 +1,109 @@
+import React from 'react';
 import Box from '@mui/material/Box';
+import InputField from '../InputField/InputField';
 import Typography from '@mui/material/Typography';
-import { generalStyles } from '../../styles/general';
-import TextField from '@mui/material/TextField';
-import InfoIcon from '@mui/icons-material/Info';
-import InputAdornment from '@mui/material/InputAdornment';
-import Tooltip from '@mui/material/Tooltip';
+import { useFormik } from 'formik';
+import * as yup from 'yup';
 import { useAppDispatch } from '../../hooks/reduxHooks';
 import { ModalType, getModalSelector } from '../Modal/getModalSelector';
 import { setModalComponent, setOpenModal } from '../../redux/UISlice';
-import SettingsIcon from '@mui/icons-material/Settings';
+import Settings from '../Settings/Settings';
+import { generalStyles } from '../../styles/general';
 
-const TankParams = () => {
+const fieldInfo = {
+  vol_tk: {
+    label: 'Volumen [m3]',
+    tooltip: 'Volumen del tanque de agua [m3]',
+    initialValue: 0.3,
+  },
+  e_tk: {
+    label: 'Espesor tanque [m]',
+    tooltip: 'Espesor del termotanque (acero inoxidable) [m]',
+    initialValue: 0.0004,
+  },
+  e_aisl: {
+    label: 'Espesor aislante [m]',
+    tooltip: 'Espesor del aislante (poliuretano) [m]',
+    initialValue: 0.005,
+  },
+  e_cub: {
+    label: 'Espesor cubierta [m]',
+    tooltip: 'Espesor de la cubierta (acero inoxidable) [m]',
+    initialValue: 0.0004,
+  },
+};
+
+const validationSchema = yup.object({
+  vol_tk: yup
+    .number()
+    .required('Volumen es requerido')
+    .positive('Debe ser un número positivo'),
+  e_tk: yup
+    .number()
+    .required('Espesor tanque es requerido')
+    .positive('Debe ser un número positivo'),
+  e_aisl: yup
+    .number()
+    .required('Espesor aislante es requerido')
+    .positive('Debe ser un número positivo'),
+  e_cub: yup
+    .number()
+    .required('Espesor cubierta es requerido')
+    .positive('Debe ser un número positivo'),
+});
+
+const TankParams: React.FC = () => {
   const dispatch = useAppDispatch();
+
+  const formik = useFormik({
+    initialValues: Object.fromEntries(
+      Object.entries(fieldInfo).map(([key, value]) => [key, value.initialValue])
+    ),
+    validationSchema: validationSchema,
+    onSubmit: values => {
+      console.log(values);
+    },
+  });
 
   const handleSetCoeficients = () => {
     dispatch(setOpenModal(true));
     dispatch(setModalComponent(getModalSelector[ModalType.OTHER_TANK_PARAMS]));
   };
+
   return (
     <Box>
       <Typography variant='h3' sx={generalStyles.h3}>
-        Parámetros del tanque
+        Tanque
       </Typography>
-      <Box sx={{ width: '100%' }}>
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-          <TextField
-            type='number'
-            id='vol_tk'
-            label='Volumen'
-            variant='outlined'
-            name='vol_tk'
-            sx={{
-              width: '100%',
-            }}
-            value={0}
-            size='small'
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position='end'>
-                  <Tooltip title='Volumen del tanque de agua' placement='top'>
-                    <InfoIcon sx={{ width: '18px' }} />
-                  </Tooltip>
-                </InputAdornment>
-              ),
-            }}
-          />
-          <TextField
-            type='number'
-            id='e_tk'
-            label='Espesor tanque'
-            variant='outlined'
-            name='e_tk'
-            sx={{
-              width: '100%',
-            }}
-            value={0}
-            size='small'
-          />
-          <TextField
-            type='number'
-            id='e_aisl'
-            label='Espesor aislante'
-            variant='outlined'
-            name='e_aisl'
-            sx={{
-              width: '100%',
-            }}
-            value={0}
-            size='small'
-          />
-          <TextField
-            type='number'
-            id='e_cub'
-            label='Espesor cub.'
-            variant='outlined'
-            name='e_cub'
-            sx={{
-              width: '100%',
-            }}
-            value={0}
-            size='small'
-          />
-        </Box>
-        <Typography
-          color='initial'
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '2px',
-            mt: 1,
-            color: 'secondary',
-            cursor: 'pointer',
-            fontSize: '12px',
-            fontWeight: 400,
-            '&:hover': {
-              color: 'blue',
-              textDecoration: 'underline',
-            },
-          }}
-          onClick={handleSetCoeficients}
-        >
-          <SettingsIcon sx={{ width: '16px' }} />
-          Coeficientes
-        </Typography>
+      <Box sx={{ width: '200px' }}>
+        <form onSubmit={formik.handleSubmit}>
+          {Object.entries(fieldInfo).map(([field, info]) => (
+            <InputField
+              key={field}
+              id={field}
+              name={field}
+              label={info.label}
+              type='number'
+              value={formik.values[field as keyof typeof formik.values]}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={
+                formik.touched[field as keyof typeof formik.touched] &&
+                Boolean(formik.errors[field as keyof typeof formik.errors])
+              }
+              helperText={
+                formik.touched[field as keyof typeof formik.touched] &&
+                formik.errors[field as keyof typeof formik.errors]
+              }
+              tooltipText={info.tooltip}
+              sx={{ width: '100%', mb: 2 }}
+              size='small'
+              margin='normal'
+            />
+          ))}
+        </form>
       </Box>
+      <Settings label='Coeficientes' onClick={handleSetCoeficients} />
     </Box>
   );
 };
