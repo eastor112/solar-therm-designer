@@ -2,6 +2,9 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { generalStyles } from '../../styles/general';
 import TextField from '@mui/material/TextField';
+import InfoIcon from '@mui/icons-material/Info';
+import InputAdornment from '@mui/material/InputAdornment';
+import Tooltip from '@mui/material/Tooltip';
 
 const TankParams = () => {
   return (
@@ -22,6 +25,15 @@ const TankParams = () => {
             }}
             value={0}
             size='small'
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position='end'>
+                  <Tooltip title='Volumen del tanque de agua' placement='top'>
+                    <InfoIcon sx={{ width: '18px' }} />
+                  </Tooltip>
+                </InputAdornment>
+              ),
+            }}
           />
           <TextField
             type='number'

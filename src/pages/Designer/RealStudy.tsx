@@ -1,4 +1,3 @@
-import DesignerForm from '../../components/DesignerForm/DesignerForm';
 import DataInspectorGraph from '../../components/DataInspectorGraph/DataInspectorGraph';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { useOutletContexRoot } from '../RootLayout';
@@ -65,7 +64,6 @@ const RealStudy = () => {
         <TankParams />
         <PipelineParamsV2 />
         <AditionalParams />
-        <DesignerForm />
       </div>
       <DataInspectorGraph
         city={currentLocation?.place!}
