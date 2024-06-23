@@ -7,6 +7,7 @@ import { useAppDispatch, useAppSelector } from '../hooks/reduxHooks';
 import { setModalComponent, setOpenModal } from '../redux/UISlice';
 import { getProject } from '../redux/locationsSlice';
 import {
+  ModalType,
   destructiveModals,
   getModalSelector,
 } from '../components/Modal/getModalSelector';
@@ -34,7 +35,7 @@ const RootLayout = () => {
     setOpen(!open);
   };
 
-  const handleOpenGlobalModal = (value: string) => {
+  const handleOpenGlobalModal = (value: ModalType) => {
     dispatch(setOpenModal(true));
     if (destructiveModals.includes(value) && thereAreChanges && wantsToSave) {
       dispatch(setNextModalAction(value));
@@ -46,37 +47,37 @@ const RootLayout = () => {
 
   const handleClose = () => dispatch(setOpenModal(false));
 
-  useEffect(() => {
-    const unloadListener = (e: any) => {
-      if (thereAreChanges) {
-        e.preventDefault();
-        e.returnValue =
-          '¡Atención! Los cambios realizados no se guardarán si abandonas la página.';
-      }
-    };
+  // useEffect(() => {
+  //   const unloadListener = (e: any) => {
+  //     if (thereAreChanges) {
+  //       e.preventDefault();
+  //       e.returnValue =
+  //         '¡Atención! Los cambios realizados no se guardarán si abandonas la página.';
+  //     }
+  //   };
 
-    window.addEventListener('beforeunload', unloadListener);
+  //   window.addEventListener('beforeunload', unloadListener);
 
-    const historyListener = (location: any) => {
-      if (
-        thereAreChanges &&
-        !window.confirm(
-          '¿Estás seguro de que deseas abandonar la página? Los cambios no guardados se perderán.'
-        )
-      ) {
-        history.pushState(null, '', location.pathname);
-      }
-    };
+  //   const historyListener = (location: any) => {
+  //     if (
+  //       thereAreChanges &&
+  //       !window.confirm(
+  //         '¿Estás seguro de que deseas abandonar la página? Los cambios no guardados se perderán.'
+  //       )
+  //     ) {
+  //       history.pushState(null, '', location.pathname);
+  //     }
+  //   };
 
-    window.addEventListener('popstate', () => {
-      historyListener(window.location);
-    });
+  //   window.addEventListener('popstate', () => {
+  //     historyListener(window.location);
+  //   });
 
-    return () => {
-      window.removeEventListener('beforeunload', unloadListener);
-      window.removeEventListener('popstate', historyListener);
-    };
-  }, [thereAreChanges]);
+  //   return () => {
+  //     window.removeEventListener('beforeunload', unloadListener);
+  //     window.removeEventListener('popstate', historyListener);
+  //   };
+  // }, [thereAreChanges]);
 
   useEffect(() => {
     const savedProject = localStorage.getItem('currentProject');

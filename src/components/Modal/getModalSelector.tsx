@@ -10,7 +10,7 @@ import ModalOtherGeneralParams from './Params/ModalOtherGeneralParams';
 import ModalOtherPipeParams from './Params/ModalOtherPipeParams';
 import ModalOtherTankParams from './Params/ModalOtherTankParams';
 
-enum ModalType {
+export enum ModalType {
   ABOUT = 'about',
   FILE = 'file',
   NEW = 'new',

@@ -11,9 +11,10 @@ import { useEffect } from 'react';
 import { getRecentFiles, setPreviewProject } from '../../redux/locationsSlice';
 import { getRelativeDate } from '../../utils/datesUtils';
 import { IProject } from '../../types/locationstypes';
+import { ModalType } from '../Modal/getModalSelector';
 
 interface RecentFilesListProps {
-  handleOpenGlobalModal: (value: string) => void;
+  handleOpenGlobalModal: (value: ModalType) => void;
 }
 
 const RecentFilesList: React.FC<RecentFilesListProps> = ({
@@ -30,7 +31,7 @@ const RecentFilesList: React.FC<RecentFilesListProps> = ({
 
   const handleOnClick = (project: IProject) => {
     dispatch(setPreviewProject(project));
-    handleOpenGlobalModal('file');
+    handleOpenGlobalModal(ModalType.FILE);
   };
 
   return (

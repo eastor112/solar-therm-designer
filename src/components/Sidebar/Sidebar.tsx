@@ -11,6 +11,7 @@ import { MainListItems, SecondaryListItems } from './MenuItems';
 import Logo from '../Logo/Logo';
 import RecentFilesList from '../RecentFilesList/RecentFilesList';
 import { Link as LinkRouter } from 'react-router-dom';
+import { ModalType } from '../Modal/getModalSelector';
 
 const drawerWidth: number = 240;
 
@@ -44,7 +45,7 @@ const Drawer = styled(MuiDrawer, {
 interface DashboardContentProps {
   open: boolean;
   toggleDrawer: () => void;
-  handleOpenGlobalModal: (value: string) => void;
+  handleOpenGlobalModal: (value: ModalType) => void;
 }
 
 const DashboardContent: React.FC<DashboardContentProps> = ({

@@ -10,9 +10,10 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import NoteAddIcon from '@mui/icons-material/NoteAdd';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { logout } from '../../redux/usersSlice';
+import { ModalType } from '../Modal/getModalSelector';
 
 interface MainListItemsProps {
-  handleOpenGlobalModal: (value: string) => void;
+  handleOpenGlobalModal: (value: ModalType) => void;
 }
 
 export const MainListItems: React.FC<MainListItemsProps> = ({
@@ -23,14 +24,14 @@ export const MainListItems: React.FC<MainListItemsProps> = ({
   );
   return (
     <>
-      <ListItemButton onClick={() => handleOpenGlobalModal('new')}>
+      <ListItemButton onClick={() => handleOpenGlobalModal(ModalType.NEW)}>
         <ListItemIcon>
           <NoteAddIcon />
         </ListItemIcon>
         <ListItemText primary='Nuevo' />
       </ListItemButton>
 
-      <ListItemButton onClick={() => handleOpenGlobalModal('open')}>
+      <ListItemButton onClick={() => handleOpenGlobalModal(ModalType.OPEN)}>
         <ListItemIcon>
           <Folder />
         </ListItemIcon>
@@ -38,7 +39,7 @@ export const MainListItems: React.FC<MainListItemsProps> = ({
       </ListItemButton>
 
       <ListItemButton
-        onClick={() => handleOpenGlobalModal('save')}
+        onClick={() => handleOpenGlobalModal(ModalType.SAVE)}
         disabled={!currentProject || !thereAreChanges}
       >
         <ListItemIcon>
@@ -55,7 +56,7 @@ export const MainListItems: React.FC<MainListItemsProps> = ({
       </ListItemButton> */}
 
       <ListItemButton
-        onClick={() => handleOpenGlobalModal('close')}
+        onClick={() => handleOpenGlobalModal(ModalType.CLOSE)}
         disabled={!currentProject}
       >
         <ListItemIcon>
@@ -68,7 +69,7 @@ export const MainListItems: React.FC<MainListItemsProps> = ({
 };
 
 interface SecondaryListItemsProps {
-  handleOpenGlobalModal: (value: string) => void;
+  handleOpenGlobalModal: (value: ModalType) => void;
 }
 
 export const SecondaryListItems: React.FC<SecondaryListItemsProps> = ({
@@ -78,7 +79,7 @@ export const SecondaryListItems: React.FC<SecondaryListItemsProps> = ({
 
   return (
     <>
-      <ListItemButton onClick={() => handleOpenGlobalModal('about')}>
+      <ListItemButton onClick={() => handleOpenGlobalModal(ModalType.ABOUT)}>
         <ListItemIcon>
           <InfoIcon />
         </ListItemIcon>
