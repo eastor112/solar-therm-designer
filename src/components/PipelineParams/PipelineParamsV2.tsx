@@ -18,6 +18,9 @@ import {
 } from '../../redux/designerSlice';
 import { pipelines } from './helper';
 import { useEffect, useState } from 'react';
+import SettingsIcon from '@mui/icons-material/Settings';
+import { setModalComponent, setOpenModal } from '../../redux/UISlice';
+import { ModalType, getModalSelector } from '../Modal/getModalSelector';
 
 const minDistance = 1;
 
@@ -83,6 +86,11 @@ const PipelineParamsV2 = () => {
       dispatch(setExternalDiameter(pipelineSelected.outerDiameter));
     }
     setStandarPipeSelected(selected);
+  };
+
+  const handleSetCoeficients = () => {
+    dispatch(setOpenModal(true));
+    dispatch(setModalComponent(getModalSelector[ModalType.OTHER_PIPE_PARAMS]));
   };
 
   return (
@@ -225,39 +233,28 @@ const PipelineParamsV2 = () => {
             // }}
             size='small'
           />
-          <TextField
-            type='number'
-            id='tau_glas'
-            label='Tau'
-            variant='outlined'
-            name='tau_glas'
-            sx={{
-              width: '100%',
-            }}
-            value={0}
-            // onChange={e => {
-            //   let newValue = +e.target.value;
-            //   dispatch(setPipelineLength(newValue));
-            // }}
-            size='small'
-          />
-          <TextField
-            type='number'
-            id='alpha_glass'
-            label='Alpha'
-            variant='outlined'
-            name='alpha_glass'
-            sx={{
-              width: '100%',
-            }}
-            value={0}
-            // onChange={e => {
-            //   let newValue = +e.target.value;
-            //   dispatch(setPipelineLength(newValue));
-            // }}
-            size='small'
-          />
         </Box>
+        <Typography
+          color='initial'
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '2px',
+            mt: 1,
+            color: 'secondary',
+            cursor: 'pointer',
+            fontSize: '12px',
+            fontWeight: 400,
+            '&:hover': {
+              color: 'blue',
+              textDecoration: 'underline',
+            },
+          }}
+          onClick={handleSetCoeficients}
+        >
+          <SettingsIcon sx={{ width: '16px' }} />
+          Coeficientes
+        </Typography>
       </Box>
     </Box>
   );

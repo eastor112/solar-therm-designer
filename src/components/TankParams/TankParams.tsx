@@ -101,7 +101,7 @@ const TankParams = () => {
           onClick={handleSetCoeficients}
         >
           <SettingsIcon sx={{ width: '16px' }} />
-          Configurar coeficientes
+          Coeficientes
         </Typography>
       </Box>
     </Box>
