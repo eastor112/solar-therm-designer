@@ -3,8 +3,8 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { updateProject } from '../../redux/locationsSlice';
-import { setModalComponent } from '../../redux/UISlice';
-import { getModalSelector } from './getModalSelector';
+// import { setModalComponent } from '../../redux/UISlice';
+// import { getModalSelector } from './getModalSelector';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -25,13 +25,13 @@ const ModalConfirmDiscard = () => {
   const handleSaveAndContinue = () => {
     dispatch(updateProject({ closeOnFinish: false }));
     if (nextModalAction) {
-      dispatch(setModalComponent(getModalSelector[nextModalAction]));
+      // dispatch(setModalComponent(getModalSelector[nextModalAction]));
     }
   };
 
   const handleDiscardAndContinue = () => {
     if (nextModalAction) {
-      dispatch(setModalComponent(getModalSelector[nextModalAction]));
+      // dispatch(setModalComponent(getModalSelector[nextModalAction]));
     }
   };
 

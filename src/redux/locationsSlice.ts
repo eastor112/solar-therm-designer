@@ -126,9 +126,9 @@ export const getWeatherData = createAsyncThunk(
 
 export const areThereChanges = createAsyncThunk(
   'locations/areThereChanges',
-  async (_, { getState, dispatch }) => {
+  async (_, { getState }) => {
     const state = getState() as RootState
-    const { designer, locations } = state;
+    const { locations } = state;
 
     if (locations.currentProject) {
       const {

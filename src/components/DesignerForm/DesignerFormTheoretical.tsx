@@ -4,7 +4,6 @@ import { generalStyles } from '../../styles/general';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { FocusEvent } from 'react';
 import { setPipeNumber } from '../../redux/locationsSlice';
-import { useNavigate } from 'react-router-dom';
 import {
   computeResults,
   getAllProjectParams,
