@@ -135,7 +135,7 @@ const PipelineParamsV2: React.FC = () => {
       </Typography>
       <Box sx={{ width: '250px' }}>
         <form onSubmit={formik.handleSubmit}>
-          <FormControl fullWidth sx={{ mb: 2 }}>
+          <FormControl fullWidth sx={{ my: 2 }}>
             <InputLabel id='type-select-label'>Tipo</InputLabel>
             <Select
               labelId='type-select-label'
@@ -208,7 +208,7 @@ const PipelineParamsV2: React.FC = () => {
           ></Box>
         </form>
       </Box>
-      <Settings label='Coeficientes' onClick={handleSetCoeficients} />
+      <Settings label='Coef. térmicos tubos' onClick={handleSetCoeficients} />
     </Box>
   );
 };

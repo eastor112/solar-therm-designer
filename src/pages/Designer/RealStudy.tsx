@@ -11,6 +11,7 @@ import TankParams from '../../components/TankParams/TankParams';
 import AnglesDesignerSimplify from '../../components/AnglesDesigner/AngleDesignerSimpify';
 import Settings from '../../components/Settings/Settings';
 import { setModalComponent, setOpenModal } from '../../redux/UISlice';
+import Box from '@mui/material/Box';
 import {
   ModalType,
   getModalSelector,
@@ -73,10 +74,14 @@ const RealStudy = () => {
   return (
     <>
       <div className='flex gap-8'>
-        <Settings label='Otros parámetros' onClick={handleSetCoeficients} />
-        <AnglesDesignerSimplify />
-        <TankParams />
-        <PipelineParamsV2 />
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          <AnglesDesignerSimplify />
+          <TankParams />
+        </Box>
+        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+          <PipelineParamsV2 />
+          <Settings label='Otros parámetros' onClick={handleSetCoeficients} />
+        </Box>
       </div>
       <DataInspectorGraph
         city={currentLocation?.place!}

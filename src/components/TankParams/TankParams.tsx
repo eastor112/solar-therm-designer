@@ -103,7 +103,7 @@ const TankParams: React.FC = () => {
           ))}
         </form>
       </Box>
-      <Settings label='Coeficientes' onClick={handleSetCoeficients} />
+      <Settings label='Coef. térmicos tanque' onClick={handleSetCoeficients} />
     </Box>
   );
 };
