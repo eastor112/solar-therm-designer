@@ -1,9 +1,11 @@
 import Box from '@mui/material/Box';
-import DataInspectorGraph from '../../DataInspectorGraph/DataInspectorGraph';
+// import DataInspectorGraph from '../../DataInspectorGraph/DataInspectorGraph';
 import { useState, useEffect, FC } from 'react';
-import { useAppSelector } from '../../../hooks/reduxHooks';
+// import { useAppSelector } from '../../../hooks/reduxHooks';
 import { useOutletContexRoot } from '../../../pages/RootLayout';
 import ButtonsModals from '../../ButtonsModals/ButtonsModals';
+import CustomLineChart from '../../Graphs/LineChart';
+// import { capitalize } from '../../../utils/textTransformations';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -15,6 +17,7 @@ const style = {
   borderRadius: '5px',
   boxShadow: 24,
   p: 4,
+  height: 551,
 };
 
 interface ModalResults {
@@ -23,12 +26,12 @@ interface ModalResults {
 }
 
 const ModalResults: FC<ModalResults> = ({ title, handleClose }) => {
-  const { weatherData, currentLocation } = useAppSelector(
-    state => state.locations
-  );
+  // const { weatherData, currentLocation } = useAppSelector(
+  //   state => state.locations
+  // );
   const { isSidebarOpen } = useOutletContexRoot();
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  const [chart, setChart] = useState('temperature');
+  // const [chart, setChart] = useState('temperature');
   const [showGraph, setShowGraph] = useState(true);
 
   useEffect(() => {
@@ -48,29 +51,50 @@ const ModalResults: FC<ModalResults> = ({ title, handleClose }) => {
     };
   }, []);
 
-  const handleChangeChart = (
-    _event: React.SyntheticEvent,
-    newValue: string
-  ) => {
-    setChart(newValue);
-  };
+  // const handleChangeChart = (
+  //   _event: React.SyntheticEvent,
+  //   newValue: string
+  // ) => {
+  //   setChart(newValue);
+  // };
 
   return (
     <Box sx={style}>
-      <Box>{title}</Box>
-      <DataInspectorGraph
+      {/* <DataInspectorGraph
         city={currentLocation?.place!}
         data={weatherData}
         chart={chart}
         handleChangeChart={handleChangeChart}
         showGraph={showGraph}
-      />
-      <ButtonsModals
-        handleAccept={() => {}}
-        handleCancel={() => {
-          handleClose();
+      /> */}
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          height: '100%',
         }}
-      />
+      >
+        {showGraph ? (
+          <CustomLineChart
+            data={[]}
+            title={title}
+            columns={['dhi', 'dni', 'ghi']}
+            domain={[0, 1000]}
+            units='[W/m2]'
+            dataKey='date'
+          />
+        ) : (
+          <Box />
+        )}
+
+        <ButtonsModals
+          handleAccept={() => {}}
+          handleCancel={() => {
+            handleClose();
+          }}
+        />
+      </Box>
     </Box>
   );
 };
