@@ -16,7 +16,6 @@ const Settings: FC<SettingsProps> = ({ onClick, label }) => {
         alignItems: 'center',
         gap: '2px',
         mt: 1,
-        color: 'secondary',
         cursor: 'pointer',
         fontSize: '12px',
         fontWeight: 400,

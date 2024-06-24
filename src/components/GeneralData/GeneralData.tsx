@@ -3,8 +3,6 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
 import { useDesignerStore } from '../../store/designerStore';
-import EditCalendarIcon from '@mui/icons-material/EditCalendar';
-import EditLocationAltIcon from '@mui/icons-material/EditLocationAlt';
 import IconButton from '@mui/material/IconButton';
 import Modal from '@mui/material/Modal';
 import ModalChangePlace from '../Modal/ModalChangePlace';
@@ -77,14 +75,6 @@ const GeneralData = () => {
             <Typography sx={{ color: '#555' }} variant='caption'>
               (Lat: {-7.32453}, Lon:{-71.34534})
             </Typography>
-            <IconButton
-              sx={{ width: '20px', height: '20px', color: 'primary.main' }}
-              onClick={() => handleOpen('place')}
-            >
-              <EditLocationAltIcon
-                sx={{ height: '20px', width: '20px', p: 0, m: 0 }}
-              />
-            </IconButton>
           </Box>
 
           <Box sx={{ display: 'flex', gap: '4px' }}>
@@ -128,11 +118,6 @@ const GeneralData = () => {
                 </Typography>
               </Box>
             </Box>
-            <IconButton
-              sx={{ width: '20px', height: '20px', color: 'primary.main' }}
-            >
-              <EditIcon sx={{ height: '20px', width: '20px', p: 0, m: 0 }} />
-            </IconButton>
           </Box>
 
           <Box
@@ -143,14 +128,6 @@ const GeneralData = () => {
             }}
           >
             <Typography>12 de abril de 2020</Typography>
-            <IconButton
-              sx={{ width: '20px', height: '20px', color: 'primary.main' }}
-              onClick={() => handleOpen('date')}
-            >
-              <EditCalendarIcon
-                sx={{ height: '20px', width: '20px', p: 0, m: 0 }}
-              />
-            </IconButton>
           </Box>
         </Box>
 

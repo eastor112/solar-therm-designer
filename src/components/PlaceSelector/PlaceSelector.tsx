@@ -2,23 +2,24 @@ import Box from '@mui/material/Box';
 import {
   FormControl,
   InputLabel,
-  Link,
   MenuItem,
   Select,
   SelectChangeEvent,
 } from '@mui/material';
-
-import { Link as LinkRouter } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../../hooks/reduxHooks';
 import { useState } from 'react';
 import { setCurrentLocation } from '../../redux/locationsSlice';
 
 interface ModalChangePlaceProps {
   onChange?: (event: SelectChangeEvent<number>) => void;
+  onShowMap?: (value: boolean) => void;
+  showMap?: boolean;
 }
 
 const PlaceSelector: React.FC<ModalChangePlaceProps> = ({
   onChange = () => {},
+  onShowMap = () => {},
+  showMap = false,
 }) => {
   const { locations, currentLocation } = useAppSelector(
     state => state.locations
@@ -71,10 +72,18 @@ const PlaceSelector: React.FC<ModalChangePlaceProps> = ({
             ))}
           </Select>
         </Box>
-        <Box sx={{ fontSize: 14 }}>
-          <Link to='/dashboard/place/new' component={LinkRouter} sx={{}}>
-            + Otra ubicación
-          </Link>
+        <Box
+          sx={{
+            fontSize: 12,
+            cursor: 'pointer',
+            '&:hover': {
+              color: 'blue',
+              textDecoration: 'underline',
+            },
+          }}
+          onClick={() => onShowMap(!showMap)}
+        >
+          {showMap ? 'Cerrar mapa' : '+ Otra ubicación'}
         </Box>
       </FormControl>
     </Box>

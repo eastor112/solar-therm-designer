@@ -12,7 +12,7 @@ import {
 import markIcon from '../../assets/marker.svg';
 import L from 'leaflet';
 import MarkerClusterGroup from 'react-leaflet-cluster';
-import Typography from '@mui/material/Typography';
+// import Typography from '@mui/material/Typography';
 import { LatLngBoundsLiteral } from 'leaflet';
 
 const mark = new L.Icon({
@@ -96,10 +96,10 @@ const MapLeafleat: FC<MapLeafleatProps> = ({
         bgcolor: '#ddd6',
       }}
     >
-      <Box>
+      {/* <Box>
         <Typography>Latitud: {coord.lat.toFixed(5)}</Typography>
         <Typography>Longitud: {coord.lon.toFixed(5)}</Typography>
-      </Box>
+      </Box> */}
       <MapContainer
         center={[-8.11599, -79.02998]}
         zoom={7}

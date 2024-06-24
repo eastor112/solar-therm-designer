@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { useFormik } from 'formik';
@@ -10,13 +10,14 @@ import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import InputField from '../../InputField/InputField';
 import PlaceSelector from '../../PlaceSelector/PlaceSelector';
 import { Dayjs } from 'dayjs';
+import MapLeafleat from '../../MapLeafleat/MapLeafleat';
 
 const style = {
   position: 'absolute' as 'absolute',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 400,
+  // width: '90vw',
   bgcolor: 'background.paper',
   borderRadius: '5px',
   boxShadow: 24,
@@ -63,6 +64,8 @@ const validationSchema = yup.object().shape({
 });
 
 const ModalUpdateGeneralParams: React.FC = () => {
+  const [showMap, setShowMap] = useState(false);
+
   const formik = useFormik({
     initialValues: Object.fromEntries(
       Object.entries(fieldInfo).map(([key, value]) => [key, value.initialValue])
@@ -80,86 +83,109 @@ const ModalUpdateGeneralParams: React.FC = () => {
         <Typography id='modal-modal-title' variant='h6' component='h2'>
           Información del Proyecto
         </Typography>
+        <Box sx={{ display: 'flex', gap: 2 }}>
+          <Box sx={{ width: '250px' }}>
+            <InputField
+              id='name_project'
+              label='Nombre de proyecto'
+              variant='outlined'
+              name='name_project'
+              value={formik.values['name_project']}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={
+                formik.touched['name_project'] &&
+                Boolean(formik.errors['name_project'])
+              }
+              helperText={
+                formik.touched['name_project'] && formik.errors['name_project']
+              }
+              margin='normal'
+            />
 
-        <InputField
-          id='name_project'
-          label='Nombre de proyecto'
-          variant='outlined'
-          name='name_project'
-          value={formik.values['name_project']}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          error={
-            formik.touched['name_project'] &&
-            Boolean(formik.errors['name_project'])
-          }
-          helperText={
-            formik.touched['name_project'] && formik.errors['name_project']
-          }
-          margin='normal'
-        />
+            <PlaceSelector
+              onChange={value => formik.setFieldValue('place', value)}
+              onShowMap={value => {
+                setShowMap(value);
+              }}
+              showMap={showMap}
+            />
 
-        <PlaceSelector
-          onChange={value => formik.setFieldValue('place', value)}
-        />
+            <form onSubmit={formik.handleSubmit}>
+              {Object.entries(fieldInfo).map(([field, info]) => (
+                <React.Fragment key={field}>
+                  {field !== 'date' ? (
+                    <InputField
+                      fullWidth
+                      id={field}
+                      name={field}
+                      label={info.label}
+                      type={
+                        field === 't_amb' ||
+                        field === 'v_viento' ||
+                        field === 'altura'
+                          ? 'number'
+                          : 'text'
+                      }
+                      value={formik.values[field]}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      error={
+                        formik.touched[field] && Boolean(formik.errors[field])
+                      }
+                      helperText={formik.touched[field] && formik.errors[field]}
+                      margin='normal'
+                      tooltipText={info.tooltip}
+                    />
+                  ) : null}
+                </React.Fragment>
+              ))}
 
-        <form onSubmit={formik.handleSubmit}>
-          {Object.entries(fieldInfo).map(([field, info]) => (
-            <React.Fragment key={field}>
-              {field !== 'date' ? (
-                <InputField
-                  fullWidth
-                  id={field}
-                  name={field}
-                  label={info.label}
-                  type={
-                    field === 't_amb' ||
-                    field === 'v_viento' ||
-                    field === 'altura'
-                      ? 'number'
-                      : 'text'
-                  }
-                  value={formik.values[field]}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  error={formik.touched[field] && Boolean(formik.errors[field])}
-                  helperText={formik.touched[field] && formik.errors[field]}
-                  margin='normal'
-                  tooltipText={info.tooltip}
-                />
-              ) : null}
-            </React.Fragment>
-          ))}
+              <DateTimePicker
+                label={'Fecha y hora'}
+                value={formik.values.date}
+                onChange={value =>
+                  formik.setFieldValue(
+                    'date',
+                    (value as Dayjs | null)?.format()
+                  )
+                }
+                slotProps={{
+                  textField: {
+                    size: 'small',
+                    margin: 'normal',
+                    InputLabelProps: { shrink: true },
+                    inputProps: { placeholder: 'Seleccione' },
+                  },
+                }}
+                format='DD/MM/YYYY HH:mm'
+                sx={{ width: '100%' }}
+                minutesStep={30}
+                ampm={false}
+              />
 
-          <DateTimePicker
-            label={'Fecha y hora'}
-            value={formik.values.date}
-            onChange={value =>
-              formik.setFieldValue('date', (value as Dayjs | null)?.format())
-            }
-            slotProps={{
-              textField: {
-                size: 'small',
-                margin: 'normal',
-                InputLabelProps: { shrink: true },
-                inputProps: { placeholder: 'Seleccione' },
-              },
-            }}
-            format='DD/MM/YYYY HH:mm'
-            sx={{ width: '100%' }}
-            minutesStep={30}
-            ampm={false}
-          />
-
-          <Box sx={{ display: 'flex' }}>
-            <Button type='button' sx={{ mt: 2 }}>
-              Cancelar
-            </Button>
-            <Button type='submit' variant='contained' sx={{ mt: 2 }}>
-              Aceptar
-            </Button>
+              <Box sx={{ display: 'flex' }}>
+                <Button type='button' sx={{ mt: 2 }}>
+                  Cancelar
+                </Button>
+                <Button type='submit' variant='contained' sx={{ mt: 2 }}>
+                  Aceptar
+                </Button>
+              </Box>
+            </form>
           </Box>
-        </form>
+          {showMap && (
+            <Box sx={{ width: '69.5vw', height: '560px', bgcolor: 'red' }}>
+              <MapLeafleat
+                onMarkerClick={() => {}}
+                defaultCoordinates={{
+                  lat: -8.11599,
+                  lon: -79.02998,
+                }}
+              />
+            </Box>
+          )}
+        </Box>
       </Box>
     </LocalizationProvider>
   );
