@@ -4,8 +4,8 @@ import InputField from '../../InputField/InputField';
 import Typography from '@mui/material/Typography';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import Button from '@mui/material/Button';
 import SelectField from '../../SelectField/SelectField';
+import ButtonsModals from '../../ButtonsModals/ButtonsModals';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -130,9 +130,7 @@ const ModalOtherGeneralParams: React.FC = () => {
               margin='normal'
             />
           ))}
-        <Button type='submit' variant='contained'>
-          Guardar
-        </Button>
+        <ButtonsModals handleAccept={() => {}} handleCancel={() => {}} />
       </form>
     </Box>
   );

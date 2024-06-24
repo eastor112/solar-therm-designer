@@ -12,6 +12,8 @@ import AnglesDesignerSimplify from '../../components/AnglesDesigner/AngleDesigne
 import Settings from '../../components/Settings/Settings';
 import { setModalComponent, setOpenModal } from '../../redux/UISlice';
 import Box from '@mui/material/Box';
+import { generalStyles } from '../../styles/general/index';
+import Button from '@mui/material/Button';
 import {
   ModalType,
   getModalSelector,
@@ -73,16 +75,38 @@ const RealStudy = () => {
 
   return (
     <>
-      <div className='flex gap-8'>
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-          <AnglesDesignerSimplify />
-          <TankParams />
+      <Box
+        sx={{
+          ...generalStyles.cardLayout,
+          width: '470px',
+        }}
+      >
+        <Box
+          sx={{
+            display: 'flex',
+            gap: 4,
+          }}
+        >
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+            <AnglesDesignerSimplify />
+            <TankParams />
+          </Box>
+          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+            <PipelineParamsV2 />
+            <Settings label='Otros parámetros' onClick={handleSetCoeficients} />
+          </Box>
         </Box>
-        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-          <PipelineParamsV2 />
-          <Settings label='Otros parámetros' onClick={handleSetCoeficients} />
+        <Box sx={{ textAlign: 'center' }}>
+          <Button
+            variant='contained'
+            sx={{ mt: 2, width: '220px' }}
+            size='small'
+          >
+            Calcular
+          </Button>
         </Box>
-      </div>
+      </Box>
+
       <DataInspectorGraph
         city={currentLocation?.place!}
         data={weatherData}

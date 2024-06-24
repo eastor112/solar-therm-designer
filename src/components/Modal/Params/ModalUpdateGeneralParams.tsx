@@ -3,7 +3,6 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import Button from '@mui/material/Button';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
@@ -11,6 +10,7 @@ import InputField from '../../InputField/InputField';
 import PlaceSelector from '../../PlaceSelector/PlaceSelector';
 import { Dayjs } from 'dayjs';
 import MapLeafleat from '../../MapLeafleat/MapLeafleat';
+import ButtonsModals from '../../ButtonsModals/ButtonsModals';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -164,14 +164,7 @@ const ModalUpdateGeneralParams: React.FC = () => {
                 ampm={false}
               />
 
-              <Box sx={{ display: 'flex' }}>
-                <Button type='button' sx={{ mt: 2 }}>
-                  Cancelar
-                </Button>
-                <Button type='submit' variant='contained' sx={{ mt: 2 }}>
-                  Aceptar
-                </Button>
-              </Box>
+              <ButtonsModals handleAccept={() => {}} handleCancel={() => {}} />
             </form>
           </Box>
           {showMap && (

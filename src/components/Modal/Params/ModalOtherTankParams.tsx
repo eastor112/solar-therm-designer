@@ -3,8 +3,8 @@ import Box from '@mui/material/Box';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import InputField from '../../InputField/InputField';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import ButtonsModals from '../../ButtonsModals/ButtonsModals';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -97,9 +97,7 @@ const ModalOtherTankParams: React.FC = () => {
             tooltipText={info.tooltip}
           />
         ))}
-        <Button type='submit' variant='contained'>
-          Guardar
-        </Button>
+        <ButtonsModals handleAccept={() => {}} handleCancel={() => {}} />
       </form>
     </Box>
   );
