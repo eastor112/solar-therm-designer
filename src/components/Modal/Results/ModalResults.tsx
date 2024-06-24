@@ -1,11 +1,8 @@
 import Box from '@mui/material/Box';
-// import DataInspectorGraph from '../../DataInspectorGraph/DataInspectorGraph';
-import { useState, useEffect, FC } from 'react';
-// import { useAppSelector } from '../../../hooks/reduxHooks';
-import { useOutletContexRoot } from '../../../pages/RootLayout';
-import ButtonsModals from '../../ButtonsModals/ButtonsModals';
+import { useState, FC } from 'react';
 import CustomLineChart from '../../Graphs/LineChart';
-// import { capitalize } from '../../../utils/textTransformations';
+import Button from '@mui/material/Button';
+import RawDataInspectorSimplify from '../../../pages/RawDataInspector/RawDataInspectorSimplify';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -26,47 +23,10 @@ interface ModalResults {
 }
 
 const ModalResults: FC<ModalResults> = ({ title, handleClose }) => {
-  // const { weatherData, currentLocation } = useAppSelector(
-  //   state => state.locations
-  // );
-  const { isSidebarOpen } = useOutletContexRoot();
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  // const [chart, setChart] = useState('temperature');
-  const [showGraph, setShowGraph] = useState(true);
-
-  useEffect(() => {
-    setShowGraph(false);
-    setTimeout(() => {
-      setShowGraph(true);
-    }, 500);
-  }, [isSidebarOpen, windowWidth]);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
-    window.addEventListener('resize', handleResize);
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
-
-  // const handleChangeChart = (
-  //   _event: React.SyntheticEvent,
-  //   newValue: string
-  // ) => {
-  //   setChart(newValue);
-  // };
+  const [showRawData, setShowRawData] = useState(false);
 
   return (
     <Box sx={style}>
-      {/* <DataInspectorGraph
-        city={currentLocation?.place!}
-        data={weatherData}
-        chart={chart}
-        handleChangeChart={handleChangeChart}
-        showGraph={showGraph}
-      /> */}
       <Box
         sx={{
           display: 'flex',
@@ -75,7 +35,9 @@ const ModalResults: FC<ModalResults> = ({ title, handleClose }) => {
           height: '100%',
         }}
       >
-        {showGraph ? (
+        {showRawData ? (
+          <RawDataInspectorSimplify title={title} />
+        ) : (
           <CustomLineChart
             data={[]}
             title={title}
@@ -84,16 +46,50 @@ const ModalResults: FC<ModalResults> = ({ title, handleClose }) => {
             units='[W/m2]'
             dataKey='date'
           />
-        ) : (
-          <Box />
         )}
 
-        <ButtonsModals
-          handleAccept={() => {}}
-          handleCancel={() => {
-            handleClose();
+        <Box
+          sx={{
+            display: 'flex',
+            gap: 3,
+            justifyContent: 'center',
+            width: '100%',
           }}
-        />
+        >
+          <Button
+            type='button'
+            variant='contained'
+            sx={{ mt: 2 }}
+            size='small'
+            onClick={() => {
+              setShowRawData(!showRawData);
+            }}
+          >
+            {showRawData ? 'Gráfica' : 'Datos tabulados'}
+          </Button>
+
+          {showRawData && (
+            <Button
+              type='button'
+              variant='contained'
+              sx={{ mt: 2 }}
+              size='small'
+              // onClick={handleCancel}
+            >
+              Exportar csv
+            </Button>
+          )}
+
+          <Button
+            type='button'
+            variant='contained'
+            sx={{ mt: 2 }}
+            size='small'
+            onClick={() => handleClose()}
+          >
+            Cerrar
+          </Button>
+        </Box>
       </Box>
     </Box>
   );

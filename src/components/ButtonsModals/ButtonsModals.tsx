@@ -25,6 +25,7 @@ const ButtonsModals: FC<ButtonsModalsProps> = ({
       <Button type='button' sx={{ mt: 2 }} size='small' onClick={handleCancel}>
         Cancelar
       </Button>
+
       <Button
         type={isSubmit ? 'submit' : 'button'}
         variant='contained'
