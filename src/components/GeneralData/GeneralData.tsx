@@ -3,13 +3,12 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
 import { useDesignerStore } from '../../store/designerStore';
-import IconButton from '@mui/material/IconButton';
 import Modal from '@mui/material/Modal';
 import ModalChangePlace from '../Modal/ModalChangePlace';
 import ModalDatepicker from '../Modal/ModalDatepicker';
 import { useState } from 'react';
-import EditIcon from '@mui/icons-material/Edit';
 import ModalUpdateGeneralParams from '../Modal/Params/ModalUpdateGeneralParams';
+import SettingsIcon from '@mui/icons-material/Settings';
 
 const GeneralData = () => {
   const { currentProject, studyType, setStudyType } = useDesignerStore();
@@ -51,12 +50,19 @@ const GeneralData = () => {
               Mi proyecto{' '}
               {currentProject?.name ? `- ${currentProject.name}` : ''}
             </Typography>
-            <IconButton
-              sx={{ width: '20px', height: '20px', color: 'primary.main' }}
+            <Box
+              sx={{
+                width: '20px',
+                height: '20px',
+                cursor: 'pointer',
+                '&:hover': {
+                  color: 'primary.main',
+                },
+              }}
               onClick={() => handleOpen('update')}
             >
-              <EditIcon sx={{ height: '20px', width: '20px', p: 0, m: 0 }} />
-            </IconButton>
+              <SettingsIcon sx={{ width: '16px' }} />
+            </Box>
           </Box>
           <Box
             sx={{

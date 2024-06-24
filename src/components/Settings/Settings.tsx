@@ -20,7 +20,7 @@ const Settings: FC<SettingsProps> = ({ onClick, label }) => {
         fontSize: '12px',
         fontWeight: 400,
         '&:hover': {
-          color: 'blue',
+          color: 'primary.main',
           textDecoration: 'underline',
         },
       }}
