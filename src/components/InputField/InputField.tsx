@@ -39,7 +39,13 @@ const InputField: FC<CustomInputProps> = ({ tooltipText, ...rest }) => {
         endAdornment: tooltipText ? (
           <InputAdornment position='end'>
             <Tooltip title={tooltipText} placement='top'>
-              <InfoIcon sx={{ width: '18px' }} />
+              <InfoIcon
+                sx={{
+                  width: '16px',
+                  color: '#7777',
+                  '&:hover': { color: '#777b' },
+                }}
+              />
             </Tooltip>
           </InputAdornment>
         ) : undefined,
