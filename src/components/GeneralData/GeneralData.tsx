@@ -11,14 +11,17 @@ import ModalChangePlace from '../Modal/ModalChangePlace';
 import ModalDatepicker from '../Modal/ModalDatepicker';
 import { useState } from 'react';
 import EditIcon from '@mui/icons-material/Edit';
+import ModalUpdateGeneralParams from '../Modal/Params/ModalUpdateGeneralParams';
 
 const GeneralData = () => {
   const { currentProject, studyType, setStudyType } = useDesignerStore();
-  const [modalType, setModalType] = useState<'place' | 'date'>('place');
+  const [modalType, setModalType] = useState<'place' | 'date' | 'update'>(
+    'place'
+  );
 
   const [open, setOpen] = useState(false);
 
-  const handleOpen = (value: 'place' | 'date') => {
+  const handleOpen = (value: 'place' | 'date' | 'update') => {
     setModalType(value);
     setOpen(true);
   };
@@ -52,7 +55,7 @@ const GeneralData = () => {
             </Typography>
             <IconButton
               sx={{ width: '20px', height: '20px', color: 'primary.main' }}
-              onClick={() => handleOpen('place')}
+              onClick={() => handleOpen('update')}
             >
               <EditIcon sx={{ height: '20px', width: '20px', p: 0, m: 0 }} />
             </IconButton>
@@ -175,6 +178,7 @@ const GeneralData = () => {
           {modalType === 'date' && (
             <ModalDatepicker handleClose={handleClose} />
           )}
+          {modalType === 'update' && <ModalUpdateGeneralParams />}
         </>
       </Modal>
     </>
