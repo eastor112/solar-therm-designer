@@ -6,6 +6,7 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import SelectField from '../../SelectField/SelectField';
 import ButtonsModals from '../../ButtonsModals/ButtonsModals';
+import { useDesignerStore } from '../../../store/designerStore';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -17,32 +18,6 @@ const style = {
   borderRadius: '5px',
   boxShadow: 24,
   p: 4,
-};
-
-const fieldInfo = {
-  n_div: {
-    label: 'Granularidad',
-    tooltip:
-      'Division de intervalos de tiempo en el dia (12: horaria, 24: cada media hora)',
-    initialValue: 12,
-    options: [12, 24, 48, 96],
-  },
-  nn: {
-    label: 'Divisiones',
-    tooltip: 'Cálculos angulares horarios',
-    initialValue: 360,
-  },
-  beta_coef: {
-    label: 'Coeficiente Beta',
-    tooltip: 'Coeficiente de expansión volumétrica [1/K]',
-    initialValue: 0.000257,
-  },
-  f_flujo: {
-    label: 'Factor de Flujo',
-    tooltip:
-      'Es el factor de flujo - Razon de area transversal - area total donde sale agua caliente',
-    initialValue: 0.45,
-  },
 };
 
 const validationSchema = yup.object({
@@ -66,13 +41,53 @@ const validationSchema = yup.object({
 });
 
 const ModalOtherGeneralParams: React.FC = () => {
+  const {
+    n_div,
+    nn,
+    beta_coef,
+    f_flujo,
+    setN_div,
+    setNn,
+    setBeta_coef,
+    setF_flujo,
+  } = useDesignerStore();
+
+  const fieldInfo = {
+    n_div: {
+      label: 'Granularidad',
+      tooltip:
+        'Division de intervalos de tiempo en el dia (12: horaria, 24: cada media hora)',
+      initialValue: n_div,
+      options: [12, 24, 48, 96],
+    },
+    nn: {
+      label: 'Divisiones',
+      tooltip: 'Cálculos angulares horarios',
+      initialValue: nn,
+    },
+    beta_coef: {
+      label: 'Coeficiente Beta',
+      tooltip: 'Coeficiente de expansión volumétrica [1/K]',
+      initialValue: beta_coef,
+    },
+    f_flujo: {
+      label: 'Factor de Flujo',
+      tooltip:
+        'Es el factor de flujo - Razon de area transversal - area total donde sale agua caliente',
+      initialValue: f_flujo,
+    },
+  };
+
   const formik = useFormik({
     initialValues: Object.fromEntries(
       Object.entries(fieldInfo).map(([key, value]) => [key, value.initialValue])
     ),
     validationSchema: validationSchema,
     onSubmit: values => {
-      console.log(values);
+      setN_div(Number(values.n_div));
+      setNn(Number(values.nn));
+      setBeta_coef(Number(values.beta_coef));
+      setF_flujo(Number(values.f_flujo));
     },
   });
 

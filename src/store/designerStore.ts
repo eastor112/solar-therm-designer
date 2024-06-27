@@ -23,12 +23,13 @@ interface DesignerState {
   setPipeNumber: (pipeNumber: number | null) => void
   pipeType: number | null
   setPipeType: (pipeType: number | null) => void
-  // PARAMS
+
   // ANGLE PARAMS
   inclination: number
   setInclination: (inclination: number) => void
   azimuth: number
   setAzimuth: (azimuth: number) => void
+
   // TANK PARAMS
   vol_tk: number
   setVol_tk: (vol_tk: number) => void
@@ -60,14 +61,20 @@ interface DesignerState {
   setS_sep: (s_sep: number) => void,
   n_tubos: number,
   setN_tubos: (n_tubos: number) => void,
-  //   tau_glas
-  // alpha_glass
-  // setTau_glas
-  // setAlpha_glass
   tau_glass: number,
   setTau_glass: (tau_glas: number) => void,
   alpha_glass: number,
   setAlpha_glass: (alpha_glass: number) => void,
+
+  // GENERAL PARAMS
+  n_div: number,
+  setN_div: (n_div: number) => void,
+  nn: number,
+  setNn: (nn: number) => void,
+  beta_coef: number,
+  setBeta_coef: (beta_coef: number) => void,
+  f_flujo: number,
+  setF_flujo: (f_flujo: number) => void,
 }
 
 export const useDesignerStore = create<DesignerState>()(
@@ -119,7 +126,6 @@ export const useDesignerStore = create<DesignerState>()(
           set({ locations: locations });
         },
 
-        // PARAMS
         // ANGLE PARAMS
         inclination: 15,
 
@@ -165,6 +171,7 @@ export const useDesignerStore = create<DesignerState>()(
         k_cub: 14.9,
 
         setK_cub: (k_cub: number) => set({ k_cub: k_cub }),
+
         //PIPELINE PARAMS
         d_int: 48,
 
@@ -193,6 +200,23 @@ export const useDesignerStore = create<DesignerState>()(
         alpha_glass: 0.89,
 
         setAlpha_glass: (alpha_glass: number) => set({ alpha_glass: alpha_glass }),
+
+        // GENERAL PARAMS
+        n_div: 12,
+
+        setN_div: (n_div: number) => set({ n_div: n_div }),
+
+        nn: 360,
+
+        setNn: (nn: number) => set({ nn: nn }),
+
+        beta_coef: 0.000257,
+
+        setBeta_coef: (beta_coef: number) => set({ beta_coef: beta_coef }),
+
+        f_flujo: 0.45,
+
+        setF_flujo: (f_flujo: number) => set({ f_flujo: f_flujo }),
       }),
       { name: 'designerStore' },
     ),
