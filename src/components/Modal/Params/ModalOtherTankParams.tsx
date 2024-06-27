@@ -5,6 +5,7 @@ import * as yup from 'yup';
 import InputField from '../../InputField/InputField';
 import Typography from '@mui/material/Typography';
 import ButtonsModals from '../../ButtonsModals/ButtonsModals';
+import { useDesignerStore } from '../../../store/designerStore';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -18,53 +19,72 @@ const style = {
   p: 4,
 };
 
-const fieldInfo = {
-  h_int: {
-    label: 'Coef. convectivo interior',
-    tooltip:
-      'Coeficiente convectivo de transferencia de calor en el interior de termotanque [W/m2 K]',
-    initialValue: 10,
-  },
-  h_ext: {
-    label: 'Coef. convectivo exterior',
-    tooltip:
-      'Coeficiente convectivo de transferencia de calor en el exterior del termotanque [W/m2 K]',
-    initialValue: 25,
-  },
-  k_tk: {
-    label: 'Cond. térmica del tanque',
-    tooltip: 'Conductividad térmica del termotanque (acero inoxidable) [W/m K]',
-    initialValue: 14.9,
-  },
-  k_aisl: {
-    label: 'Cond. térmica del aislante',
-    tooltip: 'Conductividad térmica del aislante (poliuretano) [W/m K]',
-    initialValue: 0.06,
-  },
-  k_cub: {
-    label: 'Cond. térmica cubierta',
-    tooltip: 'Conductividad térmica de la cubierta (acero inoxidable) [W/m K]',
-    initialValue: 14.9,
-  },
-};
-
-const validationSchema = yup.object(
-  Object.fromEntries(
-    Object.entries(fieldInfo).map(([key, value]) => [
-      key,
-      yup.number().required(`${value.label} es requerido`),
-    ])
-  )
-);
-
 const ModalOtherTankParams: React.FC = () => {
+  const {
+    h_int,
+    h_ext,
+    k_tk,
+    k_aisl,
+    k_cub,
+    setH_int,
+    setH_ext,
+    setK_tk,
+    setK_aisl,
+    setK_cub,
+  } = useDesignerStore();
+
+  const fieldInfo = {
+    h_int: {
+      label: 'Coef. convectivo interior',
+      tooltip:
+        'Coeficiente convectivo de transferencia de calor en el interior de termotanque [W/m2 K]',
+      initialValue: h_int,
+    },
+    h_ext: {
+      label: 'Coef. convectivo exterior',
+      tooltip:
+        'Coeficiente convectivo de transferencia de calor en el exterior del termotanque [W/m2 K]',
+      initialValue: h_ext,
+    },
+    k_tk: {
+      label: 'Cond. térmica del tanque',
+      tooltip:
+        'Conductividad térmica del termotanque (acero inoxidable) [W/m K]',
+      initialValue: k_tk,
+    },
+    k_aisl: {
+      label: 'Cond. térmica del aislante',
+      tooltip: 'Conductividad térmica del aislante (poliuretano) [W/m K]',
+      initialValue: k_aisl,
+    },
+    k_cub: {
+      label: 'Cond. térmica cubierta',
+      tooltip:
+        'Conductividad térmica de la cubierta (acero inoxidable) [W/m K]',
+      initialValue: k_cub,
+    },
+  };
+
+  const validationSchema = yup.object(
+    Object.fromEntries(
+      Object.entries(fieldInfo).map(([key, value]) => [
+        key,
+        yup.number().required(`${value.label} es requerido`),
+      ])
+    )
+  );
+
   const formik = useFormik({
     initialValues: Object.fromEntries(
       Object.entries(fieldInfo).map(([key, value]) => [key, value.initialValue])
     ),
     validationSchema: validationSchema,
     onSubmit: values => {
-      console.log(values);
+      setH_int(Number(values.h_int));
+      setH_ext(Number(values.h_ext));
+      setK_tk(Number(values.k_tk));
+      setK_aisl(Number(values.k_aisl));
+      setK_cub(Number(values.k_cub));
     },
   });
 
@@ -97,7 +117,11 @@ const ModalOtherTankParams: React.FC = () => {
             tooltipText={info.tooltip}
           />
         ))}
-        <ButtonsModals handleAccept={() => {}} handleCancel={() => {}} />
+        <ButtonsModals
+          isSubmit
+          handleAccept={() => {}}
+          handleCancel={() => {}}
+        />
       </form>
     </Box>
   );

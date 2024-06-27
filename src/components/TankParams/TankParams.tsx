@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Box from '@mui/material/Box';
 import InputField from '../InputField/InputField';
 import Typography from '@mui/material/Typography';
@@ -9,29 +9,7 @@ import { ModalType, getModalSelector } from '../Modal/getModalSelector';
 import { setModalComponent, setOpenModal } from '../../redux/UISlice';
 import Settings from '../Settings/Settings';
 import { generalStyles } from '../../styles/general';
-
-const fieldInfo = {
-  vol_tk: {
-    label: 'Volumen [m3]',
-    tooltip: 'Volumen del tanque de agua [m3]',
-    initialValue: 0.3,
-  },
-  e_tk: {
-    label: 'Espesor tanque [m]',
-    tooltip: 'Espesor del termotanque (acero inoxidable) [m]',
-    initialValue: 0.0004,
-  },
-  e_aisl: {
-    label: 'Espesor aislante [m]',
-    tooltip: 'Espesor del aislante (poliuretano) [m]',
-    initialValue: 0.005,
-  },
-  e_cub: {
-    label: 'Espesor cubierta [m]',
-    tooltip: 'Espesor de la cubierta (acero inoxidable) [m]',
-    initialValue: 0.0004,
-  },
-};
+import { useDesignerStore } from '../../store/designerStore';
 
 const validationSchema = yup.object({
   vol_tk: yup
@@ -54,6 +32,39 @@ const validationSchema = yup.object({
 
 const TankParams: React.FC = () => {
   const dispatch = useAppDispatch();
+  const {
+    vol_tk,
+    e_tk,
+    e_aisl,
+    e_cub,
+    setVol_tk,
+    setE_tk,
+    setE_aisl,
+    setE_cub,
+  } = useDesignerStore();
+
+  const fieldInfo = {
+    vol_tk: {
+      label: 'Volumen [m3]',
+      tooltip: 'Volumen del tanque de agua [m3]',
+      initialValue: vol_tk,
+    },
+    e_tk: {
+      label: 'Espesor tanque [m]',
+      tooltip: 'Espesor del termotanque (acero inoxidable) [m]',
+      initialValue: e_tk,
+    },
+    e_aisl: {
+      label: 'Espesor aislante [m]',
+      tooltip: 'Espesor del aislante (poliuretano) [m]',
+      initialValue: e_aisl,
+    },
+    e_cub: {
+      label: 'Espesor cubierta [m]',
+      tooltip: 'Espesor de la cubierta (acero inoxidable) [m]',
+      initialValue: e_cub,
+    },
+  };
 
   const formik = useFormik({
     initialValues: Object.fromEntries(
@@ -64,6 +75,31 @@ const TankParams: React.FC = () => {
       console.log(values);
     },
   });
+
+  useEffect(() => {
+    if (formik.values.vol_tk !== vol_tk) {
+      setVol_tk(Number(formik.values.vol_tk));
+    }
+    if (formik.values.e_tk !== e_tk) {
+      setE_tk(Number(formik.values.e_tk));
+    }
+    if (formik.values.e_aisl !== e_aisl) {
+      setE_aisl(Number(formik.values.e_aisl));
+    }
+    if (formik.values.e_cub !== e_cub) {
+      setE_cub(Number(formik.values.e_cub));
+    }
+  }, [
+    formik.values,
+    setVol_tk,
+    setE_tk,
+    setE_aisl,
+    setE_cub,
+    vol_tk,
+    e_tk,
+    e_aisl,
+    e_cub,
+  ]);
 
   const handleSetCoeficients = () => {
     dispatch(setOpenModal(true));

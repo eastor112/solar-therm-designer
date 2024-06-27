@@ -30,7 +30,24 @@ interface DesignerState {
   azimuth: number
   setAzimuth: (azimuth: number) => void
   // TANK PARAMS
-
+  vol_tk: number
+  setVol_tk: (vol_tk: number) => void
+  e_tk: number
+  setE_tk: (e_tk: number) => void
+  e_aisl: number
+  setE_aisl: (e_aisl: number) => void
+  e_cub: number
+  setE_cub: (e_cub: number) => void
+  h_int: number
+  setH_int: (h_int: number) => void
+  h_ext: number
+  setH_ext: (h_ext: number) => void
+  k_tk: number
+  setK_tk: (k_tk: number) => void
+  k_aisl: number
+  setK_aisl: (k_aisl: number) => void
+  k_cub: number
+  setK_cub: (k_cub: number) => void
 }
 
 export const useDesignerStore = create<DesignerState>()(
@@ -90,7 +107,44 @@ export const useDesignerStore = create<DesignerState>()(
 
         azimuth: 180,
 
-        setAzimuth: (azimuth: number) => set({ azimuth: azimuth })
+        setAzimuth: (azimuth: number) => set({ azimuth: azimuth }),
+
+        // TANK PARAMS
+        vol_tk: 0.3,
+
+        setVol_tk: (vol_tk: number) => set({ vol_tk: vol_tk }),
+
+        e_tk: 0.0004,
+
+        setE_tk: (e_tk: number) => set({ e_tk: e_tk }),
+
+        e_aisl: 0.005,
+
+        setE_aisl: (e_aisl: number) => set({ e_aisl: e_aisl }),
+
+        e_cub: 0.0004,
+
+        setE_cub: (e_cub: number) => set({ e_cub: e_cub }),
+
+        h_int: 10,
+
+        setH_int: (h_int: number) => set({ h_int: h_int }),
+
+        h_ext: 25,
+
+        setH_ext: (h_ext: number) => set({ h_ext: h_ext }),
+
+        k_tk: 14.9,
+
+        setK_tk: (k_tk: number) => set({ k_tk: k_tk }),
+
+        k_aisl: 0.06,
+
+        setK_aisl: (k_aisl: number) => set({ k_aisl: k_aisl }),
+
+        k_cub: 14.9,
+
+        setK_cub: (k_cub: number) => set({ k_cub: k_cub })
       }),
       { name: 'designerStore' },
     ),
