@@ -20,34 +20,7 @@ import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import { pipelines } from './helper';
 import Settings from '../Settings/Settings';
-
-const fieldInfo = {
-  d_int: {
-    label: 'D. Interno (mm)',
-    tooltip: 'Diámetro interno del tubo al vacío [m]',
-    initialValue: 48,
-  },
-  d_ext: {
-    label: 'D. Externo (mm)',
-    tooltip: 'Diámetro externo del tubo al vacío [m]',
-    initialValue: 58,
-  },
-  l_tubo: {
-    label: 'Longitud (m)',
-    tooltip: 'Longitud efectiva del tubo al vacío expuesto al sol [m]',
-    initialValue: 1.8,
-  },
-  s_sep: {
-    label: 'Separación entre tubos (m)',
-    tooltip: 'Distancia de separación entre centro de tubos [m]',
-    initialValue: 0.056,
-  },
-  n_tubos: {
-    label: 'Número de tubos',
-    tooltip: 'Número de tubos al vacío que tiene la termosolar',
-    initialValue: 30,
-  },
-};
+import { useDesignerStore } from '../../store/designerStore';
 
 const validationSchema = yup.object({
   d_int: yup
@@ -78,6 +51,46 @@ const PipelineParamsV2: React.FC = () => {
     state => state.designer
   );
   const [standarPipeSelected, setStandarPipeSelected] = useState('0');
+  const {
+    d_int,
+    setD_int,
+    d_ext,
+    setD_ext,
+    l_tubo,
+    setL_tubo,
+    s_sep,
+    setS_sep,
+    n_tubos,
+    setN_tubos,
+  } = useDesignerStore();
+
+  const fieldInfo = {
+    d_int: {
+      label: 'D. Interno (mm)',
+      tooltip: 'Diámetro interno del tubo al vacío [m]',
+      initialValue: d_int,
+    },
+    d_ext: {
+      label: 'D. Externo (mm)',
+      tooltip: 'Diámetro externo del tubo al vacío [m]',
+      initialValue: d_ext,
+    },
+    l_tubo: {
+      label: 'Longitud (m)',
+      tooltip: 'Longitud efectiva del tubo al vacío expuesto al sol [m]',
+      initialValue: l_tubo,
+    },
+    s_sep: {
+      label: 'Separación entre tubos (m)',
+      tooltip: 'Distancia de separación entre centro de tubos [m]',
+      initialValue: s_sep,
+    },
+    n_tubos: {
+      label: 'Número de tubos',
+      tooltip: 'Número de tubos al vacío que tiene la termosolar',
+      initialValue: n_tubos,
+    },
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -94,6 +107,36 @@ const PipelineParamsV2: React.FC = () => {
       dispatch(setPipelineLength(Number(values.l_tubo)));
     },
   });
+
+  useEffect(() => {
+    if (formik.values.d_int !== d_int) {
+      setD_int(Number(formik.values.d_int));
+    }
+    if (formik.values.d_ext !== d_ext) {
+      setD_ext(Number(formik.values.d_ext));
+    }
+    if (formik.values.l_tubo !== l_tubo) {
+      setL_tubo(Number(formik.values.l_tubo));
+    }
+    if (formik.values.s_sep !== s_sep) {
+      setS_sep(Number(formik.values.s_sep));
+    }
+    if (formik.values.n_tubos !== n_tubos) {
+      setN_tubos(Number(formik.values.n_tubos));
+    }
+  }, [
+    formik.values,
+    setD_int,
+    setD_ext,
+    setL_tubo,
+    setS_sep,
+    setN_tubos,
+    d_int,
+    d_ext,
+    l_tubo,
+    s_sep,
+    n_tubos,
+  ]);
 
   useEffect(() => {
     const standarPipe = pipelines.find(

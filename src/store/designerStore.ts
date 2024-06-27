@@ -48,6 +48,26 @@ interface DesignerState {
   setK_aisl: (k_aisl: number) => void
   k_cub: number
   setK_cub: (k_cub: number) => void
+
+  //PIPELINE PARAMS
+  d_int: number,
+  setD_int: (d_int: number) => void,
+  d_ext: number,
+  setD_ext: (d_ext: number) => void,
+  l_tubo: number,
+  setL_tubo: (l_tubo: number) => void,
+  s_sep: number,
+  setS_sep: (s_sep: number) => void,
+  n_tubos: number,
+  setN_tubos: (n_tubos: number) => void,
+  //   tau_glas
+  // alpha_glass
+  // setTau_glas
+  // setAlpha_glass
+  tau_glass: number,
+  setTau_glass: (tau_glas: number) => void,
+  alpha_glass: number,
+  setAlpha_glass: (alpha_glass: number) => void,
 }
 
 export const useDesignerStore = create<DesignerState>()(
@@ -144,7 +164,35 @@ export const useDesignerStore = create<DesignerState>()(
 
         k_cub: 14.9,
 
-        setK_cub: (k_cub: number) => set({ k_cub: k_cub })
+        setK_cub: (k_cub: number) => set({ k_cub: k_cub }),
+        //PIPELINE PARAMS
+        d_int: 48,
+
+        setD_int: (d_int: number) => set({ d_int: d_int }),
+
+        d_ext: 58,
+
+        setD_ext: (d_ext: number) => set({ d_ext: d_ext }),
+
+        l_tubo: 1.8,
+
+        setL_tubo: (l_tubo: number) => set({ l_tubo: l_tubo }),
+
+        s_sep: 0.056,
+
+        setS_sep: (s_sep: number) => set({ s_sep: s_sep }),
+
+        n_tubos: 30,
+
+        setN_tubos: (n_tubos: number) => set({ n_tubos: n_tubos }),
+
+        tau_glass: 0.93,
+
+        setTau_glass: (tau_glas: number) => set({ tau_glass: tau_glas }),
+
+        alpha_glass: 0.89,
+
+        setAlpha_glass: (alpha_glass: number) => set({ alpha_glass: alpha_glass }),
       }),
       { name: 'designerStore' },
     ),

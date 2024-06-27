@@ -5,6 +5,7 @@ import Typography from '@mui/material/Typography';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import ButtonsModals from '../../ButtonsModals/ButtonsModals';
+import { useDesignerStore } from '../../../store/designerStore';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -18,40 +19,44 @@ const style = {
   p: 4,
 };
 
-const fieldInfo = {
-  tau_glas: {
-    label: 'Tau',
-    tooltip: 'Transmisividad del tubo al vacio [-]',
-    initialValue: 0.93,
-  },
-  alpha_glass: {
-    label: 'Alpha',
-    tooltip: 'Absortividad del tubo al vacio [-]',
-    initialValue: 0.89,
-  },
-};
-
-const validationSchema = yup.object(
-  Object.fromEntries(
-    Object.entries(fieldInfo).map(([key, value]) => [
-      key,
-      yup
-        .number()
-        .required(`${value.label} es requerido`)
-        .min(0, 'Debe ser mayor o igual a 0')
-        .max(1, 'Debe ser menor o igual a 1'),
-    ])
-  )
-);
-
 const ModalOtherPipeParams: React.FC = () => {
+  const { tau_glass, alpha_glass, setTau_glass, setAlpha_glass } =
+    useDesignerStore();
+
+  const fieldInfo = {
+    tau_glass: {
+      label: 'Tau',
+      tooltip: 'Transmisividad del tubo al vacio [-]',
+      initialValue: tau_glass,
+    },
+    alpha_glass: {
+      label: 'Alpha',
+      tooltip: 'Absortividad del tubo al vacio [-]',
+      initialValue: alpha_glass,
+    },
+  };
+
+  const validationSchema = yup.object(
+    Object.fromEntries(
+      Object.entries(fieldInfo).map(([key, value]) => [
+        key,
+        yup
+          .number()
+          .required(`${value.label} es requerido`)
+          .min(0, 'Debe ser mayor o igual a 0')
+          .max(1, 'Debe ser menor o igual a 1'),
+      ])
+    )
+  );
+
   const formik = useFormik({
     initialValues: Object.fromEntries(
       Object.entries(fieldInfo).map(([key, value]) => [key, value.initialValue])
     ),
     validationSchema: validationSchema,
     onSubmit: values => {
-      console.log(values);
+      setTau_glass(Number(values.tau_glass));
+      setAlpha_glass(Number(values.alpha_glass));
     },
   });
 
@@ -85,7 +90,11 @@ const ModalOtherPipeParams: React.FC = () => {
             margin='normal'
           />
         ))}
-        <ButtonsModals handleAccept={() => {}} handleCancel={() => {}} />
+        <ButtonsModals
+          isSubmit
+          handleAccept={() => {}}
+          handleCancel={() => {}}
+        />
       </form>
     </Box>
   );
