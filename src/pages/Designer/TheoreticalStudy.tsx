@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { useEffect } from 'react';
 import { getLocationsInformation } from '../../redux/locationsSlice';
 import DesignerFormTheoretical from '../../components/DesignerForm/DesignerFormTheoretical';
-import AnglesDesignerSimplify from '../../components/AnglesDesigner/AngleDesignerSimpify';
+import AnglesDesignerSimplify from '../../components/AnglesDesigner/AnglesDesignerSimplify';
 import Box from '@mui/material/Box';
 import { useGraphVisibility } from '../../hooks/useGraphVisibility';
 import { useOutletContexRoot } from '../RootLayout';

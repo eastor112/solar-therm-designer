@@ -6,7 +6,7 @@ import ModalChangePlace from '../../components/Modal/ModalChangePlace';
 import ModalDatepicker from '../../components/Modal/ModalDatepicker';
 import PipelineParamsV2 from '../../components/PipelineParams/PipelineParamsV2';
 import TankParams from '../../components/TankParams/TankParams';
-import AnglesDesignerSimplify from '../../components/AnglesDesigner/AngleDesignerSimpify';
+import AnglesDesignerSimplify from '../../components/AnglesDesigner/AnglesDesignerSimplify';
 import Settings from '../../components/Settings/Settings';
 import { setModalComponent, setOpenModal } from '../../redux/UISlice';
 import Box from '@mui/material/Box';

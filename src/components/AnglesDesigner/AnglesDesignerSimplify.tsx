@@ -1,25 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { useDispatch } from 'react-redux';
-import { setAzimuth, setInclination } from '../../redux/designerSlice';
 import InputField from '../InputField/InputField';
 import { generalStyles } from '../../styles/general';
-
-const fieldInfo = {
-  inclination: {
-    label: 'Inclinación',
-    tooltip: 'Ángulo de inclinación del panel solar (0-90 grados)',
-    initialValue: 15,
-  },
-  azimuth: {
-    label: 'Azimuth',
-    tooltip: 'Ángulo de azimuth del panel solar (0-360 grados)',
-    initialValue: 180,
-  },
-};
+import { useDesignerStore } from '../../store/designerStore';
 
 const validationSchema = yup.object({
   inclination: yup
@@ -35,8 +21,21 @@ const validationSchema = yup.object({
 });
 
 const AnglesDesignerSimplify: React.FC = () => {
-  const dispatch = useDispatch();
-  // const { azimuth, inclination } = useAppSelector(state => state.designer);
+  const { azimuth, inclination, setAzimuth, setInclination } =
+    useDesignerStore();
+
+  const fieldInfo = {
+    inclination: {
+      label: 'Inclinación',
+      tooltip: 'Ángulo de inclinación del panel solar (0-90 grados)',
+      initialValue: inclination,
+    },
+    azimuth: {
+      label: 'Azimuth',
+      tooltip: 'Ángulo de azimuth del panel solar (0-360 grados)',
+      initialValue: azimuth,
+    },
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -45,10 +44,20 @@ const AnglesDesignerSimplify: React.FC = () => {
     },
     validationSchema: validationSchema,
     onSubmit: values => {
-      dispatch(setInclination(Number(values.inclination)));
-      dispatch(setAzimuth(Number(values.azimuth)));
+      setInclination(Number(values.inclination));
+      setAzimuth(Number(values.azimuth));
     },
+    validateOnBlur: true,
   });
+
+  useEffect(() => {
+    if (formik.values.inclination !== inclination) {
+      setInclination(Number(formik.values.inclination));
+    }
+    if (formik.values.azimuth !== azimuth) {
+      setAzimuth(Number(formik.values.azimuth));
+    }
+  }, [formik.values, setInclination, setAzimuth, inclination, azimuth]);
 
   return (
     <Box>

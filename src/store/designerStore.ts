@@ -23,6 +23,14 @@ interface DesignerState {
   setPipeNumber: (pipeNumber: number | null) => void
   pipeType: number | null
   setPipeType: (pipeType: number | null) => void
+  // PARAMS
+  // ANGLE PARAMS
+  inclination: number
+  setInclination: (inclination: number) => void
+  azimuth: number
+  setAzimuth: (azimuth: number) => void
+  // TANK PARAMS
+
 }
 
 export const useDesignerStore = create<DesignerState>()(
@@ -31,9 +39,9 @@ export const useDesignerStore = create<DesignerState>()(
       (set) => ({
         studyType: "theoretical",
 
-        currentLocation: null,
-
         setStudyType: (type) => set({ studyType: type }),
+
+        currentLocation: null,
 
         setCurrentLocation: (location) => set({ currentLocation: location }),
 
@@ -73,6 +81,16 @@ export const useDesignerStore = create<DesignerState>()(
           const locations: any = await getLocations();
           set({ locations: locations });
         },
+
+        // PARAMS
+        // ANGLE PARAMS
+        inclination: 15,
+
+        setInclination: (inclination: number) => set({ inclination: inclination }),
+
+        azimuth: 180,
+
+        setAzimuth: (azimuth: number) => set({ azimuth: azimuth })
       }),
       { name: 'designerStore' },
     ),

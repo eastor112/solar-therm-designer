@@ -8,4 +8,5 @@ export const clearProjectStorage = () => {
   localStorage.removeItem(storageKeys.pipeNumber);
   localStorage.removeItem(storageKeys.volumen);
   localStorage.removeItem(storageKeys.currentProject);
+  localStorage.removeItem("designerStore");
 }
