@@ -7,7 +7,7 @@ import Modal from '@mui/material/Modal';
 import ModalChangePlace from '../Modal/ModalChangePlace';
 import ModalDatepicker from '../Modal/ModalDatepicker';
 import { useState } from 'react';
-import ModalUpdateGeneralParams from '../Modal/Params/ModalUpdateGeneralParams';
+import ModalGeneralParams from '../Modal/Params/ModalGeneralParams';
 import SettingsIcon from '@mui/icons-material/Settings';
 
 const GeneralData = () => {
@@ -161,7 +161,7 @@ const GeneralData = () => {
           {modalType === 'date' && (
             <ModalDatepicker handleClose={handleClose} />
           )}
-          {modalType === 'update' && <ModalUpdateGeneralParams />}
+          {modalType === 'update' && <ModalGeneralParams />}
         </>
       </Modal>
     </>

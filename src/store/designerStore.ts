@@ -16,13 +16,24 @@ interface DesignerState {
   getProject: (id: number) => Promise<void>
   previewProject: IProject | null
   setPreviewProject: (project: IProject | null) => void
+
   // PARAMS
+  name_project: string
+  setName_project: (name_project: string) => void
+  place: string
+  setPlace: (place: string) => void
+  latitud: number
+  setLatitud: (latitud: number) => void
+  longitud: number
+  setLongitud: (longitud: number) => void
+  t_amb: number
+  setT_amb: (t_amb: number) => void
+  v_viento: number
+  setV_viento: (v_viento: number) => void
+  altura: number
+  setAltura: (altura: number) => void
   date: string | null
   setDate: (date: string | null) => void
-  pipeNumber: number | null
-  setPipeNumber: (pipeNumber: number | null) => void
-  pipeType: number | null
-  setPipeType: (pipeType: number | null) => void
 
   // ANGLE PARAMS
   inclination: number
@@ -39,6 +50,7 @@ interface DesignerState {
   setE_aisl: (e_aisl: number) => void
   e_cub: number
   setE_cub: (e_cub: number) => void
+  // MODAL TANK PARAMS
   h_int: number
   setH_int: (h_int: number) => void
   h_ext: number
@@ -50,7 +62,7 @@ interface DesignerState {
   k_cub: number
   setK_cub: (k_cub: number) => void
 
-  //PIPELINE PARAMS
+  // PIPELINE PARAMS
   d_int: number,
   setD_int: (d_int: number) => void,
   d_ext: number,
@@ -61,12 +73,13 @@ interface DesignerState {
   setS_sep: (s_sep: number) => void,
   n_tubos: number,
   setN_tubos: (n_tubos: number) => void,
+  // MODAL PIPELINE PARAMS
   tau_glass: number,
   setTau_glass: (tau_glas: number) => void,
   alpha_glass: number,
   setAlpha_glass: (alpha_glass: number) => void,
 
-  // GENERAL PARAMS
+  // MODAL OTHER GENERAL PARAMS
   n_div: number,
   setN_div: (n_div: number) => void,
   nn: number,
@@ -93,26 +106,12 @@ export const useDesignerStore = create<DesignerState>()(
 
         setCurrentProject: (project) => set({ currentProject: project }),
 
-        date: null,
-
-        setDate: (date) => set({ date: date }),
-
-        pipeNumber: null,
-
-        setPipeNumber: (pipeNumber) => set({ pipeNumber: pipeNumber }),
-
-        pipeType: null,
-
-        setPipeType: (pipeType) => set({ pipeType: pipeType }),
-
         getProject: async (projectId: number) => {
           const project = await getProjectService(projectId);
           if (project.location) {
             set({ currentLocation: project.location })
           }
           set({ date: project.date })
-          set({ pipeNumber: project.pipeline_number ? project.pipeline_number : 0 })
-          set({ pipeType: project.pipeline_type ? project.pipeline_type : 0 })
         },
 
         previewProject: null,
@@ -125,6 +124,39 @@ export const useDesignerStore = create<DesignerState>()(
           const locations: any = await getLocations();
           set({ locations: locations });
         },
+
+        // PARAMS
+        name_project: '',
+
+        setName_project: (name_project: string) => set({ name_project: name_project }),
+
+        place: '',
+
+        setPlace: (place: string) => set({ place: place }),
+
+        latitud: 0,
+
+        setLatitud: (latitud: number) => set({ latitud: latitud }),
+
+        longitud: 0,
+
+        setLongitud: (longitud: number) => set({ longitud: longitud }),
+
+        t_amb: 25,
+
+        setT_amb: (t_amb: number) => set({ t_amb: t_amb }),
+
+        v_viento: 2.5,
+
+        setV_viento: (v_viento: number) => set({ v_viento: v_viento }),
+
+        altura: 0,
+
+        setAltura: (altura: number) => set({ altura: altura }),
+
+        date: null,
+
+        setDate: (date) => set({ date: date }),
 
         // ANGLE PARAMS
         inclination: 15,
@@ -152,6 +184,7 @@ export const useDesignerStore = create<DesignerState>()(
 
         setE_cub: (e_cub: number) => set({ e_cub: e_cub }),
 
+        // MODAL TANK PARAMS
         h_int: 10,
 
         setH_int: (h_int: number) => set({ h_int: h_int }),
@@ -172,7 +205,7 @@ export const useDesignerStore = create<DesignerState>()(
 
         setK_cub: (k_cub: number) => set({ k_cub: k_cub }),
 
-        //PIPELINE PARAMS
+        // PIPELINE PARAMS
         d_int: 48,
 
         setD_int: (d_int: number) => set({ d_int: d_int }),
@@ -193,6 +226,7 @@ export const useDesignerStore = create<DesignerState>()(
 
         setN_tubos: (n_tubos: number) => set({ n_tubos: n_tubos }),
 
+        // MODAL PIPELINE PARAMS
         tau_glass: 0.93,
 
         setTau_glass: (tau_glas: number) => set({ tau_glass: tau_glas }),
@@ -201,7 +235,7 @@ export const useDesignerStore = create<DesignerState>()(
 
         setAlpha_glass: (alpha_glass: number) => set({ alpha_glass: alpha_glass }),
 
-        // GENERAL PARAMS
+        // MODAL GENERAL PARAMS
         n_div: 12,
 
         setN_div: (n_div: number) => set({ n_div: n_div }),

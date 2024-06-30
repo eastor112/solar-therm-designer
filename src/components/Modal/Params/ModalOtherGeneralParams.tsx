@@ -145,7 +145,11 @@ const ModalOtherGeneralParams: React.FC = () => {
               margin='normal'
             />
           ))}
-        <ButtonsModals handleAccept={() => {}} handleCancel={() => {}} />
+        <ButtonsModals
+          isSubmit
+          handleAccept={() => {}}
+          handleCancel={() => {}}
+        />
       </form>
     </Box>
   );

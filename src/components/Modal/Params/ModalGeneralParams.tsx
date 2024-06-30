@@ -63,7 +63,7 @@ const validationSchema = yup.object().shape({
   date: yup.date().required('Fecha y hora son requeridas'),
 });
 
-const ModalUpdateGeneralParams: React.FC = () => {
+const ModalGeneralParams: React.FC = () => {
   const [showMap, setShowMap] = useState(false);
 
   const formik = useFormik({
@@ -184,4 +184,4 @@ const ModalUpdateGeneralParams: React.FC = () => {
   );
 };
 
-export default ModalUpdateGeneralParams;
+export default ModalGeneralParams;
