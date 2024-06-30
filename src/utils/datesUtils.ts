@@ -4,6 +4,7 @@ import timezone from 'dayjs/plugin/timezone';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
+import localeData from 'dayjs/plugin/localeData';
 import 'dayjs/locale/es';
 
 dayjs.extend(relativeTime);
@@ -11,6 +12,9 @@ dayjs.extend(utc);
 dayjs.extend(timezone);
 dayjs.extend(localizedFormat);
 dayjs.extend(customParseFormat);
+dayjs.extend(localeData);
+
+dayjs.locale("es")
 
 dayjs.tz.setDefault('America/Lima');
 

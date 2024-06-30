@@ -9,12 +9,26 @@ import ModalDatepicker from '../Modal/ModalDatepicker';
 import { useState } from 'react';
 import ModalGeneralParams from '../Modal/Params/ModalGeneralParams';
 import SettingsIcon from '@mui/icons-material/Settings';
+import dayjs from '../../utils/datesUtils';
+import { defaultPlaces } from '../PlaceSelector/helper';
 
 const GeneralData = () => {
-  const { currentProject, studyType, setStudyType } = useDesignerStore();
+  const {
+    currentProject,
+    studyType,
+    setStudyType,
+    name_project,
+    date,
+    t_amb,
+    v_viento,
+    latitud,
+    longitud,
+    place,
+  } = useDesignerStore();
   const [modalType, setModalType] = useState<'place' | 'date' | 'update'>(
     'place'
   );
+  const customPlace = localStorage.getItem('customPlace');
 
   const [open, setOpen] = useState(false);
 
@@ -23,6 +37,8 @@ const GeneralData = () => {
     setOpen(true);
   };
   const handleClose = () => setOpen(false);
+
+  const selectedPlace = defaultPlaces.find(dPlace => dPlace.id === place);
 
   return (
     <>
@@ -47,7 +63,7 @@ const GeneralData = () => {
                 fontWeight: 'bold',
               }}
             >
-              Mi proyecto{' '}
+              {name_project}{' '}
               {currentProject?.name ? `- ${currentProject.name}` : ''}
             </Typography>
             <Box
@@ -76,10 +92,10 @@ const GeneralData = () => {
                 color: 'green',
               }}
             >
-              Trujillo
+              {customPlace || selectedPlace?.place || 'Trujillo'}
             </Typography>
             <Typography sx={{ color: '#555' }} variant='caption'>
-              (Lat: {-7.32453}, Lon:{-71.34534})
+              (Lat: {latitud}, Lon:{longitud})
             </Typography>
           </Box>
 
@@ -101,7 +117,7 @@ const GeneralData = () => {
                     color: '#555',
                   }}
                 >
-                  T. ambiente: 22.5 °C
+                  T. ambiente: {t_amb} °C
                 </Typography>
               </Box>
               <Box
@@ -120,7 +136,7 @@ const GeneralData = () => {
                     color: '#555',
                   }}
                 >
-                  V. viento: 5 m/s
+                  V. viento: {v_viento} m/s
                 </Typography>
               </Box>
             </Box>
@@ -133,7 +149,9 @@ const GeneralData = () => {
               gap: '3px',
             }}
           >
-            <Typography>12 de abril de 2020</Typography>
+            <Typography>
+              {dayjs(date).format('D [de] MMMM [de] YYYY')}
+            </Typography>
           </Box>
         </Box>
 

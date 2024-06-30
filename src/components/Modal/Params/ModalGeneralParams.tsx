@@ -130,6 +130,21 @@ const ModalGeneralParams: React.FC = () => {
     }
   };
 
+  const handleDateChange = (value: Dayjs | null) => {
+    if (value) {
+      const isMidnight =
+        value.hour() === 0 && value.minute() === 0 && value.second() === 0;
+
+      const selectedDate = isMidnight
+        ? value.hour(12).minute(0).second(0)
+        : value;
+
+      formik.setFieldValue('date', selectedDate.format());
+    } else {
+      formik.setFieldValue('date', null);
+    }
+  };
+
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Box sx={style}>
@@ -208,12 +223,7 @@ const ModalGeneralParams: React.FC = () => {
                 value={
                   formik.values.date ? dayjs(formik.values.date) : undefined
                 }
-                onChange={(value: any) => {
-                  formik.setFieldValue(
-                    'date',
-                    (value as Dayjs | null)?.format()
-                  );
-                }}
+                onChange={handleDateChange}
                 slotProps={{
                   textField: {
                     size: 'small',
@@ -221,6 +231,9 @@ const ModalGeneralParams: React.FC = () => {
                     InputLabelProps: { shrink: true },
                     inputProps: { placeholder: 'Seleccione' },
                   },
+                }}
+                onAccept={value => {
+                  console.log(value);
                 }}
                 format='DD/MM/YYYY HH:mm'
                 sx={{ width: '100%' }}
