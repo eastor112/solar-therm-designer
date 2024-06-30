@@ -134,11 +134,11 @@ export const useDesignerStore = create<DesignerState>()(
 
         setPlace: (place: number) => set({ place: place }),
 
-        latitud: 0,
+        latitud: -8.11599,
 
         setLatitud: (latitud: number) => set({ latitud: latitud }),
 
-        longitud: 0,
+        longitud: -79.02998,
 
         setLongitud: (longitud: number) => set({ longitud: longitud }),
 

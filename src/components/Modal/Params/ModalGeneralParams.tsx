@@ -14,6 +14,7 @@ import { useDesignerStore } from '../../../store/designerStore';
 import dayjs from '../../../utils/datesUtils';
 import { IMapResponse } from '../../../types/paramsTypes';
 import PlaceSelectorV2 from '../../PlaceSelector/PlaceSelectorV2';
+import { IPlace } from '../../PlaceSelector/helper';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -111,10 +112,22 @@ const ModalGeneralParams: React.FC = () => {
     },
   });
 
-  const onPlaceChange = (value: number) => {
+  const onPlaceChange = (value: IPlace | undefined) => {
     setCustomPlace(undefined);
     localStorage.removeItem('customPlace');
-    formik.setFieldValue('place', value);
+
+    if (value && value.id > 0) {
+      formik.setFieldValue('place', value.id);
+
+      formik.setFieldValue('latitud', value.lat);
+      formik.setFieldValue('longitud', value.lng);
+      formik.setFieldValue('altura', value.altitude);
+    } else {
+      formik.setFieldValue('place', '');
+      formik.setFieldValue('latitud', '');
+      formik.setFieldValue('longitud', '');
+      formik.setFieldValue('altura', '');
+    }
   };
 
   return (

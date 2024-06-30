@@ -7,10 +7,10 @@ import {
   SelectChangeEvent,
 } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { defaultPlaces } from './helper';
+import { IPlace, defaultPlaces } from './helper';
 
 interface ModalChangePlaceProps {
-  onChange?: (value: number) => void;
+  onChange?: (value: IPlace | undefined) => void;
   onShowMap?: (value: boolean) => void;
   showMap?: boolean;
   customPlace?: string;
@@ -29,7 +29,8 @@ const PlaceSelectorV2: React.FC<ModalChangePlaceProps> = ({
   const handleChange = (event: SelectChangeEvent<number>) => {
     const cityId = event.target.value;
     setCityId(cityId as number);
-    onChange(cityId as any);
+    const selectedPlace = defaultPlaces.find(place => place.id === cityId);
+    onChange(selectedPlace);
   };
 
   useEffect(() => {

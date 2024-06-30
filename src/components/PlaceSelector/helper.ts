@@ -1,4 +1,12 @@
-export const defaultPlaces = [
+export interface IPlace {
+  id: number;
+  place: string;
+  lat: number;
+  lng: number;
+  altitude: number;
+}
+
+export const defaultPlaces: IPlace[] = [
   {
     id: 1,
     place: "Piura",
