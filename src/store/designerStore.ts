@@ -1,21 +1,17 @@
 import { create } from 'zustand'
-import { ILocation, IProject } from '../types/locationstypes'
+import { IProject } from '../types/locationstypes'
 import { devtools, persist } from 'zustand/middleware'
-import { getLocations } from '../services/locationServices'
 import { getProjectService } from '../services/projectsServices'
 
 interface DesignerState {
-  studyType: "theoretical" | "real"
-  setStudyType: (type: "theoretical" | "real") => void
-  currentLocation: ILocation | null
-  setCurrentLocation: (location: ILocation | null) => void
-  locations: ILocation[]
-  getLocationsInformation: () => Promise<void>
   currentProject: IProject | null
   setCurrentProject: (project: IProject | null) => void
   getProject: (id: number) => Promise<void>
   previewProject: IProject | null
   setPreviewProject: (project: IProject | null) => void
+
+  studyType: "theoretical" | "real"
+  setStudyType: (type: "theoretical" | "real") => void
 
   // PARAMS
   name_project: string
@@ -94,13 +90,8 @@ export const useDesignerStore = create<DesignerState>()(
   devtools(
     persist(
       (set) => ({
-        studyType: "theoretical",
 
         setStudyType: (type) => set({ studyType: type }),
-
-        currentLocation: null,
-
-        setCurrentLocation: (location) => set({ currentLocation: location }),
 
         currentProject: null,
 
@@ -108,22 +99,15 @@ export const useDesignerStore = create<DesignerState>()(
 
         getProject: async (projectId: number) => {
           const project = await getProjectService(projectId);
-          if (project.location) {
-            set({ currentLocation: project.location })
-          }
           set({ date: project.date })
         },
+
+        studyType: "theoretical",
+
 
         previewProject: null,
 
         setPreviewProject: (project) => set({ previewProject: project }),
-
-        locations: [],
-
-        getLocationsInformation: async () => {
-          const locations: any = await getLocations();
-          set({ locations: locations });
-        },
 
         // PARAMS
         name_project: '',
