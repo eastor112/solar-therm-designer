@@ -20,8 +20,8 @@ interface DesignerState {
   // PARAMS
   name_project: string
   setName_project: (name_project: string) => void
-  place: string
-  setPlace: (place: string) => void
+  place: number
+  setPlace: (place: number) => void
   latitud: number
   setLatitud: (latitud: number) => void
   longitud: number
@@ -130,9 +130,9 @@ export const useDesignerStore = create<DesignerState>()(
 
         setName_project: (name_project: string) => set({ name_project: name_project }),
 
-        place: '',
+        place: 0,
 
-        setPlace: (place: string) => set({ place: place }),
+        setPlace: (place: number) => set({ place: place }),
 
         latitud: 0,
 

@@ -7,19 +7,19 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import InputField from '../../InputField/InputField';
-import PlaceSelector from '../../PlaceSelector/PlaceSelector';
 import { Dayjs } from 'dayjs';
 import MapLeafleat from '../../MapLeafleat/MapLeafleat';
 import ButtonsModals from '../../ButtonsModals/ButtonsModals';
 import { useDesignerStore } from '../../../store/designerStore';
 import dayjs from '../../../utils/datesUtils';
+import { IMapResponse } from '../../../types/paramsTypes';
+import PlaceSelectorV2 from '../../PlaceSelector/PlaceSelectorV2';
 
 const style = {
   position: 'absolute' as 'absolute',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  // width: '90vw',
   bgcolor: 'background.paper',
   borderRadius: '5px',
   boxShadow: 24,
@@ -57,6 +57,9 @@ const ModalGeneralParams: React.FC = () => {
     setAltura,
     setDate,
   } = useDesignerStore();
+  const [customPlace, setCustomPlace] = useState<string | undefined>(
+    localStorage.getItem('customPlace') || undefined
+  );
 
   const fieldInfo = {
     latitud: {
@@ -104,8 +107,15 @@ const ModalGeneralParams: React.FC = () => {
       setV_viento(Number(values.v_viento));
       setAltura(Number(values.altura));
       setDate(values.date);
+      localStorage.setItem('customPlace', customPlace || '');
     },
   });
+
+  const onPlaceChange = (value: number) => {
+    setCustomPlace(undefined);
+    localStorage.removeItem('customPlace');
+    formik.setFieldValue('place', value);
+  };
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -135,12 +145,14 @@ const ModalGeneralParams: React.FC = () => {
                 margin='normal'
               />
 
-              <PlaceSelector
-                onChange={value => formik.setFieldValue('place', value)}
+              <PlaceSelectorV2
+                onChange={onPlaceChange}
                 onShowMap={value => {
                   setShowMap(value);
                 }}
                 showMap={showMap}
+                customPlace={customPlace}
+                initialCityId={place}
               />
 
               {Object.entries(fieldInfo).map(([field, info]) => (
@@ -213,10 +225,20 @@ const ModalGeneralParams: React.FC = () => {
           {showMap && (
             <Box sx={{ width: '69.5vw', height: '560px', bgcolor: 'red' }}>
               <MapLeafleat
-                onMarkerClick={() => {}}
-                defaultCoordinates={{
-                  lat: -8.11599,
-                  lon: -79.02998,
+                onMarkerClick={({ lat, lon, place }: IMapResponse) => {
+                  const customPlace =
+                    place?.replace('Province of ', '').split('-')[0].trim() ||
+                    undefined;
+
+                  formik.setFieldValue('latitud', +lat.toFixed(5));
+                  formik.setFieldValue('longitud', +lon.toFixed(5));
+                  setCustomPlace(customPlace);
+                  // formik.setFieldValue('place', placeName);
+                  // setShowMap(false);
+                }}
+                initialCoord={{
+                  lat: formik.values.latitud,
+                  lon: formik.values.longitud,
                 }}
               />
             </Box>

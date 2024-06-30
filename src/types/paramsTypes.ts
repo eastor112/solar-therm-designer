@@ -26,3 +26,10 @@ export interface ExtendedParams extends IParams {
 }
 
 export type RawType = "weather" | "energy" | "comparison"
+
+
+export interface IMapResponse {
+  lat: number;
+  lon: number;
+  place: string;
+}

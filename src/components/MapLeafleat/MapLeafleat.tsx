@@ -1,6 +1,5 @@
 import { useRef, useEffect, useState, FC } from 'react';
 import Box from '@mui/material/Box';
-
 import {
   MapContainer,
   TileLayer,
@@ -10,12 +9,17 @@ import {
   Rectangle,
 } from 'react-leaflet';
 import markIcon from '../../assets/marker.svg';
-import L from 'leaflet';
+import Leaflet from 'leaflet';
 import MarkerClusterGroup from 'react-leaflet-cluster';
-// import Typography from '@mui/material/Typography';
 import { LatLngBoundsLiteral } from 'leaflet';
+import { IMapResponse } from '../../types/paramsTypes';
 
-const mark = new L.Icon({
+interface ICoords {
+  lat: number;
+  lon: number;
+}
+
+const mark = new Leaflet.Icon({
   iconSize: [35, 35],
   iconUrl: markIcon,
   iconAnchor: [18, 32],
@@ -27,16 +31,16 @@ const rectangleBounds: LatLngBoundsLiteral = [
 ];
 
 interface MapLeafleatProps {
-  onMarkerClick: (lat: number, lon: number) => void;
-  defaultCoordinates: { lat: number; lon: number };
+  onMarkerClick: (values: IMapResponse) => void;
+  initialCoord: ICoords;
 }
 
 const MapLeafleat: FC<MapLeafleatProps> = ({
+  initialCoord,
   onMarkerClick = () => {},
-  defaultCoordinates,
 }) => {
   const mapRef = useRef();
-  const [coord, setCoord] = useState(defaultCoordinates);
+  const [coord, setCoord] = useState<ICoords>(initialCoord);
   const [reversePlace, setReversePlace] = useState<string | null>(null);
 
   useEffect(() => {
@@ -67,7 +71,7 @@ const MapLeafleat: FC<MapLeafleatProps> = ({
         lat,
         lon,
       });
-      onMarkerClick(lat, lon);
+      onMarkerClick({ lat, lon, place: reversePlace || '' });
     }
   }
 
@@ -83,11 +87,14 @@ const MapLeafleat: FC<MapLeafleatProps> = ({
       `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`
     );
     const data = await response.json();
-    setReversePlace(
+
+    const newPlace =
       `${data.address.region ? data.address.region : 'Desconocido'} - ${
         data.address.state
-      }` || 'Desconocido'
-    );
+      }` || 'Desconocido';
+
+    setReversePlace(newPlace);
+    onMarkerClick({ lat, lon, place: newPlace });
   };
 
   return (
