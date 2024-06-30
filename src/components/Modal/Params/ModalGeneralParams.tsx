@@ -11,6 +11,8 @@ import PlaceSelector from '../../PlaceSelector/PlaceSelector';
 import { Dayjs } from 'dayjs';
 import MapLeafleat from '../../MapLeafleat/MapLeafleat';
 import ButtonsModals from '../../ButtonsModals/ButtonsModals';
+import { useDesignerStore } from '../../../store/designerStore';
+import dayjs from '../../../utils/datesUtils';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -22,34 +24,6 @@ const style = {
   borderRadius: '5px',
   boxShadow: 24,
   p: 4,
-};
-
-const fieldInfo = {
-  latitud: {
-    label: 'Latitud',
-    tooltip: 'Ingrese la latitud del proyecto',
-    initialValue: 0,
-  },
-  longitud: {
-    label: 'Longitud',
-    tooltip: 'Ingrese la longitud del proyecto',
-    initialValue: 0,
-  },
-  t_amb: {
-    label: 'Temperatura Ambiente',
-    tooltip: 'Ingrese la temperatura ambiente',
-    initialValue: 0,
-  },
-  v_viento: {
-    label: 'Velocidad del Viento',
-    tooltip: 'Ingrese la velocidad del viento',
-    initialValue: 0,
-  },
-  altura: {
-    label: 'Altura',
-    tooltip: 'Ingrese la altura del proyecto',
-    initialValue: 33,
-  },
 };
 
 const validationSchema = yup.object().shape({
@@ -65,15 +39,84 @@ const validationSchema = yup.object().shape({
 
 const ModalGeneralParams: React.FC = () => {
   const [showMap, setShowMap] = useState(false);
+  const {
+    name_project,
+    place,
+    latitud,
+    longitud,
+    t_amb,
+    v_viento,
+    altura,
+    date,
+    setName_project,
+    setPlace,
+    setLatitud,
+    setLongitud,
+    setT_amb,
+    setV_viento,
+    setAltura,
+    setDate,
+  } = useDesignerStore();
+
+  // const complexFields = {
+  //   name_project: {
+  //     label: 'Nombre del Proyecto',
+  //     tooltip: 'Ingrese el nombre del proyecto',
+  //     initialValue: name_project,
+  //   },
+  //   place: {
+  //     label: 'Lugar',
+  //     tooltip: 'Ingrese el lugar del proyecto',
+  //     initialValue: place,
+  //   },
+  // };
+
+  const fieldInfo = {
+    latitud: {
+      label: 'Latitud',
+      tooltip: 'Ingrese la latitud del proyecto',
+    },
+    longitud: {
+      label: 'Longitud',
+      tooltip: 'Ingrese la longitud del proyecto',
+    },
+    t_amb: {
+      label: 'Temperatura Ambiente',
+      tooltip: 'Ingrese la temperatura ambiente',
+    },
+    v_viento: {
+      label: 'Velocidad del Viento',
+      tooltip: 'Ingrese la velocidad del viento',
+    },
+    altura: {
+      label: 'Altura',
+      tooltip: 'Ingrese la altura del proyecto',
+    },
+  };
+
+  const initialValues = {
+    name_project,
+    place,
+    latitud,
+    longitud,
+    t_amb,
+    v_viento,
+    altura,
+    date,
+  };
 
   const formik = useFormik({
-    initialValues: Object.fromEntries(
-      Object.entries(fieldInfo).map(([key, value]) => [key, value.initialValue])
-    ),
+    initialValues,
     validationSchema: validationSchema,
     onSubmit: values => {
-      console.log('here');
-      console.log(values);
+      setName_project(values.name_project);
+      setPlace(values.place);
+      setLatitud(Number(values.latitud));
+      setLongitud(Number(values.longitud));
+      setT_amb(Number(values.t_amb));
+      setV_viento(Number(values.v_viento));
+      setAltura(Number(values.altura));
+      setDate(values.date);
     },
   });
 
@@ -85,33 +128,34 @@ const ModalGeneralParams: React.FC = () => {
         </Typography>
         <Box sx={{ display: 'flex', gap: 2 }}>
           <Box sx={{ width: '250px' }}>
-            <InputField
-              id='name_project'
-              label='Nombre de proyecto'
-              variant='outlined'
-              name='name_project'
-              value={formik.values['name_project']}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={
-                formik.touched['name_project'] &&
-                Boolean(formik.errors['name_project'])
-              }
-              helperText={
-                formik.touched['name_project'] && formik.errors['name_project']
-              }
-              margin='normal'
-            />
-
-            <PlaceSelector
-              onChange={value => formik.setFieldValue('place', value)}
-              onShowMap={value => {
-                setShowMap(value);
-              }}
-              showMap={showMap}
-            />
-
             <form onSubmit={formik.handleSubmit}>
+              <InputField
+                id='name_project'
+                label='Nombre de proyecto'
+                variant='outlined'
+                name='name_project'
+                value={formik.values['name_project']}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={
+                  formik.touched['name_project'] &&
+                  Boolean(formik.errors['name_project'])
+                }
+                helperText={
+                  formik.touched['name_project'] &&
+                  formik.errors['name_project']
+                }
+                margin='normal'
+              />
+
+              <PlaceSelector
+                onChange={value => formik.setFieldValue('place', value)}
+                onShowMap={value => {
+                  setShowMap(value);
+                }}
+                showMap={showMap}
+              />
+
               {Object.entries(fieldInfo).map(([field, info]) => (
                 <React.Fragment key={field}>
                   {field !== 'date' ? (
@@ -127,13 +171,19 @@ const ModalGeneralParams: React.FC = () => {
                           ? 'number'
                           : 'text'
                       }
-                      value={formik.values[field]}
+                      value={formik.values[field as keyof typeof formik.values]}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
                       error={
-                        formik.touched[field] && Boolean(formik.errors[field])
+                        formik.touched[field as keyof typeof formik.values] &&
+                        Boolean(
+                          formik.errors[field as keyof typeof formik.values]
+                        )
                       }
-                      helperText={formik.touched[field] && formik.errors[field]}
+                      helperText={
+                        formik.touched[field as keyof typeof formik.values] &&
+                        formik.errors[field as keyof typeof formik.values]
+                      }
                       margin='normal'
                       tooltipText={info.tooltip}
                     />
@@ -143,13 +193,15 @@ const ModalGeneralParams: React.FC = () => {
 
               <DateTimePicker
                 label={'Fecha y hora'}
-                value={formik.values.date}
-                onChange={value =>
+                value={
+                  formik.values.date ? dayjs(formik.values.date) : undefined
+                }
+                onChange={(value: any) => {
                   formik.setFieldValue(
                     'date',
                     (value as Dayjs | null)?.format()
-                  )
-                }
+                  );
+                }}
                 slotProps={{
                   textField: {
                     size: 'small',
@@ -164,7 +216,11 @@ const ModalGeneralParams: React.FC = () => {
                 ampm={false}
               />
 
-              <ButtonsModals handleAccept={() => {}} handleCancel={() => {}} />
+              <ButtonsModals
+                isSubmit
+                handleAccept={() => {}}
+                handleCancel={() => {}}
+              />
             </form>
           </Box>
           {showMap && (
