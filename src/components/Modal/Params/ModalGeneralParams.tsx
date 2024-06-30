@@ -58,19 +58,6 @@ const ModalGeneralParams: React.FC = () => {
     setDate,
   } = useDesignerStore();
 
-  // const complexFields = {
-  //   name_project: {
-  //     label: 'Nombre del Proyecto',
-  //     tooltip: 'Ingrese el nombre del proyecto',
-  //     initialValue: name_project,
-  //   },
-  //   place: {
-  //     label: 'Lugar',
-  //     tooltip: 'Ingrese el lugar del proyecto',
-  //     initialValue: place,
-  //   },
-  // };
-
   const fieldInfo = {
     latitud: {
       label: 'Latitud',

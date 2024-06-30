@@ -150,7 +150,7 @@ export const useDesignerStore = create<DesignerState>()(
 
         setV_viento: (v_viento: number) => set({ v_viento: v_viento }),
 
-        altura: 0,
+        altura: 33,
 
         setAltura: (altura: number) => set({ altura: altura }),
 
