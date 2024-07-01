@@ -14,6 +14,9 @@ import MarkerClusterGroup from 'react-leaflet-cluster';
 import { LatLngBoundsLiteral } from 'leaflet';
 import { IMapResponse } from '../../types/paramsTypes';
 
+// https://github.com/Jorl17/open-elevation/blob/master/docs/api.md
+// Elevation API
+
 interface ICoords {
   lat: number;
   lon: number;

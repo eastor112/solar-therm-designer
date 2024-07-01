@@ -19,7 +19,13 @@ const style = {
   p: 4,
 };
 
-const ModalOtherTankParams: React.FC = () => {
+interface ModalOtherTankParamsProps {
+  handleClose: () => void;
+}
+
+const ModalOtherTankParams: React.FC<ModalOtherTankParamsProps> = ({
+  handleClose,
+}) => {
   const {
     h_int,
     h_ext,
@@ -85,6 +91,7 @@ const ModalOtherTankParams: React.FC = () => {
       setK_tk(Number(values.k_tk));
       setK_aisl(Number(values.k_aisl));
       setK_cub(Number(values.k_cub));
+      handleClose();
     },
   });
 
@@ -120,7 +127,9 @@ const ModalOtherTankParams: React.FC = () => {
         <ButtonsModals
           isSubmit
           handleAccept={() => {}}
-          handleCancel={() => {}}
+          handleCancel={() => {
+            handleClose();
+          }}
         />
       </form>
     </Box>

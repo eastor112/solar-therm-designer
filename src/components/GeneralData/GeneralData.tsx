@@ -11,6 +11,7 @@ import ModalGeneralParams from '../Modal/Params/ModalGeneralParams';
 import SettingsIcon from '@mui/icons-material/Settings';
 import dayjs from '../../utils/datesUtils';
 import { defaultPlaces } from '../PlaceSelector/helper';
+import { useUIStore } from '../../store/uiStore';
 
 const GeneralData = () => {
   const {
@@ -28,15 +29,14 @@ const GeneralData = () => {
   const [modalType, setModalType] = useState<'place' | 'date' | 'update'>(
     'place'
   );
+  const { openModal, setOpenModal } = useUIStore();
   const customPlace = localStorage.getItem('customPlace');
-
-  const [open, setOpen] = useState(false);
 
   const handleOpen = (value: 'place' | 'date' | 'update') => {
     setModalType(value);
-    setOpen(true);
+    setOpenModal(true);
   };
-  const handleClose = () => setOpen(false);
+  const handleClose = () => setOpenModal(false);
 
   const selectedPlace = defaultPlaces.find(dPlace => dPlace.id === place);
 
@@ -167,7 +167,7 @@ const GeneralData = () => {
         </Button>
       </Box>
       <Modal
-        open={open}
+        open={openModal}
         onClose={handleClose}
         aria-labelledby='modal-modal-title'
         aria-describedby='modal-modal-description'

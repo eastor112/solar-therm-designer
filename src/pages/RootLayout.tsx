@@ -12,9 +12,9 @@ import {
   getModalSelector,
 } from '../components/Modal/getModalSelector';
 import { areThereChanges, setNextModalAction } from '../redux/locationsSlice';
+import { useUIStore } from '../store/uiStore';
 
 const RootLayout = () => {
-  const { openModal } = useAppSelector(state => state.ui);
   const {
     currentProject,
     currentLocation,
@@ -27,12 +27,12 @@ const RootLayout = () => {
     wantsToSave,
   } = useAppSelector(state => state.locations);
 
-  const { modalComponent } = useAppSelector(state => state.ui);
+  const { modalComponent, openModal } = useUIStore();
 
   const dispatch = useAppDispatch();
-  const [open, setOpen] = useState(true);
+  const [openSidebar, setOpenSidebar] = useState(true);
   const toggleDrawer = () => {
-    setOpen(!open);
+    setOpenSidebar(!openSidebar);
   };
 
   const handleOpenGlobalModal = (value: ModalType) => {
@@ -95,13 +95,13 @@ const RootLayout = () => {
     <>
       <div className='flex'>
         <Sidebar
-          open={open}
+          open={openSidebar}
           toggleDrawer={toggleDrawer}
           handleOpenGlobalModal={handleOpenGlobalModal}
         />
-        <Box sx={{ width: open ? '240px' : '72px' }}></Box>
+        <Box sx={{ width: openSidebar ? '240px' : '72px' }}></Box>
         <Box component='main' sx={{ flexGrow: 1, p: 3, minHeight: '100vh' }}>
-          <Outlet context={{ isSidebarOpen: open }} />
+          <Outlet context={{ isSidebarOpen: openSidebar }} />
         </Box>
         {modalComponent && (
           <Modal
@@ -110,7 +110,7 @@ const RootLayout = () => {
             aria-labelledby='modal-modal-title'
             aria-describedby='modal-modal-description'
           >
-            <>{modalComponent}</>
+            <div>{modalComponent}</div>
           </Modal>
         )}
       </div>

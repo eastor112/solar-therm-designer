@@ -1,4 +1,4 @@
-import React from 'react';
+import { FC } from 'react';
 import Box from '@mui/material/Box';
 import InputField from '../../InputField/InputField';
 import Typography from '@mui/material/Typography';
@@ -40,7 +40,13 @@ const validationSchema = yup.object({
     .max(1, 'No debe ser mayor que 1'),
 });
 
-const ModalOtherGeneralParams: React.FC = () => {
+interface ModalOtherGeneralParamsProps {
+  handleClose: () => void;
+}
+
+const ModalOtherGeneralParams: FC<ModalOtherGeneralParamsProps> = ({
+  handleClose,
+}) => {
   const {
     n_div,
     nn,
@@ -88,6 +94,7 @@ const ModalOtherGeneralParams: React.FC = () => {
       setNn(Number(values.nn));
       setBeta_coef(Number(values.beta_coef));
       setF_flujo(Number(values.f_flujo));
+      handleClose();
     },
   });
 
@@ -148,7 +155,9 @@ const ModalOtherGeneralParams: React.FC = () => {
         <ButtonsModals
           isSubmit
           handleAccept={() => {}}
-          handleCancel={() => {}}
+          handleCancel={() => {
+            handleClose();
+          }}
         />
       </form>
     </Box>

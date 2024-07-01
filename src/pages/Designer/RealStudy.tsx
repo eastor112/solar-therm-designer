@@ -1,26 +1,18 @@
-import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Modal from '@mui/material/Modal';
-import { getLocationsInformation } from '../../redux/locationsSlice';
-import ModalChangePlace from '../../components/Modal/ModalChangePlace';
-import ModalDatepicker from '../../components/Modal/ModalDatepicker';
 import PipelineParamsV2 from '../../components/PipelineParams/PipelineParamsV2';
 import TankParams from '../../components/TankParams/TankParams';
 import AnglesDesignerSimplify from '../../components/AnglesDesigner/AnglesDesignerSimplify';
 import Settings from '../../components/Settings/Settings';
-import { setModalComponent, setOpenModal } from '../../redux/UISlice';
 import Box from '@mui/material/Box';
 import { generalStyles } from '../../styles/general/index';
 import Button from '@mui/material/Button';
-import {
-  ModalType,
-  getModalSelector,
-} from '../../components/Modal/getModalSelector';
 import Typography from '@mui/material/Typography';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ModalResults from '../../components/Modal/Results/ModalResults';
+import ModalOtherGeneralParams from '../../components/Modal/Params/ModalOtherGeneralParams';
 
 const data = [
   { title: 'Inclinación Solar', key: 'inclinación_solar' },
@@ -61,27 +53,17 @@ const data = [
 ];
 
 const RealStudy = () => {
-  const dispatch = useAppDispatch();
-  const { locations } = useAppSelector(state => state.locations);
-  const [modalType, setModalType] = useState<'place' | 'date' | 'result'>(
-    'place'
-  );
   const [open, setOpen] = useState(false);
+  const [modalType, setModalType] = useState<'place' | 'other' | 'result'>(
+    'result'
+  );
   const [chartParams, setChartParams] = useState<any>({});
 
   const handleClose = () => setOpen(false);
 
-  useEffect(() => {
-    if (locations.length === 0) {
-      dispatch(getLocationsInformation());
-    }
-  }, [locations]);
-
   const handleSetCoeficients = () => {
-    dispatch(setOpenModal(true));
-    dispatch(
-      setModalComponent(getModalSelector[ModalType.OTHER_GENERAL_PARAMS])
-    );
+    setModalType('other');
+    setOpen(true);
   };
 
   return (
@@ -170,14 +152,11 @@ const RealStudy = () => {
         aria-describedby='modal-modal-description'
       >
         <>
-          {modalType === 'place' && (
-            <ModalChangePlace handleClose={handleClose} />
-          )}
-          {modalType === 'date' && (
-            <ModalDatepicker handleClose={handleClose} />
-          )}
           {modalType === 'result' && (
             <ModalResults handleClose={handleClose} {...chartParams} />
+          )}
+          {modalType === 'other' && (
+            <ModalOtherGeneralParams handleClose={() => setOpen(false)} />
           )}
         </>
       </Modal>

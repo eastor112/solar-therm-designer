@@ -1,15 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import InputField from '../InputField/InputField';
 import Typography from '@mui/material/Typography';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { useAppDispatch } from '../../hooks/reduxHooks';
-import { ModalType, getModalSelector } from '../Modal/getModalSelector';
-import { setModalComponent, setOpenModal } from '../../redux/UISlice';
 import Settings from '../Settings/Settings';
 import { generalStyles } from '../../styles/general';
 import { useDesignerStore } from '../../store/designerStore';
+import { Modal } from '@mui/material';
+import ModalOtherTankParams from '../Modal/Params/ModalOtherTankParams';
 
 const validationSchema = yup.object({
   vol_tk: yup
@@ -31,7 +30,8 @@ const validationSchema = yup.object({
 });
 
 const TankParams: React.FC = () => {
-  const dispatch = useAppDispatch();
+  const [openModal, setOpenModal] = useState(false);
+
   const {
     vol_tk,
     e_tk,
@@ -102,8 +102,11 @@ const TankParams: React.FC = () => {
   ]);
 
   const handleSetCoeficients = () => {
-    dispatch(setOpenModal(true));
-    dispatch(setModalComponent(getModalSelector[ModalType.OTHER_TANK_PARAMS]));
+    setOpenModal(true);
+  };
+
+  const handleClose = () => {
+    setOpenModal(false);
   };
 
   return (
@@ -140,6 +143,17 @@ const TankParams: React.FC = () => {
         </form>
       </Box>
       <Settings label='Coef. térmicos tanque' onClick={handleSetCoeficients} />
+
+      <Modal
+        open={openModal}
+        onClose={handleClose}
+        aria-labelledby='modal-modal-title'
+        aria-describedby='modal-modal-description'
+      >
+        <>
+          <ModalOtherTankParams handleClose={() => setOpenModal(false)} />
+        </>
+      </Modal>
     </Box>
   );
 };

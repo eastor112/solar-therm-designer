@@ -15,6 +15,7 @@ import dayjs from '../../../utils/datesUtils';
 import { IMapResponse } from '../../../types/paramsTypes';
 import PlaceSelectorV2 from '../../PlaceSelector/PlaceSelectorV2';
 import { IPlace } from '../../PlaceSelector/helper';
+import { useUIStore } from '../../../store/uiStore';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -40,6 +41,7 @@ const validationSchema = yup.object().shape({
 
 const ModalGeneralParams: React.FC = () => {
   const [showMap, setShowMap] = useState(false);
+  const { setOpenModal, setModalComponent } = useUIStore();
   const {
     name_project,
     place,
@@ -109,6 +111,7 @@ const ModalGeneralParams: React.FC = () => {
       setAltura(Number(values.altura));
       setDate(values.date);
       localStorage.setItem('customPlace', customPlace || '');
+      setOpenModal(false);
     },
   });
 
@@ -244,7 +247,10 @@ const ModalGeneralParams: React.FC = () => {
               <ButtonsModals
                 isSubmit
                 handleAccept={() => {}}
-                handleCancel={() => {}}
+                handleCancel={() => {
+                  setOpenModal(false);
+                  setModalComponent(undefined);
+                }}
               />
             </form>
           </Box>

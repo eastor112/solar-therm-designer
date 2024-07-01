@@ -3,17 +3,8 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { useDispatch } from 'react-redux';
 import InputField from '../InputField/InputField';
 import { generalStyles } from '../../styles/general';
-import { useAppSelector } from '../../hooks/reduxHooks';
-import {
-  setExternalDiameter,
-  setInternalDiameter,
-  setPipelineLength,
-} from '../../redux/designerSlice';
-import { setModalComponent, setOpenModal } from '../../redux/UISlice';
-import { ModalType, getModalSelector } from '../Modal/getModalSelector';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
@@ -21,6 +12,8 @@ import InputLabel from '@mui/material/InputLabel';
 import { pipelines } from './helper';
 import Settings from '../Settings/Settings';
 import { useDesignerStore } from '../../store/designerStore';
+import Modal from '@mui/material/Modal';
+import ModalOtherPipeParams from '../Modal/Params/ModalOtherPipeParams';
 
 const validationSchema = yup.object({
   d_int: yup
@@ -46,10 +39,8 @@ const validationSchema = yup.object({
 });
 
 const PipelineParamsV2: React.FC = () => {
-  const dispatch = useDispatch();
-  const { externalDiameter, internalDiameter, pipelineLength } = useAppSelector(
-    state => state.designer
-  );
+  // const dispatch = useDispatch();
+  const [openModal, setOpenModal] = useState(false);
   const [standarPipeSelected, setStandarPipeSelected] = useState('0');
   const {
     d_int,
@@ -102,9 +93,11 @@ const PipelineParamsV2: React.FC = () => {
     },
     validationSchema: validationSchema,
     onSubmit: values => {
-      dispatch(setInternalDiameter(Number(values.d_int)));
-      dispatch(setExternalDiameter(Number(values.d_ext)));
-      dispatch(setPipelineLength(Number(values.l_tubo)));
+      setD_int(Number(values.d_int));
+      setD_ext(Number(values.d_ext));
+      setL_tubo(Number(values.l_tubo));
+      setS_sep(Number(values.s_sep));
+      setN_tubos(Number(values.n_tubos));
     },
   });
 
@@ -138,21 +131,6 @@ const PipelineParamsV2: React.FC = () => {
     n_tubos,
   ]);
 
-  useEffect(() => {
-    const standarPipe = pipelines.find(
-      pipeline =>
-        pipeline.length === pipelineLength &&
-        pipeline.innerDiameter === internalDiameter &&
-        pipeline.outerDiameter === externalDiameter
-    );
-
-    if (standarPipe) {
-      setStandarPipeSelected(standarPipe.id.toString());
-    } else {
-      setStandarPipeSelected('0');
-    }
-  }, [externalDiameter, internalDiameter, pipelineLength]);
-
   const handleChange = (event: SelectChangeEvent) => {
     const selected = event.target.value;
     const pipelineSelected = pipelines.find(
@@ -167,8 +145,11 @@ const PipelineParamsV2: React.FC = () => {
   };
 
   const handleSetCoeficients = () => {
-    dispatch(setOpenModal(true));
-    dispatch(setModalComponent(getModalSelector[ModalType.OTHER_PIPE_PARAMS]));
+    setOpenModal(true);
+  };
+
+  const handleClose = () => {
+    setOpenModal(false);
   };
 
   return (
@@ -252,6 +233,17 @@ const PipelineParamsV2: React.FC = () => {
         </form>
       </Box>
       <Settings label='Coef. térmicos tubos' onClick={handleSetCoeficients} />
+
+      <Modal
+        open={openModal}
+        onClose={handleClose}
+        aria-labelledby='modal-modal-title'
+        aria-describedby='modal-modal-description'
+      >
+        <>
+          <ModalOtherPipeParams handleClose={() => setOpenModal(false)} />
+        </>
+      </Modal>
     </Box>
   );
 };

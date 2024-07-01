@@ -19,7 +19,13 @@ const style = {
   p: 4,
 };
 
-const ModalOtherPipeParams: React.FC = () => {
+interface ModalOtherPipeParamsProps {
+  handleClose: () => void;
+}
+
+const ModalOtherPipeParams: React.FC<ModalOtherPipeParamsProps> = ({
+  handleClose,
+}) => {
   const { tau_glass, alpha_glass, setTau_glass, setAlpha_glass } =
     useDesignerStore();
 
@@ -57,6 +63,7 @@ const ModalOtherPipeParams: React.FC = () => {
     onSubmit: values => {
       setTau_glass(Number(values.tau_glass));
       setAlpha_glass(Number(values.alpha_glass));
+      handleClose();
     },
   });
 
@@ -93,7 +100,9 @@ const ModalOtherPipeParams: React.FC = () => {
         <ButtonsModals
           isSubmit
           handleAccept={() => {}}
-          handleCancel={() => {}}
+          handleCancel={() => {
+            handleClose();
+          }}
         />
       </form>
     </Box>
