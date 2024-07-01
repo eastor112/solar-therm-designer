@@ -13,6 +13,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ModalResults from '../../components/Modal/Results/ModalResults';
 import ModalOtherGeneralParams from '../../components/Modal/Params/ModalOtherGeneralParams';
+import { useDesignerStore } from '../../store/designerStore';
 
 const data = [
   { title: 'Inclinación Solar', key: 'inclinación_solar' },
@@ -53,6 +54,7 @@ const data = [
 ];
 
 const RealStudy = () => {
+  const { calculate } = useDesignerStore();
   const [open, setOpen] = useState(false);
   const [modalType, setModalType] = useState<'place' | 'other' | 'result'>(
     'result'
@@ -98,6 +100,9 @@ const RealStudy = () => {
               variant='contained'
               sx={{ mt: 2, width: '220px' }}
               size='small'
+              onClick={() => {
+                calculate();
+              }}
             >
               Calcular
             </Button>

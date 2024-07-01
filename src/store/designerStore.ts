@@ -1,17 +1,18 @@
 import { create } from 'zustand'
 import { IProject } from '../types/locationstypes'
 import { devtools, persist } from 'zustand/middleware'
-import { getProjectService } from '../services/projectsServices'
+import { ICalculateParamsBody, getProjectResults, getProjectService } from '../services/projectsServices'
 
 interface DesignerState {
+  studyType: "theoretical" | "real"
+  setStudyType: (type: "theoretical" | "real") => void
   currentProject: IProject | null
   setCurrentProject: (project: IProject | null) => void
   getProject: (id: number) => Promise<void>
   previewProject: IProject | null
   setPreviewProject: (project: IProject | null) => void
-
-  studyType: "theoretical" | "real"
-  setStudyType: (type: "theoretical" | "real") => void
+  calculate: () => Promise<void>
+  results: any
 
   // PARAMS
   name_project: string
@@ -89,7 +90,9 @@ interface DesignerState {
 export const useDesignerStore = create<DesignerState>()(
   devtools(
     persist(
-      (set) => ({
+      (set, get) => ({
+
+        studyType: "theoretical",
 
         setStudyType: (type) => set({ studyType: type }),
 
@@ -102,14 +105,52 @@ export const useDesignerStore = create<DesignerState>()(
           set({ date: project.date })
         },
 
-        studyType: "theoretical",
-
-
         previewProject: null,
 
         setPreviewProject: (project) => set({ previewProject: project }),
 
-        // PARAMS
+        calculate: async () => {
+          const body: ICalculateParamsBody = {
+            name_project: get().name_project,
+            place: get().place,
+            latitud: get().latitud,
+            longitud: get().longitud,
+            t_amb: get().t_amb,
+            v_viento: get().v_viento,
+            altura: get().altura,
+            date: get().date,
+            inclination: get().inclination,
+            azimuth: get().azimuth,
+            vol_tk: get().vol_tk,
+            e_tk: get().e_tk,
+            e_aisl: get().e_aisl,
+            e_cub: get().e_cub,
+            h_int: get().h_int,
+            h_ext: get().h_ext,
+            k_tk: get().k_tk,
+            k_aisl: get().k_aisl,
+            k_cub: get().k_cub,
+            d_int: get().d_int,
+            d_ext: get().d_ext,
+            l_tubo: get().l_tubo,
+            s_sep: get().s_sep,
+            n_tubos: get().n_tubos,
+            tau_glass: get().tau_glass,
+            alpha_glass: get().alpha_glass,
+            n_div: get().n_div,
+            nn: get().nn,
+            beta_coef: get().beta_coef,
+            f_flujo: get().f_flujo
+          }
+          console.log(body);
+          const resutls = await getProjectResults(body)
+
+          set({ results: resutls })
+        },
+
+        results: undefined,
+
+        // ======== PARAMS =======
         name_project: '',
 
         setName_project: (name_project: string) => set({ name_project: name_project }),
