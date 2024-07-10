@@ -242,6 +242,7 @@ const ModalGeneralParams: React.FC = () => {
                 sx={{ width: '100%' }}
                 minutesStep={30}
                 ampm={false}
+                maxDate={dayjs('2020-12-31')}
               />
 
               <ButtonsModals

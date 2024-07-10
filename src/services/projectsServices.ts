@@ -57,34 +57,34 @@ export interface ICalculateParamsBody {
   longitud: number
   t_amb: number
   v_viento: number
-  altura: number
-  date: string | null
+  altitud: number
+  date_time: string | null
 
   // ANGLE PARAMS
-  inclination: number
+  inclinacion: number
   azimuth: number
 
   // TANK PARAMS
-  vol_tk: number
-  e_tk: number
+  vol_tank: number
+  e_tank: number
   e_aisl: number
   e_cub: number
   // MODAL TANK PARAMS
   h_int: number
   h_ext: number
-  k_tk: number
+  k_tank: number
   k_aisl: number
   k_cub: number
 
   // PIPELINE PARAMS
   d_int: number,
   d_ext: number,
-  l_tubo: number,
+  longitud_tubo: number,
   s_sep: number,
-  n_tubos: number,
+  num_tubos: number,
   // MODAL PIPELINE PARAMS
   tau_glass: number,
-  alpha_glass: number,
+  alfa_glass: number,
 
   // MODAL OTHER GENERAL PARAMS
   n_div: number,
@@ -95,7 +95,7 @@ export interface ICalculateParamsBody {
 
 
 export const getProjectResults = async (body: ICalculateParamsBody) => {
-  const response = await fetch(`${envVars.API_HOST}/projects/results`, {
+  const response = await fetch(`${envVars.API_HOST}/weather/calculate`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -104,6 +104,5 @@ export const getProjectResults = async (body: ICalculateParamsBody) => {
     body: JSON.stringify(body),
   });
 
-  // return response.json() as Promise<IProject>;
-  return { data: 'OK' } as any
+  return await response.json();
 }
