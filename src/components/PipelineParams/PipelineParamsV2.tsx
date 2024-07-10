@@ -159,7 +159,7 @@ const PipelineParamsV2: React.FC = () => {
       </Typography>
       <Box sx={{ width: '200px' }}>
         <form onSubmit={formik.handleSubmit}>
-          <FormControl fullWidth sx={{ my: 2 }}>
+          <FormControl fullWidth sx={{ mt: 2, mb: 1 }}>
             <InputLabel id='type-select-label'>Tipo</InputLabel>
             <Select
               labelId='type-select-label'
