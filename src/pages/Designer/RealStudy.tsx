@@ -14,47 +14,11 @@ import ListItemText from '@mui/material/ListItemText';
 import ModalResults from '../../components/Modal/Results/ModalResults';
 import ModalOtherGeneralParams from '../../components/Modal/Params/ModalOtherGeneralParams';
 import { useDesignerStore } from '../../store/designerStore';
-
-const data = [
-  { title: 'Inclinación Solar', key: 'inclinación_solar' },
-  { title: 'Azimuth Solar', key: 'azimuth_solar' },
-  {
-    title:
-      'Intensidad de la Radiación Extraterrestre sobre Superficie Horizontal [W/m2]',
-    key: 'intensidad_radiación',
-  },
-  {
-    title:
-      'Irradiación Extraterrestre sobre Superficie Horizontal por Intervalo de Tiempo [J/m2 \\Deltat]',
-    key: 'irradiación_intervalo',
-  },
-  { title: 'Evolucion del Numero de Nu.Gr/Pr', key: 'evolución_numero' },
-  { title: 'Evolucion del Numero de Reynolds', key: 'evolución_reynolds' },
-  {
-    title: 'Flujo Masico de Agua Caiente que Sale del Tubo al Vacio',
-    key: 'flujo_masico',
-  },
-  {
-    title: 'Velocidad Media Agua Caiente que Sale del Tubo al Vacio',
-    key: 'velocidad_media',
-  },
-  {
-    title:
-      'Temperaturas de Mezcla, de Salida y del Tanque de la Terma Solar [C] - Correlacion de Mendoza (2023)',
-    key: 'temperaturas_mezcla',
-  },
-  {
-    title: 'Eficiencia Termica de la Terma Solar (según la 1ra ley)',
-    key: 'eficiencia_termica',
-  },
-  {
-    title: 'Energia Térmica acumulada en el termotanque [MJ]',
-    key: 'energia_termica',
-  },
-];
+import { resultsChartsList } from '../../utils/resultsChartList';
 
 const RealStudy = () => {
   const { calculate } = useDesignerStore();
+
   const [open, setOpen] = useState(false);
   const [modalType, setModalType] = useState<'place' | 'other' | 'result'>(
     'result'
@@ -114,7 +78,7 @@ const RealStudy = () => {
             RESULTADOS
           </Typography>
           <List>
-            {data.map(chart => (
+            {resultsChartsList.map(chart => (
               <ListItem
                 key={chart.key}
                 disablePadding
@@ -139,6 +103,9 @@ const RealStudy = () => {
                   setModalType('result');
                   setChartParams({
                     title: chart.title,
+                    chartKey: chart.key,
+                    x: chart.x,
+                    y: chart.y,
                   });
                   setOpen(true);
                 }}

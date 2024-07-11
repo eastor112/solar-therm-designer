@@ -143,9 +143,8 @@ export const useDesignerStore = create<DesignerState>()(
             f_flujo: get().f_flujo
           }
 
-          const resutls = await getProjectResults(body)
-
-          set({ results: resutls })
+          const results = await getProjectResults(body)
+          set({ results: results })
         },
 
         results: undefined,

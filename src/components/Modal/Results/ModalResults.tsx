@@ -1,8 +1,13 @@
 import Box from '@mui/material/Box';
-import { useState, FC } from 'react';
-import CustomLineChart from '../../Graphs/LineChart';
+import { useState, FC, useEffect } from 'react';
 import Button from '@mui/material/Button';
 import RawDataInspectorSimplify from '../../../pages/RawDataInspector/RawDataInspectorSimplify';
+import {
+  SolarDataKeys,
+  transformDataForChart,
+} from '../../../utils/resultsChartList';
+import { useDesignerStore } from '../../../store/designerStore';
+import ResultsChart from '../../Graphs/ResultsChart';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -20,10 +25,37 @@ const style = {
 interface ModalResults {
   handleClose: () => void;
   title: string;
+  chartKey: string;
+  x?: SolarDataKeys;
+  y?: SolarDataKeys[];
 }
 
-const ModalResults: FC<ModalResults> = ({ title, handleClose }) => {
+const working = ['inclinacion_solar', 'azimuth_solar'];
+
+const ModalResults: FC<ModalResults> = ({
+  chartKey,
+  title,
+  handleClose,
+  x,
+  y,
+}) => {
   const [showRawData, setShowRawData] = useState(false);
+  const { results } = useDesignerStore();
+  const [chartData, setChartData] = useState<any[]>([]);
+
+  // console.log(chartKey);
+  useEffect(() => {
+    const xData = results[SolarDataKeys.HoraStd];
+    const yDataArrays = y?.map(key => results[key]);
+    // console.log({ xData, yDataArrays });
+    if (xData && yDataArrays && working.includes(chartKey)) {
+      const transformedData = transformDataForChart(xData, yDataArrays);
+      setChartData(transformedData);
+    }
+  }, [results, y]);
+
+  // console.log(working.includes(chartKey));
+  // console.log(chartData);
 
   return (
     <Box sx={style}>
@@ -38,13 +70,18 @@ const ModalResults: FC<ModalResults> = ({ title, handleClose }) => {
         {showRawData ? (
           <RawDataInspectorSimplify title={title} />
         ) : (
-          <CustomLineChart
-            data={[]}
+          <ResultsChart
+            data={working.includes(chartKey) ? chartData : []}
             title={title}
-            columns={['dhi', 'dni', 'ghi']}
-            domain={[0, 1000]}
-            units='[W/m2]'
-            dataKey='date'
+            columns={['y0']}
+            // domain={[0, 90]}
+            domain={
+              chartKey === SolarDataKeys.InclinacionSolar
+                ? [0, 90]
+                : [-200, 200]
+            }
+            units='°'
+            dataKey={x || SolarDataKeys.HoraStd}
           />
         )}
 
