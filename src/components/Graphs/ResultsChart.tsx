@@ -93,55 +93,6 @@ const CustomNumberArrayTooltip = ({ active, payload, units, dataKey }: any) => {
   return null;
 };
 
-// const generateDateForDayOfYear = (
-//   yearOrDate: string | number,
-//   dayOfYear: number
-// ) => {
-//   let year;
-//   if (typeof yearOrDate === 'string') {
-//     const parts = yearOrDate.split('-');
-//     if (parts.length === 3) {
-//       year = parseInt(parts[2], 10);
-//     }
-//   } else if (typeof yearOrDate === 'number') {
-//     year = yearOrDate;
-//   }
-
-//   const startDate = dayjs(`${year}-01-01`);
-//   const date = startDate.add(dayOfYear - 1, 'day');
-//   return date;
-// };
-
-// const Custom dDayTooltip = ({ active, payload, units, date }: any) => {
-//   if (active && payload && payload.length) {
-//     return (
-//       <Box
-//         sx={{
-//           p: 2,
-//           bgcolor: 'rgba(255,255,255,0.9)',
-//           border: '1px solid #ccc',
-//         }}
-//       >
-//         {payload.map((item: any, index: number) => (
-//           <Box key={index}>
-//             <Typography sx={{ textAlign: 'left', color: 'text.primary' }}>
-//               Day:{' '}
-//               {generateDateForDayOfYear(date, item.payload.day).format(
-//                 'DD/MM/YYYY'
-//               )}
-//             </Typography>
-//             <Typography sx={{ textAlign: 'left', color: 'text.primary' }}>
-//               Energía: {item.value.toFixed(2)} {units}
-//             </Typography>
-//           </Box>
-//         ))}
-//       </Box>
-//     );
-//   }
-
-//   return null;
-// };
-
 const ResultsChart: React.FC<CustomLineChartProps> = ({
   data,
   title,
@@ -149,8 +100,6 @@ const ResultsChart: React.FC<CustomLineChartProps> = ({
   domain,
   units,
   dataKey,
-  // date,
-  // interval,
   size = 'small',
   legendDirection = 'vertical',
 }) => {

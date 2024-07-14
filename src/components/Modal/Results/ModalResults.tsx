@@ -62,6 +62,7 @@ const ModalResults: FC<ModalResults> = ({ title, handleClose, x, y }) => {
             domain={domain}
             units='u'
             dataKey={x}
+            legendDirection='horizontal'
           />
         )}
 
