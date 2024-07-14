@@ -26,9 +26,16 @@ interface ModalResults {
   chartKey: string;
   x: SolarDataKeys;
   y: SolarDataKeys[];
+  units: string;
 }
 
-const ModalResults: FC<ModalResults> = ({ title, handleClose, x, y }) => {
+const ModalResults: FC<ModalResults> = ({
+  title,
+  handleClose,
+  x,
+  y,
+  units,
+}) => {
   const [showRawData, setShowRawData] = useState(false);
   const { results } = useDesignerStore();
   const [chartData, setChartData] = useState<any[]>([]);
@@ -60,7 +67,7 @@ const ModalResults: FC<ModalResults> = ({ title, handleClose, x, y }) => {
             title={title}
             columns={y}
             domain={domain}
-            units='u'
+            units={units}
             dataKey={x}
             legendDirection='horizontal'
           />

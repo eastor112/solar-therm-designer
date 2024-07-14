@@ -26,31 +26,36 @@ export const resultsChartsList = [
     title: 'Inclinación Solar',
     key: 'inclinacion_solar',
     x: SolarDataKeys.HoraStd,
-    y: [SolarDataKeys.InclinacionSolar]
+    y: [SolarDataKeys.InclinacionSolar],
+    units: "°C"
   },
   {
     title: 'Azimuth Solar',
     key: 'azimuth_solar',
     x: SolarDataKeys.HoraStd,
-    y: [SolarDataKeys.AzimuthSolar]
+    y: [SolarDataKeys.AzimuthSolar],
+    units: "°C"
   },
   {
     title: 'Intensidad de la Radiación Extraterrestre sobre Superficie Horizontal [W/m2]',
     key: 'intensidad_radiación',
     x: SolarDataKeys.HoraStd,
-    y: [SolarDataKeys.RadiacionExtraterrestre]
+    y: [SolarDataKeys.RadiacionExtraterrestre],
+    units: "W/m2"
   },
   {
-    title: 'Irradiación Extraterrestre sobre Superficie Horizontal por Intervalo de Tiempo [J/m2 \\Deltat]',
+    title: 'Irradiación Extraterrestre sobre Superficie Horizontal por Intervalo de Tiempo [J/m2 h]',
     key: 'irradiación_intervalo',
     x: SolarDataKeys.HoraM,
-    y: [SolarDataKeys.IrradiacionExtraterrestre]
+    y: [SolarDataKeys.IrradiacionExtraterrestre],
+    units: "J/m2 h"
   },
   {
     title: "Potencia de Haz, Difusa y Total que absorbe 1 Tubo al vacío durante el dia [W]",
     key: 'potencias',
     x: SolarDataKeys.HoraStd,
-    y: [SolarDataKeys.PotenciaHaz, SolarDataKeys.PotenciaDifusa, SolarDataKeys.PotenciaTotal]
+    y: [SolarDataKeys.PotenciaHaz, SolarDataKeys.PotenciaDifusa, SolarDataKeys.PotenciaTotal],
+    units: "W"
   },
   {
     key: 'evolución_numero',
@@ -68,13 +73,15 @@ export const resultsChartsList = [
     key: 'flujo_masico',
     title: 'Flujo Masico de Agua Caiente que Sale del Tubo al Vacio',
     x: SolarDataKeys.HoraStd,
-    y: [SolarDataKeys.FlujoMasico]
+    y: [SolarDataKeys.FlujoMasico],
+    units: "kg/s"
   },
   {
     title: 'Velocidad Media Agua Caiente que Sale del Tubo al Vacio',
     key: 'velocidad_media',
     x: SolarDataKeys.HoraStd,
-    y: [SolarDataKeys.VelocidadSalida]
+    y: [SolarDataKeys.VelocidadSalida],
+    units: "m/s"
   },
   {
     title:
@@ -86,7 +93,8 @@ export const resultsChartsList = [
       SolarDataKeys.TemperaturaSalida,
       SolarDataKeys.TemperaturaTanque,
       SolarDataKeys.TemperaturaAmbiente
-    ]
+    ],
+    units: "°C"
   },
   {
     title: 'Eficiencia Termica de la Terma Solar (según la 1ra ley)',
@@ -102,7 +110,8 @@ export const resultsChartsList = [
     x: SolarDataKeys.HoraStd,
     y: [
       SolarDataKeys.EnergiaAcumulada
-    ]
+    ],
+    units: "MJ"
   },
 ];
 
