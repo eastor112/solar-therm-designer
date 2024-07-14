@@ -61,7 +61,7 @@ const ModalResults: FC<ModalResults> = ({ title, handleClose, x, y }) => {
             columns={y}
             domain={domain}
             units='u'
-            dataKey={x || SolarDataKeys.HoraStd}
+            dataKey={x}
           />
         )}
 
