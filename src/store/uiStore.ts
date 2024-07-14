@@ -9,6 +9,8 @@ interface UIState {
   setTheme: (theme: 'dark' | 'light') => void
   modalComponent: JSX.Element | undefined
   setModalComponent: (modalComponent: JSX.Element | undefined) => void
+  nextModalAction: string | null
+  setNextModalAction: (nextModalAction: string | null) => void
 }
 
 export const useUIStore = create<UIState>()(
@@ -21,7 +23,9 @@ export const useUIStore = create<UIState>()(
         theme: 'light',
         setTheme: (theme: 'dark' | 'light') => set({ theme }),
         setModalComponent: (modalComponent: JSX.Element | undefined) => set({ modalComponent }),
-        modalComponent: undefined
+        modalComponent: undefined,
+        nextModalAction: null,
+        setNextModalAction: (nextModalAction: string | null) => set({ nextModalAction }),
       }),
       {
         name: 'uiStore',

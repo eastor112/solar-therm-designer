@@ -4,14 +4,13 @@ import { Outlet, useOutletContext } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import { useAppDispatch, useAppSelector } from '../hooks/reduxHooks';
-import { setModalComponent, setOpenModal } from '../redux/UISlice';
 import { getProject } from '../redux/locationsSlice';
 import {
   ModalType,
   destructiveModals,
   getModalSelector,
 } from '../components/Modal/getModalSelector';
-import { areThereChanges, setNextModalAction } from '../redux/locationsSlice';
+import { areThereChanges } from '../redux/locationsSlice';
 import { useUIStore } from '../store/uiStore';
 
 const RootLayout = () => {
@@ -27,7 +26,13 @@ const RootLayout = () => {
     wantsToSave,
   } = useAppSelector(state => state.locations);
 
-  const { modalComponent, openModal } = useUIStore();
+  const {
+    modalComponent,
+    openModal,
+    setOpenModal,
+    setModalComponent,
+    setNextModalAction,
+  } = useUIStore();
 
   const dispatch = useAppDispatch();
   const [openSidebar, setOpenSidebar] = useState(true);
@@ -36,16 +41,16 @@ const RootLayout = () => {
   };
 
   const handleOpenGlobalModal = (value: ModalType) => {
-    dispatch(setOpenModal(true));
+    setOpenModal(true);
     if (destructiveModals.includes(value) && thereAreChanges && wantsToSave) {
-      dispatch(setNextModalAction(value));
-      dispatch(setModalComponent(getModalSelector['discard']));
+      setNextModalAction(value);
+      setModalComponent(getModalSelector['discard']);
       return;
     }
-    dispatch(setModalComponent(getModalSelector[value]));
+    setModalComponent(getModalSelector[value]);
   };
 
-  const handleClose = () => dispatch(setOpenModal(false));
+  const handleClose = () => setOpenModal(false);
 
   // useEffect(() => {
   //   const unloadListener = (e: any) => {
