@@ -42,13 +42,13 @@ const Drawer = styled(MuiDrawer, {
   },
 }));
 
-interface DashboardContentProps {
+interface SidebarProps {
   open: boolean;
   toggleDrawer: () => void;
   handleOpenGlobalModal: (value: ModalType) => void;
 }
 
-const DashboardContent: React.FC<DashboardContentProps> = ({
+const Sidebar: React.FC<SidebarProps> = ({
   open,
   toggleDrawer,
   handleOpenGlobalModal,
@@ -125,4 +125,4 @@ const DashboardContent: React.FC<DashboardContentProps> = ({
   );
 };
 
-export default DashboardContent;
+export default Sidebar;
