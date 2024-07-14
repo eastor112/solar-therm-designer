@@ -2,12 +2,10 @@ import Box from '@mui/material/Box';
 import { useState, FC, useEffect } from 'react';
 import Button from '@mui/material/Button';
 import RawDataInspectorSimplify from '../../../pages/RawDataInspector/RawDataInspectorSimplify';
-import {
-  SolarDataKeys,
-  transformDataForChart,
-} from '../../../utils/resultsChartList';
+import { transformDataForChart } from '../../../utils/resultsChartList';
 import { useDesignerStore } from '../../../store/designerStore';
 import ResultsChart from '../../Graphs/ResultsChart';
+import { SolarDataKeys } from '../../../services/projectsServices';
 
 const style = {
   position: 'absolute' as 'absolute',

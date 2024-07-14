@@ -1,3 +1,5 @@
+import { SolarDataKeys } from "../services/projectsServices";
+
 export interface ISolarDataResponse {
   hora_std: number[];
   hora_m: number[];
@@ -19,74 +21,88 @@ export interface ISolarDataResponse {
   energia_acumulada: number[];
 }
 
-
-export enum SolarDataKeys {
-  HoraStd = "hora_std",
-  HoraM = "hora_m",
-  InclinacionSolar = "inclinacion_solar",
-  AzimuthSolar = "azimuth_solar",
-  RadiacionExtraterrestre = "radiacion_extraterrestre",
-  IrradiacionExtraterrestre = "irradiacion_extraterrestre",
-  PotenciaTubo = "potencia_tubo",
-  PotenciaHaz = "potencia_haz",
-  PotenciaDifusa = "potencia_difusa",
-  PotenciaTotal = "potencia_total",
-  EnergiaTubo = "energia_tubo",
-  EnergiaNTubo = "energia_n_tubo",
-  EnergiaAcumuladoDia = "energia_acumulado_dia",
-  EficienciaDia = "eficiencia_dia",
-  EnergiaAcumuladoDiaMendoza = "energia_acumulado_dia_mendoza",
-  EficienciaDiaMendoza = "eficiencia_dia_mendoza",
-  Eficiencia1 = "eficiencia_1",
-  EnergiaAcumulada = "energia_acumulada"
-}
-
 export const resultsChartsList = [
   {
-    title: 'Inclinación Solar', key: 'inclinacion_solar', x: SolarDataKeys.HoraStd, y: [SolarDataKeys.InclinacionSolar]
+    title: 'Inclinación Solar',
+    key: 'inclinacion_solar',
+    x: SolarDataKeys.HoraStd,
+    y: [SolarDataKeys.InclinacionSolar]
   },
-  { title: 'Azimuth Solar', key: 'azimuth_solar', x: SolarDataKeys.HoraStd, y: [SolarDataKeys.AzimuthSolar] },
   {
-    title:
-      'Intensidad de la Radiación Extraterrestre sobre Superficie Horizontal [W/m2]',
+    title: 'Azimuth Solar',
+    key: 'azimuth_solar',
+    x: SolarDataKeys.HoraStd,
+    y: [SolarDataKeys.AzimuthSolar]
+  },
+  {
+    title: 'Intensidad de la Radiación Extraterrestre sobre Superficie Horizontal [W/m2]',
     key: 'intensidad_radiación',
-    x: SolarDataKeys.HoraStd, y: [SolarDataKeys.RadiacionExtraterrestre]
+    x: SolarDataKeys.HoraStd,
+    y: [SolarDataKeys.RadiacionExtraterrestre]
   },
   {
-    title:
-      'Irradiación Extraterrestre sobre Superficie Horizontal por Intervalo de Tiempo [J/m2 \\Deltat]',
+    title: 'Irradiación Extraterrestre sobre Superficie Horizontal por Intervalo de Tiempo [J/m2 \\Deltat]',
     key: 'irradiación_intervalo',
-    x: SolarDataKeys.HoraM, y: [SolarDataKeys.IrradiacionExtraterrestre]
+    x: SolarDataKeys.HoraM,
+    y: [SolarDataKeys.IrradiacionExtraterrestre]
   },
   {
-    title: 'Evolucion del Numero de Nu.Gr/Pr', key: 'evolución_numero',
-    x: SolarDataKeys.HoraStd, y: [SolarDataKeys.PotenciaHaz, SolarDataKeys.PotenciaDifusa, SolarDataKeys.PotenciaTotal]
+    title: "Potencia de Haz, Difusa y Total que absorbe 1 Tubo al vacío durante el dia [W]",
+    key: 'potencias',
+    x: SolarDataKeys.HoraStd,
+    y: [SolarDataKeys.PotenciaHaz, SolarDataKeys.PotenciaDifusa, SolarDataKeys.PotenciaTotal]
   },
   {
-    title: 'Evolucion del Numero de Reynolds', key: 'evolución_reynolds',
-    x: SolarDataKeys.HoraStd, y: [SolarDataKeys.PotenciaHaz, SolarDataKeys.PotenciaDifusa, SolarDataKeys.PotenciaTotal]
+    key: 'evolución_numero',
+    title: 'Evolucion del Numero de Nu.Gr/Pr',
+    x: SolarDataKeys.HoraStd,
+    y: [SolarDataKeys.EvolucionNuGrPr]
   },
   {
-    title: 'Flujo Masico de Agua Caiente que Sale del Tubo al Vacio',
+    key: 'evolución_reynolds',
+    title: 'Evolucion del Numero de Reynolds',
+    x: SolarDataKeys.HoraStd,
+    y: [SolarDataKeys.EvolucionReynolds]
+  },
+  {
     key: 'flujo_masico',
-    x: SolarDataKeys.HoraStd, y: [SolarDataKeys.PotenciaHaz, SolarDataKeys.PotenciaDifusa, SolarDataKeys.PotenciaTotal]
+    title: 'Flujo Masico de Agua Caiente que Sale del Tubo al Vacio',
+    x: SolarDataKeys.HoraStd,
+    y: [SolarDataKeys.FlujoMasico]
   },
   {
     title: 'Velocidad Media Agua Caiente que Sale del Tubo al Vacio',
     key: 'velocidad_media',
+    x: SolarDataKeys.HoraStd,
+    y: [SolarDataKeys.VelocidadSalida]
   },
   {
     title:
       'Temperaturas de Mezcla, de Salida y del Tanque de la Terma Solar [C] - Correlacion de Mendoza (2023)',
     key: 'temperaturas_mezcla',
+    x: SolarDataKeys.HoraStd,
+    y: [
+      SolarDataKeys.TemperaturaMezcla,
+      SolarDataKeys.TemperaturaSalida,
+      SolarDataKeys.TemperaturaTanque,
+      SolarDataKeys.TemperaturaAmbiente
+    ]
   },
   {
     title: 'Eficiencia Termica de la Terma Solar (según la 1ra ley)',
     key: 'eficiencia_termica',
+    x: SolarDataKeys.HoraStd,
+    y: [
+      SolarDataKeys.Eficiencia1
+    ]
   },
   {
     title: 'Energia Térmica acumulada en el termotanque [MJ]',
     key: 'energia_termica',
+    x: SolarDataKeys.HoraStd,
+    y: [
+      SolarDataKeys.EnergiaAcumulada
+    ]
   },
 ];
 

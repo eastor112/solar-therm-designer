@@ -48,7 +48,6 @@ export const updateProjectService = async (
   return response.json() as Promise<IProject>;
 };
 
-
 export interface ICalculateParamsBody {
   // PARAMS
   name_project: string
@@ -93,8 +92,65 @@ export interface ICalculateParamsBody {
   f_flujo: number,
 }
 
+export interface ISolarData {
+  azimuth_solar: number[];
+  eficiencia_1: number[];
+  eficiencia_dia: number[];
+  eficiencia_dia_mendoza: number[];
+  energia_acumulada: number[];
+  energia_acumulado_dia: number[];
+  energia_acumulado_dia_mendoza: number[];
+  energia_n_tubo: number[];
+  energia_tubo: number[];
+  evolucion_nu_gr_pr: number[];
+  evolucion_reynolds: number[];
+  flujo_masico: number[];
+  hora_m: number[];
+  hora_std: number[];
+  inclinacion_solar: number[];
+  irradiacion_extraterrestre: number[];
+  potencia_difusa: number[];
+  potencia_haz: number[];
+  potencia_total: number[];
+  potencia_tubo: number;
+  radiacion_extraterrestre: number[];
+  temperatura_ambiente: number[];
+  temperatura_mezcla: number[];
+  temperatura_salida: number[];
+  temperatura_tanque: number[];
+  velocidad_salida: number[];
+}
 
-export const getProjectResults = async (body: ICalculateParamsBody) => {
+export enum SolarDataKeys {
+  AzimuthSolar = "azimuth_solar",
+  Eficiencia1 = "eficiencia_1",
+  EficienciaDia = "eficiencia_dia",
+  EficienciaDiaMendoza = "eficiencia_dia_mendoza",
+  EnergiaAcumulada = "energia_acumulada",
+  EnergiaAcumuladoDia = "energia_acumulado_dia",
+  EnergiaAcumuladoDiaMendoza = "energia_acumulado_dia_mendoza",
+  EnergiaNTubo = "energia_n_tubo",
+  EnergiaTubo = "energia_tubo",
+  EvolucionNuGrPr = "evolucion_nu_gr_pr",
+  EvolucionReynolds = "evolucion_reynolds",
+  FlujoMasico = "flujo_masico",
+  HoraM = "hora_m",
+  HoraStd = "hora_std",
+  InclinacionSolar = "inclinacion_solar",
+  IrradiacionExtraterrestre = "irradiacion_extraterrestre",
+  PotenciaDifusa = "potencia_difusa",
+  PotenciaHaz = "potencia_haz",
+  PotenciaTotal = "potencia_total",
+  PotenciaTubo = "potencia_tubo",
+  RadiacionExtraterrestre = "radiacion_extraterrestre",
+  TemperaturaAmbiente = "temperatura_ambiente",
+  TemperaturaMezcla = "temperatura_mezcla",
+  TemperaturaSalida = "temperatura_salida",
+  TemperaturaTanque = "temperatura_tanque",
+  VelocidadSalida = "velocidad_salida"
+}
+
+export const getProjectResults = async (body: ICalculateParamsBody): Promise<ISolarData> => {
   const response = await fetch(`${envVars.API_HOST}/weather/calculate`, {
     method: 'POST',
     headers: {
