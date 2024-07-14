@@ -101,12 +101,7 @@ const RealStudy = () => {
                 }}
                 onClick={() => {
                   setModalType('result');
-                  setChartParams({
-                    title: chart.title,
-                    chartKey: chart.key,
-                    x: chart.x,
-                    y: chart.y,
-                  });
+                  setChartParams({ ...chart, chartKey: chart.key });
                   setOpen(true);
                 }}
               >

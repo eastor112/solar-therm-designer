@@ -106,13 +106,38 @@ export const resultsChartsList = [
   },
 ];
 
+interface ChartData {
+  [key: string]: number | string | undefined;
+}
 
-export const transformDataForChart = (xData: number[], yDataArrays: number[][]): any[] => {
-  return xData.map((x, index) => {
-    const dataPoint: any = { x };
+export const transformDataForChart = (
+  xData: number[],
+  yDataArrays: number[][],
+  xLabel: string,
+  yLabels: string[]
+): { data: ChartData[], domain: number[] } => {
+  const data: ChartData[] = xData.map((x, index) => {
+    const dataPoint: ChartData = { [xLabel]: x };
     yDataArrays.forEach((yData, yIndex) => {
-      dataPoint[`y${yIndex}`] = yData[index];
+      dataPoint[yLabels[yIndex]] = yData[index];
     });
     return dataPoint;
   });
-}
+
+  let yMin = Infinity;
+  let yMax = -Infinity;
+
+  yDataArrays.forEach((yData) => {
+    const min = Math.min(...yData);
+    const max = Math.max(...yData);
+    if (min < yMin) yMin = min;
+    if (max > yMax) yMax = max;
+  });
+
+  const domain: number[] = [Math.floor(yMin), Math.ceil(yMax)];
+
+  return {
+    data,
+    domain
+  };
+};

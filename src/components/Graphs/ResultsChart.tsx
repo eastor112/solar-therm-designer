@@ -12,7 +12,7 @@ import {
 } from 'recharts';
 import dayjs from 'dayjs';
 import { Box, Typography } from '@mui/material';
-import { SolarDataKeys } from '../../utils/resultsChartList';
+import { SolarDataKeys } from '../../services/projectsServices';
 
 const formatXLabel = (tickItem: any) => {
   const date = new Date(tickItem);
@@ -97,7 +97,7 @@ const CustomNumberArrayTooltip = ({ active, payload, label, units }: any) => {
             <Typography
               sx={{ textAlign: 'center', fontWeight: 'bold', color: 'black' }}
             >
-              {item.payload.x.toFixed(2)} H
+              {/* {item.payload.x.toFixed(2)} H */}
             </Typography>
             {item.name}:{' '}
             {typeof item.value === 'number'

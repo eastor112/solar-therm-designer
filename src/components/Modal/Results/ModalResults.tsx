@@ -24,36 +24,23 @@ interface ModalResults {
   handleClose: () => void;
   title: string;
   chartKey: string;
-  x?: SolarDataKeys;
-  y?: SolarDataKeys[];
+  x: SolarDataKeys;
+  y: SolarDataKeys[];
 }
 
-const working = ['inclinacion_solar', 'azimuth_solar'];
-
-const ModalResults: FC<ModalResults> = ({
-  chartKey,
-  title,
-  handleClose,
-  x,
-  y,
-}) => {
+const ModalResults: FC<ModalResults> = ({ title, handleClose, x, y }) => {
   const [showRawData, setShowRawData] = useState(false);
   const { results } = useDesignerStore();
   const [chartData, setChartData] = useState<any[]>([]);
+  const [domain, setDomain] = useState([0, 1]);
 
-  // console.log(chartKey);
   useEffect(() => {
-    const xData = results[SolarDataKeys.HoraStd];
+    const xData = results[x];
     const yDataArrays = y?.map(key => results[key]);
-    // console.log({ xData, yDataArrays });
-    if (xData && yDataArrays && working.includes(chartKey)) {
-      const transformedData = transformDataForChart(xData, yDataArrays);
-      setChartData(transformedData);
-    }
+    const transformedData = transformDataForChart(xData, yDataArrays, x, y);
+    setChartData(transformedData.data);
+    setDomain(transformedData.domain);
   }, [results, y]);
-
-  // console.log(working.includes(chartKey));
-  // console.log(chartData);
 
   return (
     <Box sx={style}>
@@ -69,16 +56,11 @@ const ModalResults: FC<ModalResults> = ({
           <RawDataInspectorSimplify title={title} />
         ) : (
           <ResultsChart
-            data={working.includes(chartKey) ? chartData : []}
+            data={chartData || []}
             title={title}
-            columns={['y0']}
-            // domain={[0, 90]}
-            domain={
-              chartKey === SolarDataKeys.InclinacionSolar
-                ? [0, 90]
-                : [-200, 200]
-            }
-            units='°'
+            columns={y}
+            domain={domain}
+            units='u'
             dataKey={x || SolarDataKeys.HoraStd}
           />
         )}
