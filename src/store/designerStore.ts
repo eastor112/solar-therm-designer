@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { IProject } from '../types/locationstypes'
 import { devtools, persist } from 'zustand/middleware'
-import { ICalculateParamsBody, getProjectResults, getProjectService } from '../services/projectsServices'
+import { ICalculateParamsBody, createProjectService, getProjectResults, getProjectService } from '../services/projectsServices'
 
 interface DesignerState {
   studyType: "theoretical" | "real"
@@ -11,6 +11,9 @@ interface DesignerState {
   getProject: (id: number) => Promise<void>
   previewProject: IProject | null
   setPreviewProject: (project: IProject | null) => void
+
+  createProject: (projectName: string) => void
+
   calculate: () => Promise<void>
   results: any
 
@@ -108,6 +111,11 @@ export const useDesignerStore = create<DesignerState>()(
         previewProject: null,
 
         setPreviewProject: (project) => set({ previewProject: project }),
+
+        createProject: async (projectName: string) => {
+          const newProject = await createProjectService(projectName)
+          set({ currentProject: newProject })
+        },
 
         calculate: async () => {
           const body: ICalculateParamsBody = {

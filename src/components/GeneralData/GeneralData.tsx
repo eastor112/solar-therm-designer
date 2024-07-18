@@ -4,7 +4,6 @@ import Button from '@mui/material/Button';
 import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
 import { useDesignerStore } from '../../store/designerStore';
 import Modal from '@mui/material/Modal';
-import ModalChangePlace from '../Modal/ModalChangePlace';
 import ModalDatepicker from '../Modal/ModalDatepicker';
 import { useState } from 'react';
 import ModalGeneralParams from '../Modal/Params/ModalGeneralParams';
@@ -173,9 +172,6 @@ const GeneralData = () => {
         aria-describedby='modal-modal-description'
       >
         <>
-          {modalType === 'place' && (
-            <ModalChangePlace handleClose={handleClose} />
-          )}
           {modalType === 'date' && (
             <ModalDatepicker handleClose={handleClose} />
           )}

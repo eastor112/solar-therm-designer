@@ -2,10 +2,9 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
-import { setOpenModal } from '../../redux/UISlice';
 import { useState, useEffect, ChangeEvent } from 'react';
-import { createProject } from '../../redux/locationsSlice';
+import { useDesignerStore } from '../../store/designerStore';
+import { useUIStore } from '../../store/uiStore';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -20,9 +19,9 @@ const style = {
 };
 
 const ModalNewProject = () => {
-  const dispatch = useAppDispatch();
   const [isFirstLoad, setIsFirstLoad] = useState(true);
-  const { currentProject } = useAppSelector(state => state.locations);
+  const { currentProject, createProject } = useDesignerStore();
+  const { setOpenModal } = useUIStore();
   const [projectName, setProjectName] = useState('');
   const [error, setError] = useState(false);
 
@@ -35,13 +34,13 @@ const ModalNewProject = () => {
   }, [currentProject]);
 
   const handleClose = () => {
-    dispatch(setOpenModal(false));
+    setOpenModal(false);
   };
 
   const handleCreateProject = () => {
     if (projectName.length > 3) {
       setError(false);
-      dispatch(createProject(projectName));
+      createProject(projectName);
     } else {
       setError(true);
     }

@@ -1,40 +1,18 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Sidebar from '../components/Sidebar/Sidebar';
 import { Outlet, useOutletContext } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
-import { useAppDispatch, useAppSelector } from '../hooks/reduxHooks';
-import { getProject } from '../redux/locationsSlice';
 import {
   ModalType,
-  destructiveModals,
   getModalSelector,
 } from '../components/Modal/getModalSelector';
-import { areThereChanges } from '../redux/locationsSlice';
 import { useUIStore } from '../store/uiStore';
 
 const RootLayout = () => {
-  const {
-    currentProject,
-    currentLocation,
-    date,
-    volumen,
-    manifoldLength,
-    pipeNumber,
-    pipeType,
-    thereAreChanges,
-    wantsToSave,
-  } = useAppSelector(state => state.locations);
+  const { modalComponent, openModal, setOpenModal, setModalComponent } =
+    useUIStore();
 
-  const {
-    modalComponent,
-    openModal,
-    setOpenModal,
-    setModalComponent,
-    setNextModalAction,
-  } = useUIStore();
-
-  const dispatch = useAppDispatch();
   const [openSidebar, setOpenSidebar] = useState(true);
   const toggleDrawer = () => {
     setOpenSidebar(!openSidebar);
@@ -42,59 +20,10 @@ const RootLayout = () => {
 
   const handleOpenGlobalModal = (value: ModalType) => {
     setOpenModal(true);
-    if (destructiveModals.includes(value) && thereAreChanges && wantsToSave) {
-      setNextModalAction(value);
-      setModalComponent(getModalSelector['discard']);
-      return;
-    }
     setModalComponent(getModalSelector[value]);
   };
 
   const handleClose = () => setOpenModal(false);
-
-  // useEffect(() => {
-  //   const unloadListener = (e: any) => {
-  //     if (thereAreChanges) {
-  //       e.preventDefault();
-  //       e.returnValue =
-  //         '¡Atención! Los cambios realizados no se guardarán si abandonas la página.';
-  //     }
-  //   };
-
-  //   window.addEventListener('beforeunload', unloadListener);
-
-  //   const historyListener = (location: any) => {
-  //     if (
-  //       thereAreChanges &&
-  //       !window.confirm(
-  //         '¿Estás seguro de que deseas abandonar la página? Los cambios no guardados se perderán.'
-  //       )
-  //     ) {
-  //       history.pushState(null, '', location.pathname);
-  //     }
-  //   };
-
-  //   window.addEventListener('popstate', () => {
-  //     historyListener(window.location);
-  //   });
-
-  //   return () => {
-  //     window.removeEventListener('beforeunload', unloadListener);
-  //     window.removeEventListener('popstate', historyListener);
-  //   };
-  // }, [thereAreChanges]);
-
-  useEffect(() => {
-    const savedProject = localStorage.getItem('currentProject');
-
-    if (currentProject === null && savedProject) {
-      dispatch(getProject(JSON.parse(savedProject).id));
-    }
-  }, []);
-
-  useEffect(() => {
-    dispatch(areThereChanges());
-  }, [currentLocation, date, volumen, manifoldLength, pipeNumber, pipeType]);
 
   return (
     <>
