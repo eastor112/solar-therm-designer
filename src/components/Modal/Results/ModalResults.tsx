@@ -6,6 +6,7 @@ import { useDesignerStore } from '../../../store/designerStore';
 import ResultsChart from '../../Graphs/ResultsChart';
 import { SolarDataKeys } from '../../../services/projectsServices';
 import GenerateRawDataInspector from '../../../pages/RawDataInspector/GenerarRawDataInspector';
+import { exportJsonToCsv } from '../../../utils/exportData';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -47,6 +48,10 @@ const ModalResults: FC<ModalResults> = ({
     setChartData(transformedData.data);
     setDomain(transformedData.domain);
   }, [results, y]);
+
+  const handleExport = () => {
+    exportJsonToCsv(chartData, title.substring(0, 30));
+  };
 
   return (
     <Box sx={{ ...style, height: showRawData ? '90vh' : 551 }}>
@@ -102,7 +107,7 @@ const ModalResults: FC<ModalResults> = ({
               variant='contained'
               sx={{ mt: 2 }}
               size='small'
-              // onClick={handleCancel}
+              onClick={handleExport}
             >
               Exportar csv
             </Button>
