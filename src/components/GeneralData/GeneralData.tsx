@@ -10,7 +10,6 @@ import ModalGeneralParams from '../Modal/Params/ModalGeneralParams';
 import SettingsIcon from '@mui/icons-material/Settings';
 import dayjs from '../../utils/datesUtils';
 import { defaultPlaces } from '../PlaceSelector/helper';
-import { useUIStore } from '../../store/uiStore';
 
 const GeneralData = () => {
   const {
@@ -28,7 +27,7 @@ const GeneralData = () => {
   const [modalType, setModalType] = useState<'place' | 'date' | 'update'>(
     'place'
   );
-  const { openModal, setOpenModal } = useUIStore();
+  const [openModal, setOpenModal] = useState(false);
   const customPlace = localStorage.getItem('customPlace');
 
   const handleOpen = (value: 'place' | 'date' | 'update') => {

@@ -20,9 +20,7 @@ const RealStudy = () => {
   const { calculate } = useDesignerStore();
 
   const [open, setOpen] = useState(false);
-  const [modalType, setModalType] = useState<'place' | 'other' | 'result'>(
-    'result'
-  );
+  const [modalType, setModalType] = useState<'other' | 'result'>('result');
   const [chartParams, setChartParams] = useState<any>({});
 
   const handleClose = () => setOpen(false);
