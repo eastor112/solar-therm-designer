@@ -44,7 +44,7 @@ const RootLayout = () => {
             aria-labelledby='modal-modal-title'
             aria-describedby='modal-modal-description'
           >
-            <div>{modalComponent}</div>
+            <div className='h-[100vh]'>{modalComponent}</div>
           </Modal>
         )}
       </div>

@@ -1,25 +1,12 @@
-import { useEffect } from 'react';
 import Box from '@mui/material/Box';
-import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
-import { getLocationsInformation } from '../../redux/locationsSlice';
 import TheoreticalStudy from './TheoreticalStudy';
 import RealStudy from './RealStudy';
 import GeneralData from '../../components/GeneralData/GeneralData';
 import { useDesignerStore } from '../../store/designerStore';
 
 const Designer = () => {
-  const { currentProject, locations } = useAppSelector(
-    state => state.locations
-  );
-  const dispatch = useAppDispatch();
-
+  const { currentProject } = useDesignerStore();
   const { studyType } = useDesignerStore();
-
-  useEffect(() => {
-    if (locations.length === 0) {
-      dispatch(getLocationsInformation());
-    }
-  }, [locations]);
 
   return (
     <>

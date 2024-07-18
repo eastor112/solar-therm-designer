@@ -7,11 +7,10 @@ import SavedProjectCard from '../SavedProjectCard/SavedProjectCard';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import { Button } from '@mui/material';
-import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
-import { setOpenModal } from '../../redux/UISlice';
 import { ChangeEvent, useEffect, useState } from 'react';
-import { getAllProjects, openProject } from '../../redux/locationsSlice';
 import { IProject } from '../../types/locationstypes';
+import { useUIStore } from '../../store/uiStore';
+import { useDesignerStore } from '../../store/designerStore';
 
 const style = {
   position: 'relative',
@@ -70,26 +69,23 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const ModalOpenProject = () => {
-  const dispatch = useAppDispatch();
-  const { projectsData, projectsPerPage } = useAppSelector(
-    state => state.locations
-  );
+  const { setOpenModal } = useUIStore();
+  const { getAllProjects, openProject, projectsData, projectsPerPage } =
+    useDesignerStore();
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
   const [projectSelected, setProjectSelected] = useState<IProject | null>();
 
   const handleClose = () => {
-    dispatch(setOpenModal(false));
+    setOpenModal(false);
   };
 
   useEffect(() => {
-    dispatch(
-      getAllProjects({
-        limit: projectsPerPage,
-        page: page,
-        filter: search === '' ? undefined : search,
-      })
-    );
+    getAllProjects({
+      limit: projectsPerPage,
+      page: page,
+      filter: search === '' ? undefined : search,
+    });
   }, [search, page]);
 
   useEffect(() => {
@@ -112,9 +108,9 @@ const ModalOpenProject = () => {
 
   const handleOpenProject = () => {
     if (projectSelected) {
-      dispatch(openProject(projectSelected));
+      openProject(projectSelected);
     }
-    dispatch(setOpenModal(false));
+    setOpenModal(false);
   };
 
   return (

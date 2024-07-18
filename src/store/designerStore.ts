@@ -1,7 +1,14 @@
 import { create } from 'zustand'
-import { IProject } from '../types/locationstypes'
+import { IProject, IProjectData } from '../types/locationstypes'
 import { devtools, persist } from 'zustand/middleware'
-import { ICalculateParamsBody, createProjectService, getProjectResults, getProjectService } from '../services/projectsServices'
+import { ICalculateParamsBody, createProjectService, getAllProjectsService, getProjectResults, getProjectService } from '../services/projectsServices'
+
+interface GetAllProjectsParams {
+  limit: number;
+  page: number;
+  filter?: string;
+}
+
 
 interface DesignerState {
   studyType: "theoretical" | "real"
@@ -13,6 +20,11 @@ interface DesignerState {
   setPreviewProject: (project: IProject | null) => void
 
   createProject: (projectName: string) => void
+
+  projectsData: IProjectData | null;
+  getAllProjects: (params: GetAllProjectsParams) => Promise<void>
+  openProject: (project: IProject) => void
+  projectsPerPage: number
 
   calculate: () => Promise<void>
   results: any
@@ -116,6 +128,29 @@ export const useDesignerStore = create<DesignerState>()(
           const newProject = await createProjectService(projectName)
           set({ currentProject: newProject })
         },
+
+        projectsData: null,
+
+        getAllProjects: async (params) => {
+          const projects = await getAllProjectsService(params.limit, params.page, params.filter);
+          console.log(projects);
+          set({ projectsData: projects })
+        },
+
+        projectsPerPage: 4,
+
+        openProject: (project) => {
+          set({
+            currentProject: project,
+            date: project.date,
+            // currentLocation: //!!!!!!!!!
+            // volumen
+            // manifoldLength
+            // pipeNumber
+            // pipeType
+          })
+        },
+
 
         calculate: async () => {
           const body: ICalculateParamsBody = {
