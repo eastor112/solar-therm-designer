@@ -1,11 +1,11 @@
 import Box from '@mui/material/Box';
 import { useState, FC, useEffect } from 'react';
 import Button from '@mui/material/Button';
-import RawDataInspectorSimplify from '../../../pages/RawDataInspector/RawDataInspectorSimplify';
 import { transformDataForChart } from '../../../utils/resultsChartList';
 import { useDesignerStore } from '../../../store/designerStore';
 import ResultsChart from '../../Graphs/ResultsChart';
 import { SolarDataKeys } from '../../../services/projectsServices';
+import GenerateRawDataInspector from '../../../pages/RawDataInspector/GenerarRawDataInspector';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -60,7 +60,11 @@ const ModalResults: FC<ModalResults> = ({
         }}
       >
         {showRawData ? (
-          <RawDataInspectorSimplify title={title} />
+          <GenerateRawDataInspector
+            title={title}
+            rows={chartData || []}
+            maxHeight={350}
+          />
         ) : (
           <ResultsChart
             data={chartData || []}

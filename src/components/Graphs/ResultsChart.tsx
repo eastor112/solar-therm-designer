@@ -71,7 +71,7 @@ const CustomNumberArrayTooltip = ({ active, payload, units, dataKey }: any) => {
         }}
       >
         {payload.map((item: any, index: number) => (
-          <Typography key={index} sx={{ textAlign: 'left', color: item.color }}>
+          <Box key={index} sx={{ textAlign: 'left', color: item.color }}>
             {index === 0 && (
               <Typography
                 sx={{ textAlign: 'center', fontWeight: 'bold', color: 'black' }}
@@ -84,7 +84,7 @@ const CustomNumberArrayTooltip = ({ active, payload, units, dataKey }: any) => {
               ? item.value.toFixed(2)
               : item.value}{' '}
             {units}
-          </Typography>
+          </Box>
         ))}
       </Box>
     );

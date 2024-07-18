@@ -13,6 +13,7 @@ interface TableBaseProps {
   rowsPerPage: number;
   setPage: (page: number) => void;
   setRowsPerPage: (rowsPerPage: number) => void;
+  maxHeight?: number;
 }
 
 const TableBase: React.FC<TableBaseProps> = ({
@@ -22,6 +23,7 @@ const TableBase: React.FC<TableBaseProps> = ({
   page,
   setPage,
   setRowsPerPage,
+  maxHeight,
 }) => {
   const handleChangePage = (_event: unknown, newPage: number) => {
     setPage(newPage);
@@ -35,7 +37,7 @@ const TableBase: React.FC<TableBaseProps> = ({
   };
   return (
     <>
-      <TableContainer sx={{ minHeight: 200 }}>
+      <TableContainer sx={{ minHeight: 200, maxHeight: maxHeight }}>
         <Table stickyHeader aria-label='sticky table'>
           <TableHead>
             <TableRow>
