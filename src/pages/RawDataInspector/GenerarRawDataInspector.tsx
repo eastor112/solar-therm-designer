@@ -15,7 +15,7 @@ interface Column<T> {
 interface TableMUIProps<T extends object> {
   rows: T[];
   title: string;
-  maxHeight?: number;
+  maxHeight?: number | string;
 }
 
 function generateColumns<T extends object>(sampleRow: T): Column<T>[] {

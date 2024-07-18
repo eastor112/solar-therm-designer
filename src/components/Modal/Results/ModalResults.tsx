@@ -17,7 +17,6 @@ const style = {
   borderRadius: '5px',
   boxShadow: 24,
   p: 4,
-  height: 551,
 };
 
 interface ModalResults {
@@ -50,7 +49,7 @@ const ModalResults: FC<ModalResults> = ({
   }, [results, y]);
 
   return (
-    <Box sx={style}>
+    <Box sx={{ ...style, height: showRawData ? '90vh' : 551 }}>
       <Box
         sx={{
           display: 'flex',
@@ -63,7 +62,7 @@ const ModalResults: FC<ModalResults> = ({
           <GenerateRawDataInspector
             title={title}
             rows={chartData || []}
-            maxHeight={350}
+            maxHeight={'63vh'}
           />
         ) : (
           <ResultsChart

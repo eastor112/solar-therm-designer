@@ -13,7 +13,7 @@ interface TableBaseProps {
   rowsPerPage: number;
   setPage: (page: number) => void;
   setRowsPerPage: (rowsPerPage: number) => void;
-  maxHeight?: number;
+  maxHeight?: number | string;
 }
 
 const TableBase: React.FC<TableBaseProps> = ({
