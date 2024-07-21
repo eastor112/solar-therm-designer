@@ -3,8 +3,7 @@ import Typography from '@mui/material/Typography';
 import mecatronicaLogo from '../../assets/mecatronica-logo.png';
 import untLogo from '../../assets/unt-logo.png';
 import { Button } from '@mui/material';
-import { useAppDispatch } from '../../hooks/reduxHooks';
-import { setOpenModal } from '../../redux/UISlice';
+import { useUIStore } from '../../store/uiStore';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -19,10 +18,9 @@ const style = {
 };
 
 const ModalAbout = () => {
-  const dispatch = useAppDispatch();
-
+  const { setOpenModal } = useUIStore();
   const handleClose = () => {
-    dispatch(setOpenModal(false));
+    setOpenModal(false);
   };
   return (
     <Box sx={style}>
