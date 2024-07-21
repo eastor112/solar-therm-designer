@@ -24,6 +24,7 @@ interface DesignerState {
   projectsData: IProjectData | null;
   getAllProjects: (params: GetAllProjectsParams) => Promise<void>
   openProject: (project: IProject) => void
+  updateProject: () => Promise<void>
   projectsPerPage: number
 
   calculate: () => Promise<void>
@@ -134,6 +135,43 @@ export const useDesignerStore = create<DesignerState>()(
         getAllProjects: async (params) => {
           const projects = await getAllProjectsService(params.limit, params.page, params.filter);
           set({ projectsData: projects })
+        },
+
+        updateProject: async () => {
+          const body: ICalculateParamsBody = {
+            name_project: get().name_project,
+            place: get().place,
+            latitud: get().latitud,
+            longitud: get().longitud,
+            t_amb: get().t_amb,
+            v_viento: get().v_viento,
+            altitud: get().altura,
+            date_time: get().date,
+            inclinacion: get().inclination,
+            azimuth: get().azimuth,
+            vol_tank: get().vol_tk,
+            e_tank: get().e_tk,
+            e_aisl: get().e_aisl,
+            e_cub: get().e_cub,
+            h_int: get().h_int,
+            h_ext: get().h_ext,
+            k_tank: get().k_tk,
+            k_aisl: get().k_aisl,
+            k_cub: get().k_cub,
+            d_int: get().d_int / 1000,
+            d_ext: get().d_ext / 1000,
+            longitud_tubo: get().l_tubo,
+            s_sep: get().s_sep,
+            num_tubos: get().n_tubos,
+            tau_glass: get().tau_glass,
+            alfa_glass: get().alpha_glass,
+            n_div: get().n_div,
+            nn: get().nn,
+            beta_coef: get().beta_coef,
+            f_flujo: get().f_flujo
+          }
+
+          console.log("save project", body);
         },
 
         projectsPerPage: 4,
