@@ -35,7 +35,10 @@ export const MainListItems: React.FC<MainListItemsProps> = ({
         <ListItemText primary='Abrir' />
       </ListItemButton>
 
-      <ListItemButton onClick={() => handleOpenGlobalModal(ModalType.SAVE)}>
+      <ListItemButton
+        onClick={() => handleOpenGlobalModal(ModalType.SAVE)}
+        disabled={!currentProject}
+      >
         <ListItemIcon>
           <SaveIcon />
         </ListItemIcon>
