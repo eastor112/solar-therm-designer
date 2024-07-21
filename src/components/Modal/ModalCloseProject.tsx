@@ -1,9 +1,8 @@
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { useAppDispatch } from '../../hooks/reduxHooks';
-import { setOpenModal } from '../../redux/UISlice';
 import { closeProject } from '../../redux/locationsSlice';
+import { useUIStore } from '../../store/uiStore';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -18,15 +17,15 @@ const style = {
 };
 
 const ModalCloseProject = () => {
-  const dispatch = useAppDispatch();
+  const { setOpenModal } = useUIStore();
 
   const handleCancel = () => {
-    dispatch(setOpenModal(false));
+    setOpenModal(false);
   };
 
   const handleCloseProject = () => {
-    dispatch(closeProject());
-    dispatch(setOpenModal(false));
+    closeProject();
+    setOpenModal(false);
   };
 
   return (

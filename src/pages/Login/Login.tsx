@@ -6,12 +6,11 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { useEffect, useState } from 'react';
-import { loginUser, setError, validateToken } from '../../redux/usersSlice';
 import Alert from '@mui/material/Alert';
 import { useNavigate } from 'react-router-dom';
 import { UserData } from '../../types/usersTypes';
+import { useUserStore } from '../../store/userStore';
 
 const Copyright = (props: any) => {
   return (
@@ -32,8 +31,9 @@ const Copyright = (props: any) => {
 };
 
 const Login = () => {
-  const dispatch = useAppDispatch();
-  const { error, isAuthenticated } = useAppSelector(state => state.users);
+  const { isAuthenticated, error, validateToken, setError, loginUser } =
+    useUserStore();
+
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -44,7 +44,7 @@ const Login = () => {
       if (userData) {
         const parsedData = JSON.parse(userData) as UserData;
 
-        dispatch(validateToken(parsedData.token));
+        validateToken(parsedData.token);
       } else {
         navigate('/login');
       }
@@ -60,10 +60,10 @@ const Login = () => {
   const handleChange = (e: any) => {
     if (e.target.name === 'email') {
       setEmail(e.target.value);
-      dispatch(setError(null));
+      setError(null);
     } else {
       setPassword(e.target.value);
-      dispatch(setError(null));
+      setError(null);
     }
     return;
   };
@@ -72,19 +72,19 @@ const Login = () => {
     e.preventDefault();
 
     if (!email.trim()) {
-      dispatch(setError('El email es requerido'));
+      setError('El email es requerido');
       return;
     } else if (!/\S+@\S+\.\S+/.test(email)) {
-      dispatch(setError('El formato del email no es válido'));
+      setError('El formato del email no es válido');
       return;
     }
 
     if (!password.trim()) {
-      dispatch(setError('La contraseña es requerida'));
+      setError('La contraseña es requerida');
       return;
     }
 
-    dispatch(loginUser({ email, password }));
+    loginUser({ email, password });
     return;
   };
 
