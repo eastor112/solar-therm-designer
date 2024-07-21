@@ -1,8 +1,8 @@
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { closeProject } from '../../redux/locationsSlice';
 import { useUIStore } from '../../store/uiStore';
+import { useDesignerStore } from '../../store/designerStore';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -18,6 +18,7 @@ const style = {
 
 const ModalCloseProject = () => {
   const { setOpenModal } = useUIStore();
+  const { closeProject } = useDesignerStore();
 
   const handleCancel = () => {
     setOpenModal(false);

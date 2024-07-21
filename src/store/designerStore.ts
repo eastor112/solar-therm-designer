@@ -2,6 +2,7 @@ import { create } from 'zustand'
 import { IProject, IProjectData } from '../types/locationstypes'
 import { devtools, persist } from 'zustand/middleware'
 import { ICalculateParamsBody, createProjectService, getAllProjectsService, getProjectResults, getProjectService } from '../services/projectsServices'
+import { clearProjectStorage } from '../utils/clearProjectStorage';
 
 interface GetAllProjectsParams {
   limit: number;
@@ -25,6 +26,7 @@ interface DesignerState {
   getAllProjects: (params: GetAllProjectsParams) => Promise<void>
   openProject: (project: IProject) => void
   updateProject: () => Promise<void>
+  closeProject: () => void
   projectsPerPage: number
 
   calculate: () => Promise<void>
@@ -172,6 +174,11 @@ export const useDesignerStore = create<DesignerState>()(
           }
 
           console.log("save project", body);
+        },
+
+        closeProject: () => {
+          set({ currentProject: null })
+          clearProjectStorage()
         },
 
         projectsPerPage: 4,
