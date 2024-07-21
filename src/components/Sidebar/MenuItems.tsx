@@ -7,9 +7,9 @@ import InfoIcon from '@mui/icons-material/Info';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Cancel';
 import NoteAddIcon from '@mui/icons-material/NoteAdd';
-import { logout } from '../../redux/usersSlice';
 import { ModalType } from '../Modal/getModalSelector';
 import { useDesignerStore } from '../../store/designerStore';
+import { useUserStore } from '../../store/userStore';
 
 interface MainListItemsProps {
   handleOpenGlobalModal: (value: ModalType) => void;
@@ -62,6 +62,7 @@ interface SecondaryListItemsProps {
 export const SecondaryListItems: React.FC<SecondaryListItemsProps> = ({
   handleOpenGlobalModal,
 }) => {
+  const { logout } = useUserStore();
   return (
     <>
       <ListItemButton onClick={() => handleOpenGlobalModal(ModalType.ABOUT)}>
