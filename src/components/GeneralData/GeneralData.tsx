@@ -13,7 +13,6 @@ import { defaultPlaces } from '../PlaceSelector/helper';
 
 const GeneralData = () => {
   const {
-    currentProject,
     studyType,
     setStudyType,
     name_project,
@@ -34,7 +33,9 @@ const GeneralData = () => {
     setModalType(value);
     setOpenModal(true);
   };
-  const handleClose = () => setOpenModal(false);
+  const handleClose = () => {
+    setOpenModal(false);
+  };
 
   const selectedPlace = defaultPlaces.find(dPlace => dPlace.id === place);
 
@@ -61,8 +62,7 @@ const GeneralData = () => {
                 fontWeight: 'bold',
               }}
             >
-              {name_project}{' '}
-              {currentProject?.name ? `- ${currentProject.name}` : ''}
+              {name_project}
             </Typography>
             <Box
               sx={{
@@ -174,7 +174,9 @@ const GeneralData = () => {
           {modalType === 'date' && (
             <ModalDatepicker handleClose={handleClose} />
           )}
-          {modalType === 'update' && <ModalGeneralParams />}
+          {modalType === 'update' && (
+            <ModalGeneralParams handleClose={handleClose} />
+          )}
         </>
       </Modal>
     </>
