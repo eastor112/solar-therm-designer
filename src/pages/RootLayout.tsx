@@ -12,7 +12,6 @@ import { useUIStore } from '../store/uiStore';
 const RootLayout = () => {
   const { modalComponent, openModal, setOpenModal, setModalComponent } =
     useUIStore();
-  console.log(openModal);
 
   const [openSidebar, setOpenSidebar] = useState(true);
   const toggleDrawer = () => {
@@ -25,13 +24,12 @@ const RootLayout = () => {
   };
 
   const handleClose = () => {
-    console.log('close');
     setOpenModal(false);
   };
 
   return (
     <>
-      <div className='flex'>
+      <Box sx={{ display: 'flex' }}>
         <Sidebar
           open={openSidebar}
           toggleDrawer={toggleDrawer}
@@ -48,10 +46,10 @@ const RootLayout = () => {
             aria-labelledby='modal-modal-title'
             aria-describedby='modal-modal-description'
           >
-            {modalComponent!! ? modalComponent : <div />}
+            {modalComponent!! ? <Box>{modalComponent}</Box> : <Box />}
           </Modal>
         )}
-      </div>
+      </Box>
     </>
   );
 };

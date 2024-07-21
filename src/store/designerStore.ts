@@ -133,7 +133,6 @@ export const useDesignerStore = create<DesignerState>()(
 
         getAllProjects: async (params) => {
           const projects = await getAllProjectsService(params.limit, params.page, params.filter);
-          console.log(projects);
           set({ projectsData: projects })
         },
 

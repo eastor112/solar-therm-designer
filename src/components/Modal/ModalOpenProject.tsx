@@ -13,7 +13,7 @@ import { useUIStore } from '../../store/uiStore';
 import { useDesignerStore } from '../../store/designerStore';
 
 const style = {
-  position: 'relative',
+  position: 'absolute' as 'absolute',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
