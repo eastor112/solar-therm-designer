@@ -1,12 +1,11 @@
 import { Button } from '@mui/material';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
-import { setOpenModal } from '../../redux/UISlice';
 import { getShortName } from '../../utils/textTransformations';
 import { formatDate, getRelativeDate } from '../../utils/datesUtils';
-import { openProject } from '../../redux/locationsSlice';
 import { useNavigate } from 'react-router-dom';
+import { useUIStore } from '../../store/uiStore';
+import { useDesignerStore } from '../../store/designerStore';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -22,21 +21,19 @@ const style = {
 
 const ModalFile = () => {
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
-  const { previewProject, currentProject } = useAppSelector(
-    state => state.locations
-  );
+  const { setOpenModal } = useUIStore();
+  const { currentProject, previewProject, openProject } = useDesignerStore();
 
   const handleClose = () => {
-    dispatch(setOpenModal(false));
+    setOpenModal(false);
   };
 
   const handleOpenProject = () => {
     if (previewProject) {
       navigate('/dashboard/designer');
-      dispatch(openProject(previewProject));
+      openProject(previewProject);
     }
-    dispatch(setOpenModal(false));
+    setOpenModal(false);
   };
 
   return (

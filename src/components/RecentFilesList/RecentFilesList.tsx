@@ -6,12 +6,11 @@ import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import SnippetFolderIcon from '@mui/icons-material/SnippetFolder';
 import { Box } from '@mui/material';
-import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { useEffect } from 'react';
-import { getRecentFiles, setPreviewProject } from '../../redux/locationsSlice';
 import { getRelativeDate } from '../../utils/datesUtils';
 import { IProject } from '../../types/locationstypes';
 import { ModalType } from '../Modal/getModalSelector';
+import { useDesignerStore } from '../../store/designerStore';
 
 interface RecentFilesListProps {
   handleOpenGlobalModal: (value: ModalType) => void;
@@ -20,17 +19,15 @@ interface RecentFilesListProps {
 const RecentFilesList: React.FC<RecentFilesListProps> = ({
   handleOpenGlobalModal,
 }) => {
-  const dispatch = useAppDispatch();
-  const { recentFiles, thereAreChanges, currentProject } = useAppSelector(
-    state => state.locations
-  );
+  const { setPreviewProject, recentFiles, currentProject, getRecentFiles } =
+    useDesignerStore();
 
   useEffect(() => {
-    dispatch(getRecentFiles({ limit: 4, page: 1 }));
-  }, [thereAreChanges, currentProject]);
+    getRecentFiles({ limit: 4, page: 1 });
+  }, [currentProject]);
 
   const handleOnClick = (project: IProject) => {
-    dispatch(setPreviewProject(project));
+    setPreviewProject(project);
     handleOpenGlobalModal(ModalType.FILE);
   };
 

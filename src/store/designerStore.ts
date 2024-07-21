@@ -23,7 +23,9 @@ interface DesignerState {
   createProject: (projectName: string) => void
 
   projectsData: IProjectData | null;
+  recentFiles: IProjectData | null;
   getAllProjects: (params: GetAllProjectsParams) => Promise<void>
+  getRecentFiles: (params: GetAllProjectsParams) => Promise<void>
   openProject: (project: IProject) => void
   updateProject: () => Promise<void>
   closeProject: () => void
@@ -137,6 +139,13 @@ export const useDesignerStore = create<DesignerState>()(
         getAllProjects: async (params) => {
           const projects = await getAllProjectsService(params.limit, params.page, params.filter);
           set({ projectsData: projects })
+        },
+
+        recentFiles: null,
+
+        getRecentFiles: async (params) => {
+          const projects = await getAllProjectsService(params.limit, params.page);
+          set({ recentFiles: projects })
         },
 
         updateProject: async () => {
