@@ -1,3 +1,5 @@
+import { INewProject } from "./projects";
+
 export interface ILocation {
   id: number;
   place: string;
@@ -37,7 +39,7 @@ export interface User {
 export interface IProjectData {
   page: number;
   total: number;
-  projects: IProject[];
+  projects: INewProject[];
   page_size: number;
 }
 

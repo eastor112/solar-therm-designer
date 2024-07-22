@@ -8,9 +8,10 @@ import SnippetFolderIcon from '@mui/icons-material/SnippetFolder';
 import { Box } from '@mui/material';
 import { useEffect } from 'react';
 import { getRelativeDate } from '../../utils/datesUtils';
-import { IProject } from '../../types/locationstypes';
 import { ModalType } from '../Modal/getModalSelector';
 import { useDesignerStore } from '../../store/designerStore';
+import { INewProject } from '../../types/projects';
+import PlaceProject from './PlaceProject';
 
 interface RecentFilesListProps {
   handleOpenGlobalModal: (value: ModalType) => void;
@@ -26,7 +27,7 @@ const RecentFilesList: React.FC<RecentFilesListProps> = ({
     getRecentFiles({ limit: 4, page: 1 });
   }, [currentProject]);
 
-  const handleOnClick = (project: IProject) => {
+  const handleOnClick = (project: INewProject) => {
     setPreviewProject(project);
     handleOpenGlobalModal(ModalType.FILE);
   };
@@ -88,9 +89,16 @@ const RecentFilesList: React.FC<RecentFilesListProps> = ({
                 </Avatar>
               </ListItemAvatar>
               <ListItemText
-                primary={`${project.name} ${
-                  project.location?.place ? project.location.place : ''
-                }`}
+                primary={
+                  <Box>
+                    {project.name_project}
+
+                    <PlaceProject
+                      lat={project.latitud}
+                      lon={project.longitud}
+                    />
+                  </Box>
+                }
                 secondary={getRelativeDate(project.updated_at)}
                 primaryTypographyProps={{
                   sx: {

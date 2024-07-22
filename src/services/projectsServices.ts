@@ -1,8 +1,11 @@
 import envVars from '../configs';
-import { IPayloadUpdateProject, IProject, IProjectData } from '../types/locationstypes';
+import { IPayloadUpdateProject, IProjectData } from '../types/locationstypes';
+import { INewProject } from '../types/projects';
+
+const baseURL = `${envVars.API_HOST}/projects/v2`
 
 export const getAllProjectsService = async (limit: number, page: number, filter?: string) => {
-  let url = `${envVars.API_HOST}/projects?size=${limit}&page=${page}`
+  let url = baseURL + `?size=${limit}&page=${page}`
   url = filter ? `${url}&filter=${filter}` : url;
 
   const response = await fetch(url);
@@ -11,13 +14,13 @@ export const getAllProjectsService = async (limit: number, page: number, filter?
 };
 
 export const getProjectService = async (id: number) => {
-  const response = await fetch(`${envVars.API_HOST}/projects/${id}`);
+  const response = await fetch(baseURL + `/${id}`);
 
-  return response.json() as Promise<IProject>;
+  return response.json() as Promise<INewProject>;
 };
 
 export const createProjectService = async (name: string) => {
-  const response = await fetch(`${envVars.API_HOST}/projects`, {
+  const response = await fetch(baseURL, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -29,14 +32,14 @@ export const createProjectService = async (name: string) => {
     }),
   });
 
-  return response.json() as Promise<IProject>;
+  return response.json() as Promise<INewProject>;
 };
 
 export const updateProjectService = async (
   project_id: number,
   payload: IPayloadUpdateProject
 ) => {
-  const response = await fetch(`${envVars.API_HOST}/projects/${project_id}`, {
+  const response = await fetch(baseURL + `${project_id}`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
@@ -45,7 +48,7 @@ export const updateProjectService = async (
     body: JSON.stringify(payload),
   });
 
-  return response.json() as Promise<IProject>;
+  return response.json() as Promise<INewProject>;
 };
 
 export interface ICalculateParamsBody {

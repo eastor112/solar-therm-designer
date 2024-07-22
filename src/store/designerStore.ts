@@ -1,8 +1,15 @@
-import { create } from 'zustand'
-import { IProject, IProjectData } from '../types/locationstypes'
-import { devtools, persist } from 'zustand/middleware'
-import { ICalculateParamsBody, createProjectService, getAllProjectsService, getProjectResults, getProjectService } from '../services/projectsServices'
+import { create } from 'zustand';
+import { IProjectData } from '../types/locationstypes';
+import { devtools, persist } from 'zustand/middleware';
+import {
+  ICalculateParamsBody,
+  createProjectService,
+  getAllProjectsService,
+  getProjectResults,
+  getProjectService,
+} from '../services/projectsServices';
 import { clearProjectStorage } from '../utils/clearProjectStorage';
+import { INewProject } from '../types/projects';
 
 interface GetAllProjectsParams {
   limit: number;
@@ -10,142 +17,147 @@ interface GetAllProjectsParams {
   filter?: string;
 }
 
-
 interface DesignerState {
-  studyType: "theoretical" | "real"
-  setStudyType: (type: "theoretical" | "real") => void
-  currentProject: IProject | null
-  setCurrentProject: (project: IProject | null) => void
-  getProject: (id: number) => Promise<void>
-  previewProject: IProject | null
-  setPreviewProject: (project: IProject | null) => void
+  studyType: 'theoretical' | 'real';
+  setStudyType: (type: 'theoretical' | 'real') => void;
+  currentProject: INewProject | null;
+  setCurrentProject: (project: INewProject | null) => void;
+  getProject: (id: number) => Promise<void>;
+  previewProject: INewProject | null;
+  setPreviewProject: (project: INewProject | null) => void;
 
-  createProject: (projectName: string) => void
+  createProject: (projectName: string) => void;
 
   projectsData: IProjectData | null;
   recentFiles: IProjectData | null;
-  getAllProjects: (params: GetAllProjectsParams) => Promise<void>
-  getRecentFiles: (params: GetAllProjectsParams) => Promise<void>
-  openProject: (project: IProject) => void
-  updateProject: () => Promise<void>
-  closeProject: () => void
-  projectsPerPage: number
+  getAllProjects: (params: GetAllProjectsParams) => Promise<void>;
+  getRecentFiles: (params: GetAllProjectsParams) => Promise<void>;
+  openProject: (project: INewProject) => void;
+  updateProject: () => Promise<void>;
+  closeProject: () => void;
+  projectsPerPage: number;
 
-  calculate: () => Promise<void>
-  results: any
+  calculate: () => Promise<void>;
+  results: any;
 
   // PARAMS
-  name_project: string
-  setName_project: (name_project: string) => void
-  place: number
-  setPlace: (place: number) => void
-  latitud: number
-  setLatitud: (latitud: number) => void
-  longitud: number
-  setLongitud: (longitud: number) => void
-  t_amb: number
-  setT_amb: (t_amb: number) => void
-  v_viento: number
-  setV_viento: (v_viento: number) => void
-  altura: number
-  setAltura: (altura: number) => void
-  date: string | null
-  setDate: (date: string | null) => void
+  name_project: string;
+  setName_project: (name_project: string) => void;
+  place: number;
+  setPlace: (place: number) => void;
+  latitud: number;
+  setLatitud: (latitud: number) => void;
+  longitud: number;
+  setLongitud: (longitud: number) => void;
+  t_amb: number;
+  setT_amb: (t_amb: number) => void;
+  v_viento: number;
+  setV_viento: (v_viento: number) => void;
+  altura: number;
+  setAltura: (altura: number) => void;
+  date: string | null;
+  setDate: (date: string | null) => void;
 
   // ANGLE PARAMS
-  inclination: number
-  setInclination: (inclination: number) => void
-  azimuth: number
-  setAzimuth: (azimuth: number) => void
+  inclination: number;
+  setInclination: (inclination: number) => void;
+  azimuth: number;
+  setAzimuth: (azimuth: number) => void;
 
   // TANK PARAMS
-  vol_tk: number
-  setVol_tk: (vol_tk: number) => void
-  e_tk: number
-  setE_tk: (e_tk: number) => void
-  e_aisl: number
-  setE_aisl: (e_aisl: number) => void
-  e_cub: number
-  setE_cub: (e_cub: number) => void
+  vol_tk: number;
+  setVol_tk: (vol_tk: number) => void;
+  e_tk: number;
+  setE_tk: (e_tk: number) => void;
+  e_aisl: number;
+  setE_aisl: (e_aisl: number) => void;
+  e_cub: number;
+  setE_cub: (e_cub: number) => void;
   // MODAL TANK PARAMS
-  h_int: number
-  setH_int: (h_int: number) => void
-  h_ext: number
-  setH_ext: (h_ext: number) => void
-  k_tk: number
-  setK_tk: (k_tk: number) => void
-  k_aisl: number
-  setK_aisl: (k_aisl: number) => void
-  k_cub: number
-  setK_cub: (k_cub: number) => void
+  h_int: number;
+  setH_int: (h_int: number) => void;
+  h_ext: number;
+  setH_ext: (h_ext: number) => void;
+  k_tk: number;
+  setK_tk: (k_tk: number) => void;
+  k_aisl: number;
+  setK_aisl: (k_aisl: number) => void;
+  k_cub: number;
+  setK_cub: (k_cub: number) => void;
 
   // PIPELINE PARAMS
-  d_int: number,
-  setD_int: (d_int: number) => void,
-  d_ext: number,
-  setD_ext: (d_ext: number) => void,
-  l_tubo: number,
-  setL_tubo: (l_tubo: number) => void,
-  s_sep: number,
-  setS_sep: (s_sep: number) => void,
-  n_tubos: number,
-  setN_tubos: (n_tubos: number) => void,
+  d_int: number;
+  setD_int: (d_int: number) => void;
+  d_ext: number;
+  setD_ext: (d_ext: number) => void;
+  l_tubo: number;
+  setL_tubo: (l_tubo: number) => void;
+  s_sep: number;
+  setS_sep: (s_sep: number) => void;
+  n_tubos: number;
+  setN_tubos: (n_tubos: number) => void;
   // MODAL PIPELINE PARAMS
-  tau_glass: number,
-  setTau_glass: (tau_glas: number) => void,
-  alpha_glass: number,
-  setAlpha_glass: (alpha_glass: number) => void,
+  tau_glass: number;
+  setTau_glass: (tau_glas: number) => void;
+  alpha_glass: number;
+  setAlpha_glass: (alpha_glass: number) => void;
 
   // MODAL OTHER GENERAL PARAMS
-  n_div: number,
-  setN_div: (n_div: number) => void,
-  nn: number,
-  setNn: (nn: number) => void,
-  beta_coef: number,
-  setBeta_coef: (beta_coef: number) => void,
-  f_flujo: number,
-  setF_flujo: (f_flujo: number) => void,
+  n_div: number;
+  setN_div: (n_div: number) => void;
+  nn: number;
+  setNn: (nn: number) => void;
+  beta_coef: number;
+  setBeta_coef: (beta_coef: number) => void;
+  f_flujo: number;
+  setF_flujo: (f_flujo: number) => void;
 }
 
 export const useDesignerStore = create<DesignerState>()(
   devtools(
     persist(
       (set, get) => ({
+        studyType: 'theoretical',
 
-        studyType: "theoretical",
-
-        setStudyType: (type) => set({ studyType: type }),
+        setStudyType: type => set({ studyType: type }),
 
         currentProject: null,
 
-        setCurrentProject: (project) => set({ currentProject: project }),
+        setCurrentProject: project => set({ currentProject: project }),
 
         getProject: async (projectId: number) => {
           const project = await getProjectService(projectId);
-          set({ date: project.date })
+          set({ date: project.date_time });
         },
 
         previewProject: null,
 
-        setPreviewProject: (project) => set({ previewProject: project }),
+        setPreviewProject: project => set({ previewProject: project }),
 
         createProject: async (projectName: string) => {
-          const newProject = await createProjectService(projectName)
-          set({ currentProject: newProject })
+          const newProject = await createProjectService(projectName);
+          set({ currentProject: newProject });
         },
 
         projectsData: null,
 
-        getAllProjects: async (params) => {
-          const projects = await getAllProjectsService(params.limit, params.page, params.filter);
-          set({ projectsData: projects })
+        getAllProjects: async params => {
+          const projects = await getAllProjectsService(
+            params.limit,
+            params.page,
+            params.filter
+          );
+          set({ projectsData: projects });
         },
 
         recentFiles: null,
 
-        getRecentFiles: async (params) => {
-          const projects = await getAllProjectsService(params.limit, params.page);
-          set({ recentFiles: projects })
+        getRecentFiles: async params => {
+          const projects = await getAllProjectsService(
+            params.limit,
+            params.page
+          );
+          set({ recentFiles: projects });
         },
 
         updateProject: async () => {
@@ -179,31 +191,30 @@ export const useDesignerStore = create<DesignerState>()(
             n_div: get().n_div,
             nn: get().nn,
             beta_coef: get().beta_coef,
-            f_flujo: get().f_flujo
-          }
+            f_flujo: get().f_flujo,
+          };
 
-          console.log("save project", body);
+          console.log('save project', body);
         },
 
         closeProject: () => {
-          set({ currentProject: null })
-          clearProjectStorage()
+          set({ currentProject: null });
+          clearProjectStorage();
         },
 
         projectsPerPage: 4,
 
-        openProject: (project) => {
+        openProject: project => {
           set({
             currentProject: project,
-            date: project.date,
+            date: project.date_time,
             // currentLocation: //!!!!!!!!!
             // volumen
             // manifoldLength
             // pipeNumber
             // pipeType
-          })
+          });
         },
-
 
         calculate: async () => {
           const body: ICalculateParamsBody = {
@@ -236,11 +247,11 @@ export const useDesignerStore = create<DesignerState>()(
             n_div: get().n_div,
             nn: get().nn,
             beta_coef: get().beta_coef,
-            f_flujo: get().f_flujo
-          }
+            f_flujo: get().f_flujo,
+          };
 
-          const results = await getProjectResults(body)
-          set({ results: results })
+          const results = await getProjectResults(body);
+          set({ results: results });
         },
 
         results: undefined,
@@ -248,7 +259,8 @@ export const useDesignerStore = create<DesignerState>()(
         // ======== PARAMS =======
         name_project: '',
 
-        setName_project: (name_project: string) => set({ name_project: name_project }),
+        setName_project: (name_project: string) =>
+          set({ name_project: name_project }),
 
         place: 0,
 
@@ -276,12 +288,13 @@ export const useDesignerStore = create<DesignerState>()(
 
         date: '2020-12-31T12:00:00-05:00',
 
-        setDate: (date) => set({ date: date }),
+        setDate: date => set({ date: date }),
 
         // ANGLE PARAMS
         inclination: 15,
 
-        setInclination: (inclination: number) => set({ inclination: inclination }),
+        setInclination: (inclination: number) =>
+          set({ inclination: inclination }),
 
         azimuth: 180,
 
@@ -353,7 +366,8 @@ export const useDesignerStore = create<DesignerState>()(
 
         alpha_glass: 0.89,
 
-        setAlpha_glass: (alpha_glass: number) => set({ alpha_glass: alpha_glass }),
+        setAlpha_glass: (alpha_glass: number) =>
+          set({ alpha_glass: alpha_glass }),
 
         // MODAL GENERAL PARAMS
         n_div: 12,
@@ -372,7 +386,7 @@ export const useDesignerStore = create<DesignerState>()(
 
         setF_flujo: (f_flujo: number) => set({ f_flujo: f_flujo }),
       }),
-      { name: 'designerStore' },
-    ),
-  ),
-)
+      { name: 'designerStore' }
+    )
+  )
+);

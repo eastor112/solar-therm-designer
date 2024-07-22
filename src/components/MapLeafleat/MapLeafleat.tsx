@@ -13,6 +13,7 @@ import Leaflet from 'leaflet';
 import MarkerClusterGroup from 'react-leaflet-cluster';
 import { LatLngBoundsLiteral } from 'leaflet';
 import { IMapResponse } from '../../types/paramsTypes';
+import { reverseGeocode } from '../../services/locationServices';
 
 // https://github.com/Jorl17/open-elevation/blob/master/docs/api.md
 // Elevation API
@@ -59,7 +60,7 @@ const MapLeafleat: FC<MapLeafleatProps> = ({
   }, []);
 
   useEffect(() => {
-    reverseGeocode(coord.lat, coord.lon);
+    reversePlaceName(coord.lat, coord.lon);
   }, [coord]);
 
   function handleMouseMove(event: any) {
@@ -85,16 +86,8 @@ const MapLeafleat: FC<MapLeafleatProps> = ({
     return null;
   }
 
-  const reverseGeocode = async (lat: number, lon: number) => {
-    const response = await fetch(
-      `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`
-    );
-    const data = await response.json();
-
-    const newPlace =
-      `${data.address.region ? data.address.region : 'Desconocido'} - ${
-        data.address.state
-      }` || 'Desconocido';
+  const reversePlaceName = async (lat: number, lon: number) => {
+    const newPlace = await reverseGeocode(lat, lon);
 
     setReversePlace(newPlace);
     onMarkerClick({ lat, lon, place: newPlace });
@@ -106,10 +99,6 @@ const MapLeafleat: FC<MapLeafleatProps> = ({
         bgcolor: '#ddd6',
       }}
     >
-      {/* <Box>
-        <Typography>Latitud: {coord.lat.toFixed(5)}</Typography>
-        <Typography>Longitud: {coord.lon.toFixed(5)}</Typography>
-      </Box> */}
       <MapContainer
         center={[-8.11599, -79.02998]}
         zoom={7}
