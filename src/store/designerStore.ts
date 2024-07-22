@@ -240,6 +240,7 @@ export const useDesignerStore = create<DesignerState>()(
           }
 
           const results = await getProjectResults(body)
+          console.log(results);
           set({ results: results })
         },
 

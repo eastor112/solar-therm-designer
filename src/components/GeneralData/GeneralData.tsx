@@ -147,9 +147,15 @@ const GeneralData = () => {
               gap: '3px',
             }}
           >
-            <Typography>
-              {dayjs(date).format('D [de] MMMM [de] YYYY')}
-            </Typography>
+            {date ? (
+              <Typography>
+                {dayjs(date).format('D [de] MMMM [de] YYYY')}
+              </Typography>
+            ) : (
+              <Typography sx={{ color: 'red', fontSize: '14px' }}>
+                Sin fecha
+              </Typography>
+            )}
           </Box>
         </Box>
 

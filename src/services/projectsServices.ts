@@ -150,7 +150,7 @@ export enum SolarDataKeys {
   VelocidadSalida = "velocidad_salida"
 }
 
-export const getProjectResults = async (body: ICalculateParamsBody): Promise<ISolarData> => {
+export const getProjectResults = async (body: ICalculateParamsBody): Promise<ISolarData | null> => {
   const response = await fetch(`${envVars.API_HOST}/weather/calculate`, {
     method: 'POST',
     headers: {
@@ -160,5 +160,9 @@ export const getProjectResults = async (body: ICalculateParamsBody): Promise<ISo
     body: JSON.stringify(body),
   });
 
-  return await response.json();
+  if (response.ok) {
+    return await response.json();
+  } else {
+    return null
+  }
 }

@@ -17,7 +17,7 @@ import { useDesignerStore } from '../../store/designerStore';
 import { resultsChartsList } from '../../utils/resultsChartList';
 
 const RealStudy = () => {
-  const { calculate } = useDesignerStore();
+  const { calculate, results } = useDesignerStore();
 
   const [open, setOpen] = useState(false);
   const [modalType, setModalType] = useState<'other' | 'result'>('result');
@@ -71,43 +71,45 @@ const RealStudy = () => {
           </Box>
         </Box>
 
-        <Box>
-          <Typography variant='h3' sx={generalStyles.h3}>
-            RESULTADOS
-          </Typography>
-          <List>
-            {resultsChartsList.map(chart => (
-              <ListItem
-                key={chart.key}
-                disablePadding
-                sx={{
-                  cursor: 'pointer',
-                  '&:hover': { color: 'blue' },
-                  listStyle: 'outside',
-                  pl: 3,
-                  '&::before': {
-                    content: '""',
-                    position: 'absolute',
-                    left: 0,
-                    top: '50%',
-                    transform: 'translateY(-50%)',
-                    width: 8,
-                    height: 8,
-                    backgroundColor: 'black',
-                    display: 'inline-block',
-                  },
-                }}
-                onClick={() => {
-                  setModalType('result');
-                  setChartParams({ ...chart, chartKey: chart.key });
-                  setOpen(true);
-                }}
-              >
-                <ListItemText>{chart.title}</ListItemText>
-              </ListItem>
-            ))}
-          </List>
-        </Box>
+        {results && (
+          <Box>
+            <Typography variant='h3' sx={generalStyles.h3}>
+              RESULTADOS
+            </Typography>
+            <List>
+              {resultsChartsList.map(chart => (
+                <ListItem
+                  key={chart.key}
+                  disablePadding
+                  sx={{
+                    cursor: 'pointer',
+                    '&:hover': { color: 'blue' },
+                    listStyle: 'outside',
+                    pl: 3,
+                    '&::before': {
+                      content: '""',
+                      position: 'absolute',
+                      left: 0,
+                      top: '50%',
+                      transform: 'translateY(-50%)',
+                      width: 8,
+                      height: 8,
+                      backgroundColor: 'black',
+                      display: 'inline-block',
+                    },
+                  }}
+                  onClick={() => {
+                    setModalType('result');
+                    setChartParams({ ...chart, chartKey: chart.key });
+                    setOpen(true);
+                  }}
+                >
+                  <ListItemText>{chart.title}</ListItemText>
+                </ListItem>
+              ))}
+            </List>
+          </Box>
+        )}
       </Box>
 
       <Modal
