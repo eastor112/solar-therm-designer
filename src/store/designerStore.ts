@@ -240,7 +240,6 @@ export const useDesignerStore = create<DesignerState>()(
           }
 
           const results = await getProjectResults(body)
-          console.log(results);
           set({ results: results })
         },
 
@@ -275,7 +274,7 @@ export const useDesignerStore = create<DesignerState>()(
 
         setAltura: (altura: number) => set({ altura: altura }),
 
-        date: null,
+        date: '2020-12-31T12:00:00-05:00',
 
         setDate: (date) => set({ date: date }),
 
