@@ -39,7 +39,7 @@ const ModalFile = () => {
   return (
     <Box sx={style}>
       <Typography id='modal-modal-title' variant='h6' component='h2'>
-        {previewProject?.name}
+        {previewProject?.name_project}
       </Typography>
       <Typography variant='subtitle1' sx={{ fontSize: '0.8rem' }}>
         Autor:{' '}
@@ -85,19 +85,19 @@ const ModalFile = () => {
             }}
           >
             <Box>
-              <Typography sx={{ fontSize: '0.9rem' }}>
+              {/* <Typography sx={{ fontSize: '0.9rem' }}>
                 Lugar: {previewProject?.location?.place || 'no definido'}
-              </Typography>
+              </Typography> */}
               <Typography sx={{ fontSize: '0.9rem' }}>
-                Latitud: {previewProject?.location?.lat || 'no definido'}
+                Latitud: {previewProject?.latitud || 'no definido'}
               </Typography>
             </Box>
             <Box>
               <Typography sx={{ fontSize: '0.9rem' }}>
-                Fecha: {previewProject?.date || 'no definido'}
+                Fecha: {formatDate(previewProject?.date_time) || 'no definido'}
               </Typography>
               <Typography sx={{ fontSize: '0.9rem' }}>
-                Longitud: {previewProject?.location?.lng || 'no definido'}
+                Longitud: {previewProject?.longitud || 'no definido'}
               </Typography>
             </Box>
           </Box>
@@ -123,19 +123,19 @@ const ModalFile = () => {
           >
             <Box>
               <Typography sx={{ fontSize: '0.9rem' }}>
-                Volumen: {previewProject?.volumen || 'no definido'}
+                Volumen: {previewProject?.vol_tank || 'no definido'}
               </Typography>
-              <Typography sx={{ fontSize: '0.9rem' }}>
+              {/* <Typography sx={{ fontSize: '0.9rem' }}>
                 L. Manifold: {previewProject?.manifold || 'no definido'}
-              </Typography>
+              </Typography> */}
             </Box>
             <Box>
               <Typography sx={{ fontSize: '0.9rem' }}>
-                N° de tubos: {previewProject?.pipeline_number || 'no definido'}
+                N° de tubos: {previewProject?.num_tubos || 'no definido'}
               </Typography>
-              <Typography sx={{ fontSize: '0.9rem' }}>
+              {/* <Typography sx={{ fontSize: '0.9rem' }}>
                 Tipo tubería: {previewProject?.pipeline_type || 'no definido'}
-              </Typography>
+              </Typography> */}
             </Box>
           </Box>
         </Box>

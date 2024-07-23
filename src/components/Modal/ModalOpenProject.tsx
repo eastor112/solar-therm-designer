@@ -8,9 +8,9 @@ import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import { Button } from '@mui/material';
 import { ChangeEvent, useEffect, useState } from 'react';
-import { IProject } from '../../types/locationstypes';
 import { useUIStore } from '../../store/uiStore';
 import { useDesignerStore } from '../../store/designerStore';
+import { INewProject } from '../../types/projects';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -74,7 +74,7 @@ const ModalOpenProject = () => {
     useDesignerStore();
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
-  const [projectSelected, setProjectSelected] = useState<IProject | null>();
+  const [projectSelected, setProjectSelected] = useState<INewProject | null>();
 
   const handleClose = () => {
     setOpenModal(false);

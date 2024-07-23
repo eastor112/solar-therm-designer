@@ -1,13 +1,13 @@
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import { IProject } from '../../types/locationstypes';
 import { getShortName } from '../../utils/textTransformations';
 import { formatDate, getRelativeDate } from '../../utils/datesUtils';
+import { INewProject } from '../../types/projects';
 
 interface SavedProjectCardProps {
   selected?: boolean;
-  project: IProject;
-  onClick: (project: IProject) => void;
+  project: INewProject;
+  onClick: (project: INewProject) => void;
 }
 
 const SavedProjectCard: React.FC<SavedProjectCardProps> = ({
@@ -15,7 +15,7 @@ const SavedProjectCard: React.FC<SavedProjectCardProps> = ({
   project,
   onClick,
 }) => {
-  const { user, location } = project;
+  const { user } = project;
   return (
     <Box
       sx={{
@@ -38,7 +38,7 @@ const SavedProjectCard: React.FC<SavedProjectCardProps> = ({
           mb: 1,
         }}
       >
-        {project.name}
+        {project.name_project}
       </Typography>
       <Box
         sx={{
@@ -55,9 +55,9 @@ const SavedProjectCard: React.FC<SavedProjectCardProps> = ({
           </Typography>
         </Box>
         <Box>
-          <Typography component='p'>
+          {/* <Typography component='p'>
             Ciudad: {location ? location.place : 'no definido'}
-          </Typography>
+          </Typography> */}
           <Typography component='p'>
             Actualizado: {getRelativeDate(project.updated_at)}
           </Typography>

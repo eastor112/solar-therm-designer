@@ -90,6 +90,43 @@ const resetState = {
   f_flujo: defaultValues.f_flujo,
 }
 
+
+
+const assignToState = (newValues: INewProject) => {
+  return {
+    name_project: newValues.name_project,
+    place: newValues.place,
+    latitud: newValues.latitud,
+    longitud: newValues.longitud,
+    t_amb: newValues.t_amb,
+    v_viento: newValues.v_viento,
+    altura: newValues.altitud, //
+    date: newValues.date_time, //
+    inclination: newValues.inclinacion, //
+    azimuth: newValues.azimuth,
+    vol_tk: newValues.vol_tank, //
+    e_tk: newValues.e_tank, //
+    e_aisl: newValues.e_aisl,
+    e_cub: newValues.e_cub,
+    h_int: newValues.h_int,
+    h_ext: newValues.h_ext,
+    k_tk: newValues.k_tank, //
+    k_aisl: newValues.k_aisl,
+    k_cub: newValues.k_cub,
+    d_int: newValues.d_int,
+    d_ext: newValues.d_ext,
+    l_tubo: newValues.longitud_tubo, //
+    s_sep: newValues.s_sep,
+    n_tubos: newValues.num_tubos, //
+    tau_glass: newValues.tau_glass,
+    alpha_glass: newValues.alfa_glass, //
+    n_div: newValues.n_div,
+    nn: newValues.nn,
+    beta_coef: newValues.beta_coef,
+    f_flujo: newValues.f_flujo,
+  }
+}
+
 interface DesignerState {
   studyType: 'theoretical' | 'real';
   setStudyType: (type: 'theoretical' | 'real') => void;
@@ -279,15 +316,9 @@ export const useDesignerStore = create<DesignerState>()(
         projectsPerPage: defaultValues.projectsPerPage,
 
         openProject: project => {
-          set({
-            currentProject: project,
-            date: project.date_time,
-            // currentLocation: //!!!!!!!!!
-            // volumen
-            // manifoldLength
-            // pipeNumber
-            // pipeType
-          });
+          const newValues = assignToState(project)
+          const newState = { ...newValues, currentProject: project }
+          set(newState);
         },
 
         calculate: async () => {
