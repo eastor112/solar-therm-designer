@@ -17,6 +17,46 @@ interface GetAllProjectsParams {
   filter?: string;
 }
 
+const defaultValues = {
+  currentProject: null,
+  studyType: 'real' as "real" | "theoretical",
+  previewProject: null,
+  name_project: '',
+  projectsData: null,
+  recentFiles: null,
+  projectsPerPage: 4,
+  place: 0,
+  latitud: -8.11599,
+  longitud: -79.02998,
+  t_amb: 25,
+  v_viento: 2.5,
+  altitud: 33,
+  date_time: '2020-12-31T12:00:00-05:00',
+  inclinacion: 15,
+  azimuth: 180,
+  vol_tank: 0.3,
+  e_tank: 0.0004,
+  e_aisl: 0.005,
+  e_cub: 0.0004,
+  h_int: 10,
+  h_ext: 25,
+  k_tank: 14.9,
+  k_aisl: 0.06,
+  k_cub: 14.9,
+  d_int: 48,
+  d_ext: 58,
+  longitud_tubo: 1.8,
+  s_sep: 0.056,
+  num_tubos: 30,
+  tau_glass: 0.93,
+  alfa_glass: 0.89,
+  n_div: 12,
+  nn: 360,
+  beta_coef: 0.000257,
+  f_flujo: 0.45,
+  results: undefined
+}
+
 interface DesignerState {
   studyType: 'theoretical' | 'real';
   setStudyType: (type: 'theoretical' | 'real') => void;
@@ -117,11 +157,11 @@ export const useDesignerStore = create<DesignerState>()(
   devtools(
     persist(
       (set, get) => ({
-        studyType: 'theoretical',
+        studyType: defaultValues.studyType,
 
         setStudyType: type => set({ studyType: type }),
 
-        currentProject: null,
+        currentProject: defaultValues.currentProject,
 
         setCurrentProject: project => set({ currentProject: project }),
 
@@ -130,16 +170,16 @@ export const useDesignerStore = create<DesignerState>()(
           set({ date: project.date_time });
         },
 
-        previewProject: null,
+        previewProject: defaultValues.previewProject,
 
         setPreviewProject: project => set({ previewProject: project }),
 
-        createProject: async (projectName: string) => {
-          const newProject = await createProjectService(projectName);
+        createProject: async (name_project: string) => {
+          const newProject = await createProjectService({ ...defaultValues, name_project });
           set({ currentProject: newProject });
         },
 
-        projectsData: null,
+        projectsData: defaultValues.projectsData,
 
         getAllProjects: async params => {
           const projects = await getAllProjectsService(
@@ -150,7 +190,7 @@ export const useDesignerStore = create<DesignerState>()(
           set({ projectsData: projects });
         },
 
-        recentFiles: null,
+        recentFiles: defaultValues.recentFiles,
 
         getRecentFiles: async params => {
           const projects = await getAllProjectsService(
@@ -202,7 +242,7 @@ export const useDesignerStore = create<DesignerState>()(
           clearProjectStorage();
         },
 
-        projectsPerPage: 4,
+        projectsPerPage: defaultValues.projectsPerPage,
 
         openProject: project => {
           set({
@@ -254,135 +294,135 @@ export const useDesignerStore = create<DesignerState>()(
           set({ results: results });
         },
 
-        results: undefined,
+        results: defaultValues.results,
 
         // ======== PARAMS =======
-        name_project: '',
+        name_project: defaultValues.name_project,
 
         setName_project: (name_project: string) =>
           set({ name_project: name_project }),
 
-        place: 0,
+        place: defaultValues.place,
 
         setPlace: (place: number) => set({ place: place }),
 
-        latitud: -8.11599,
+        latitud: defaultValues.latitud,
 
         setLatitud: (latitud: number) => set({ latitud: latitud }),
 
-        longitud: -79.02998,
+        longitud: defaultValues.longitud,
 
         setLongitud: (longitud: number) => set({ longitud: longitud }),
 
-        t_amb: 25,
+        t_amb: defaultValues.t_amb,
 
         setT_amb: (t_amb: number) => set({ t_amb: t_amb }),
 
-        v_viento: 2.5,
+        v_viento: defaultValues.v_viento,
 
         setV_viento: (v_viento: number) => set({ v_viento: v_viento }),
 
-        altura: 33,
+        altura: defaultValues.altitud,
 
         setAltura: (altura: number) => set({ altura: altura }),
 
-        date: '2020-12-31T12:00:00-05:00',
+        date: defaultValues.date_time,
 
         setDate: date => set({ date: date }),
 
         // ANGLE PARAMS
-        inclination: 15,
+        inclination: defaultValues.inclinacion,
 
         setInclination: (inclination: number) =>
           set({ inclination: inclination }),
 
-        azimuth: 180,
+        azimuth: defaultValues.azimuth,
 
         setAzimuth: (azimuth: number) => set({ azimuth: azimuth }),
 
         // TANK PARAMS
-        vol_tk: 0.3,
+        vol_tk: defaultValues.vol_tank,
 
         setVol_tk: (vol_tk: number) => set({ vol_tk: vol_tk }),
 
-        e_tk: 0.0004,
+        e_tk: defaultValues.e_tank,
 
         setE_tk: (e_tk: number) => set({ e_tk: e_tk }),
 
-        e_aisl: 0.005,
+        e_aisl: defaultValues.e_aisl,
 
         setE_aisl: (e_aisl: number) => set({ e_aisl: e_aisl }),
 
-        e_cub: 0.0004,
+        e_cub: defaultValues.e_cub,
 
         setE_cub: (e_cub: number) => set({ e_cub: e_cub }),
 
         // MODAL TANK PARAMS
-        h_int: 10,
+        h_int: defaultValues.h_int,
 
         setH_int: (h_int: number) => set({ h_int: h_int }),
 
-        h_ext: 25,
+        h_ext: defaultValues.h_ext,
 
         setH_ext: (h_ext: number) => set({ h_ext: h_ext }),
 
-        k_tk: 14.9,
+        k_tk: defaultValues.k_tank,
 
         setK_tk: (k_tk: number) => set({ k_tk: k_tk }),
 
-        k_aisl: 0.06,
+        k_aisl: defaultValues.k_aisl,
 
         setK_aisl: (k_aisl: number) => set({ k_aisl: k_aisl }),
 
-        k_cub: 14.9,
+        k_cub: defaultValues.k_cub,
 
         setK_cub: (k_cub: number) => set({ k_cub: k_cub }),
 
         // PIPELINE PARAMS
-        d_int: 48,
+        d_int: defaultValues.d_int,
 
         setD_int: (d_int: number) => set({ d_int: d_int }),
 
-        d_ext: 58,
+        d_ext: defaultValues.d_ext,
 
         setD_ext: (d_ext: number) => set({ d_ext: d_ext }),
 
-        l_tubo: 1.8,
+        l_tubo: defaultValues.longitud_tubo,
 
         setL_tubo: (l_tubo: number) => set({ l_tubo: l_tubo }),
 
-        s_sep: 0.056,
+        s_sep: defaultValues.s_sep,
 
         setS_sep: (s_sep: number) => set({ s_sep: s_sep }),
 
-        n_tubos: 30,
+        n_tubos: defaultValues.num_tubos,
 
         setN_tubos: (n_tubos: number) => set({ n_tubos: n_tubos }),
 
         // MODAL PIPELINE PARAMS
-        tau_glass: 0.93,
+        tau_glass: defaultValues.tau_glass,
 
         setTau_glass: (tau_glas: number) => set({ tau_glass: tau_glas }),
 
-        alpha_glass: 0.89,
+        alpha_glass: defaultValues.alfa_glass,
 
         setAlpha_glass: (alpha_glass: number) =>
           set({ alpha_glass: alpha_glass }),
 
         // MODAL GENERAL PARAMS
-        n_div: 12,
+        n_div: defaultValues.n_div,
 
         setN_div: (n_div: number) => set({ n_div: n_div }),
 
-        nn: 360,
+        nn: defaultValues.nn,
 
         setNn: (nn: number) => set({ nn: nn }),
 
-        beta_coef: 0.000257,
+        beta_coef: defaultValues.beta_coef,
 
         setBeta_coef: (beta_coef: number) => set({ beta_coef: beta_coef }),
 
-        f_flujo: 0.45,
+        f_flujo: defaultValues.f_flujo,
 
         setF_flujo: (f_flujo: number) => set({ f_flujo: f_flujo }),
       }),

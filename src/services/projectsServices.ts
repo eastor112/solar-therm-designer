@@ -19,7 +19,7 @@ export const getProjectService = async (id: number) => {
   return response.json() as Promise<INewProject>;
 };
 
-export const createProjectService = async (name: string) => {
+export const createProjectService = async (body: any) => {
   const response = await fetch(baseURL, {
     method: 'POST',
     headers: {
@@ -27,7 +27,7 @@ export const createProjectService = async (name: string) => {
       Authorization: `Bearer ${localStorage.getItem('token')}`,
     },
     body: JSON.stringify({
-      name,
+      ...body,
       user_id: 1,
     }),
   });
