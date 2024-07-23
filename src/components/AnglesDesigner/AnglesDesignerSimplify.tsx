@@ -21,7 +21,7 @@ const validationSchema = yup.object({
 });
 
 const AnglesDesignerSimplify: React.FC = () => {
-  const { azimuth, inclination, setAzimuth, setInclination } =
+  const { azimuth, inclination, currentProject, setAzimuth, setInclination } =
     useDesignerStore();
 
   const fieldInfo = {
@@ -49,6 +49,15 @@ const AnglesDesignerSimplify: React.FC = () => {
     },
     validateOnBlur: true,
   });
+
+  useEffect(() => {
+    if (currentProject) {
+      formik.setValues({
+        inclination: currentProject?.inclinacion,
+        azimuth: currentProject?.azimuth,
+      });
+    }
+  }, [currentProject]);
 
   useEffect(() => {
     if (formik.values.inclination !== inclination) {

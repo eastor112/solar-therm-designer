@@ -7,6 +7,7 @@ import {
   getAllProjectsService,
   getProjectResults,
   getProjectService,
+  updateProjectService,
 } from '../services/projectsServices';
 import { clearProjectStorage } from '../utils/clearProjectStorage';
 import { INewProject } from '../types/projects';
@@ -305,7 +306,11 @@ export const useDesignerStore = create<DesignerState>()(
             f_flujo: get().f_flujo,
           };
 
-          console.log('save project', body);
+          const id = get().currentProject?.id
+          if (id) {
+            const data = await updateProjectService(id, body)
+            get().openProject(data)
+          }
         },
 
         closeProject: () => {
@@ -398,8 +403,10 @@ export const useDesignerStore = create<DesignerState>()(
         // ANGLE PARAMS
         inclination: defaultValues.inclinacion,
 
-        setInclination: (inclination: number) =>
-          set({ inclination: inclination }),
+        setInclination: (inclination: number) => {
+          console.log("sdfs");
+          set({ inclination: inclination })
+        },
 
         azimuth: defaultValues.azimuth,
 

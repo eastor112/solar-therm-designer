@@ -1,5 +1,5 @@
 import envVars from '../configs';
-import { IPayloadUpdateProject, IProjectData } from '../types/locationstypes';
+import { IProjectData } from '../types/locationstypes';
 import { INewProject } from '../types/projects';
 
 const baseURL = `${envVars.API_HOST}/projects/v2`
@@ -37,9 +37,9 @@ export const createProjectService = async (body: any) => {
 
 export const updateProjectService = async (
   project_id: number,
-  payload: IPayloadUpdateProject
+  payload: any
 ) => {
-  const response = await fetch(baseURL + `${project_id}`, {
+  const response = await fetch(baseURL + `/${project_id}`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
