@@ -57,6 +57,39 @@ const defaultValues = {
   results: undefined
 }
 
+const resetState = {
+  name_project: defaultValues.name_project,
+  place: defaultValues.place,
+  latitud: defaultValues.latitud,
+  longitud: defaultValues.longitud,
+  t_amb: defaultValues.t_amb,
+  v_viento: defaultValues.v_viento,
+  altura: defaultValues.altitud, //
+  date: defaultValues.date_time, //
+  inclination: defaultValues.inclinacion, //
+  azimuth: defaultValues.azimuth,
+  vol_tk: defaultValues.vol_tank, //
+  e_tk: defaultValues.e_tank, //
+  e_aisl: defaultValues.e_aisl,
+  e_cub: defaultValues.e_cub,
+  h_int: defaultValues.h_int,
+  h_ext: defaultValues.h_ext,
+  k_tk: defaultValues.k_tank, //
+  k_aisl: defaultValues.k_aisl,
+  k_cub: defaultValues.k_cub,
+  d_int: defaultValues.d_int,
+  d_ext: defaultValues.d_ext,
+  l_tubo: defaultValues.longitud_tubo, //
+  s_sep: defaultValues.s_sep,
+  n_tubos: defaultValues.num_tubos, //
+  tau_glass: defaultValues.tau_glass,
+  alpha_glass: defaultValues.alfa_glass, //
+  n_div: defaultValues.n_div,
+  nn: defaultValues.nn,
+  beta_coef: defaultValues.beta_coef,
+  f_flujo: defaultValues.f_flujo,
+}
+
 interface DesignerState {
   studyType: 'theoretical' | 'real';
   setStudyType: (type: 'theoretical' | 'real') => void;
@@ -176,7 +209,8 @@ export const useDesignerStore = create<DesignerState>()(
 
         createProject: async (name_project: string) => {
           const newProject = await createProjectService({ ...defaultValues, name_project });
-          set({ currentProject: newProject });
+          const newState = { ...resetState, currentProject: newProject, name_project }
+          set(newState)
         },
 
         projectsData: defaultValues.projectsData,
