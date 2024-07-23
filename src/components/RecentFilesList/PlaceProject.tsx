@@ -6,14 +6,14 @@ interface PlaceProjectProps {
   lon: number;
 }
 
-const PlaceProject: FC<PlaceProjectProps> = ({ lat: lat, lon: lon }) => {
-  const [place, setPlace] = useState<string>();
+const PlaceProject: FC<PlaceProjectProps> = ({ lat, lon }) => {
+  const [place, setPlace] = useState<string | null>();
 
   useEffect(() => {
     reverseGeocode(lat, lon).then(placeName => {
-      setPlace(placeName.replace('Province of ', ''));
+      setPlace(placeName);
     });
-  }, []);
+  }, [lat, lon]);
 
   return (
     <div>

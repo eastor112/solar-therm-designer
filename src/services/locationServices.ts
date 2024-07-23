@@ -16,5 +16,8 @@ export const reverseGeocode = async (lat: number, lon: number) => {
     `${data.address.region ? data.address.region : 'Desconocido'} - ${data.address.state
     }` || 'Desconocido';
 
-  return newPlace
+  const customPlace =
+    newPlace?.replace('Province of ', '').split('-')[0].trim() || null;
+
+  return customPlace
 };

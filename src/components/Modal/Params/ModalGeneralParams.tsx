@@ -64,8 +64,8 @@ const ModalGeneralParams: React.FC<ModalGeneralParamsProps> = ({
     setAltura,
     setDate,
   } = useDesignerStore();
-  const [customPlace, setCustomPlace] = useState<string | undefined>(
-    localStorage.getItem('customPlace') || undefined
+  const [customPlace, setCustomPlace] = useState<string | null>(
+    localStorage.getItem('customPlace') || null
   );
 
   const fieldInfo = {
@@ -120,7 +120,7 @@ const ModalGeneralParams: React.FC<ModalGeneralParamsProps> = ({
   });
 
   const onPlaceChange = (value: IPlace | undefined) => {
-    setCustomPlace(undefined);
+    setCustomPlace(null);
     localStorage.removeItem('customPlace');
 
     if (value && value.id > 0) {
@@ -262,15 +262,9 @@ const ModalGeneralParams: React.FC<ModalGeneralParamsProps> = ({
             <Box sx={{ width: '69.5vw', height: '560px', bgcolor: 'red' }}>
               <MapLeafleat
                 onMarkerClick={({ lat, lon, place }: IMapResponse) => {
-                  const customPlace =
-                    place?.replace('Province of ', '').split('-')[0].trim() ||
-                    undefined;
-
                   formik.setFieldValue('latitud', +lat.toFixed(5));
                   formik.setFieldValue('longitud', +lon.toFixed(5));
-                  setCustomPlace(customPlace);
-                  // formik.setFieldValue('place', placeName);
-                  // setShowMap(false);
+                  setCustomPlace(place);
                 }}
                 initialCoord={{
                   lat: formik.values.latitud,

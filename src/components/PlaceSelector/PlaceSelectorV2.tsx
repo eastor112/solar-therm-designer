@@ -13,7 +13,7 @@ interface ModalChangePlaceProps {
   onChange?: (value: IPlace | undefined) => void;
   onShowMap?: (value: boolean) => void;
   showMap?: boolean;
-  customPlace?: string;
+  customPlace: string | null;
   initialCityId?: number;
 }
 

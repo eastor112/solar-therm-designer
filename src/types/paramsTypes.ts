@@ -31,5 +31,5 @@ export type RawType = "weather" | "energy" | "comparison"
 export interface IMapResponse {
   lat: number;
   lon: number;
-  place: string;
+  place: string | null;
 }

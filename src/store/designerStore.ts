@@ -314,7 +314,7 @@ export const useDesignerStore = create<DesignerState>()(
         },
 
         closeProject: () => {
-          set({ currentProject: null });
+          set({ currentProject: defaultValues.currentProject, results: defaultValues.results });
           clearProjectStorage();
         },
 
@@ -322,7 +322,7 @@ export const useDesignerStore = create<DesignerState>()(
 
         openProject: project => {
           const newValues = assignToState(project)
-          const newState = { ...newValues, currentProject: project }
+          const newState = { ...newValues, currentProject: project, results: defaultValues.results }
           set(newState);
         },
 
