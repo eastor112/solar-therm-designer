@@ -37,6 +37,7 @@ const TankParams: React.FC = () => {
     e_tk,
     e_aisl,
     e_cub,
+    currentProject,
     setVol_tk,
     setE_tk,
     setE_aisl,
@@ -75,6 +76,17 @@ const TankParams: React.FC = () => {
       console.log(values);
     },
   });
+
+  useEffect(() => {
+    if (currentProject) {
+      formik.setValues({
+        vol_tk: currentProject.vol_tank,
+        e_tk: currentProject.e_tank,
+        e_aisl: currentProject.e_aisl,
+        e_cub: currentProject.e_cub,
+      });
+    }
+  }, [currentProject]);
 
   useEffect(() => {
     if (formik.values.vol_tk !== vol_tk) {

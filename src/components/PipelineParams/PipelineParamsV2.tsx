@@ -53,16 +53,17 @@ const PipelineParamsV2: React.FC = () => {
     setS_sep,
     n_tubos,
     setN_tubos,
+    currentProject,
   } = useDesignerStore();
 
   const fieldInfo = {
     d_int: {
-      label: 'D. Interno (mm)',
+      label: 'D. Interno (m)',
       tooltip: 'Diámetro interno del tubo al vacío [m]',
       initialValue: d_int,
     },
     d_ext: {
-      label: 'D. Externo (mm)',
+      label: 'D. Externo (m)',
       tooltip: 'Diámetro externo del tubo al vacío [m]',
       initialValue: d_ext,
     },
@@ -102,10 +103,23 @@ const PipelineParamsV2: React.FC = () => {
   });
 
   useEffect(() => {
+    if (currentProject) {
+      formik.setValues({
+        d_int: currentProject.d_int,
+        d_ext: currentProject.d_ext,
+        l_tubo: currentProject.longitud_tubo,
+        s_sep: currentProject.s_sep,
+        n_tubos: currentProject.num_tubos,
+      });
+    }
+  }, [currentProject]);
+
+  useEffect(() => {
     if (formik.values.d_int !== d_int) {
       setD_int(Number(formik.values.d_int));
     }
     if (formik.values.d_ext !== d_ext) {
+      console.log(formik.values.d_ext);
       setD_ext(Number(formik.values.d_ext));
     }
     if (formik.values.l_tubo !== l_tubo) {
@@ -178,7 +192,7 @@ const PipelineParamsV2: React.FC = () => {
               {pipelines.map((pipeline, index) => {
                 const name = `L=${pipeline.length.toFixed(2)}m, Di=${
                   pipeline.innerDiameter
-                }mm, De=${pipeline.outerDiameter}mm`;
+                }m, De=${pipeline.outerDiameter}m`;
                 return (
                   <MenuItem
                     key={pipeline.id}

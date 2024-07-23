@@ -2,8 +2,8 @@ export const pipelines = [
   {
     id: 1,
     length: 1.5,
-    outerDiameter: 55,
-    innerDiameter: 44,
+    outerDiameter: 0.055,
+    innerDiameter: 0.044,
     glassThickness: 1.5,
     material: 'Borosilicate Glass 3.3',
     absorptionMaterial: 'AL/SS/CU',
@@ -15,8 +15,8 @@ export const pipelines = [
   {
     id: 2,
     length: 1.8,
-    outerDiameter: 58,
-    innerDiameter: 47,
+    outerDiameter: 0.058,
+    innerDiameter: 0.047,
     glassThickness: 1.5,
     material: 'Borosilicate Glass 3.3',
     absorptionMaterial: 'AL/SS/CU',
@@ -28,8 +28,8 @@ export const pipelines = [
   {
     id: 3,
     length: 1,
-    outerDiameter: 58,
-    innerDiameter: 47,
+    outerDiameter: 0.058,
+    innerDiameter: 0.047,
     glassThickness: 1.6,
     material: 'Borosilicate Glass 3.3',
     absorptionMaterial: 'AL/SS/CU',
@@ -41,8 +41,8 @@ export const pipelines = [
   {
     id: 4,
     length: 2,
-    outerDiameter: 60,
-    innerDiameter: 48,
+    outerDiameter: 0.060,
+    innerDiameter: 0.048,
     glassThickness: 1.8,
     material: 'Borosilicate Glass 3.3',
     absorptionMaterial: 'AL/SS/CU',
