@@ -15,9 +15,12 @@ import ModalResults from '../../components/Modal/Results/ModalResults';
 import ModalOtherGeneralParams from '../../components/Modal/Params/ModalOtherGeneralParams';
 import { useDesignerStore } from '../../store/designerStore';
 import { resultsChartsList } from '../../utils/resultsChartList';
+import { useNavigate } from 'react-router-dom';
 
 const RealStudy = () => {
   const { calculate, results } = useDesignerStore();
+
+  const navigate = useNavigate();
 
   const [open, setOpen] = useState(false);
   const [modalType, setModalType] = useState<'other' | 'result'>('result');
@@ -57,7 +60,7 @@ const RealStudy = () => {
               />
             </Box>
           </Box>
-          <Box sx={{ textAlign: 'center' }}>
+          <Box sx={{ textAlign: 'center', display: 'flex', gap: '20px' }}>
             <Button
               variant='contained'
               sx={{ mt: 2, width: '220px' }}
@@ -67,6 +70,17 @@ const RealStudy = () => {
               }}
             >
               Calcular
+            </Button>
+            <Button
+              variant='contained'
+              sx={{ mt: 2, width: '220px' }}
+              size='small'
+              onClick={async () => {
+                navigate('/dashboard/inspector/pvgis');
+              }}
+              disabled={!results}
+            >
+              Ver data
             </Button>
           </Box>
         </Box>

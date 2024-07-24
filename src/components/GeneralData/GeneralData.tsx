@@ -5,14 +5,18 @@ import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
 import { useDesignerStore } from '../../store/designerStore';
 import Modal from '@mui/material/Modal';
 import ModalDatepicker from '../Modal/ModalDatepicker';
-import { useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import ModalGeneralParams from '../Modal/Params/ModalGeneralParams';
 import SettingsIcon from '@mui/icons-material/Settings';
 import dayjs from '../../utils/datesUtils';
 import { defaultPlaces } from '../PlaceSelector/helper';
 import { reverseGeocode } from '../../services/locationServices';
 
-const GeneralData = () => {
+interface GeneralDataProps {
+  hideButton?: boolean;
+}
+
+const GeneralData: FC<GeneralDataProps> = ({ hideButton = false }) => {
   const {
     studyType,
     setStudyType,
@@ -172,16 +176,20 @@ const GeneralData = () => {
           </Box>
         </Box>
 
-        <Button
-          variant='contained'
-          startIcon={<ChangeCircleIcon />}
-          onClick={() => {
-            setStudyType(studyType === 'theoretical' ? 'real' : 'theoretical');
-          }}
-          sx={{ width: 120 }}
-        >
-          {studyType == 'theoretical' ? 'Teórico' : 'Real'}
-        </Button>
+        {!hideButton && (
+          <Button
+            variant='contained'
+            startIcon={<ChangeCircleIcon />}
+            onClick={() => {
+              setStudyType(
+                studyType === 'theoretical' ? 'real' : 'theoretical'
+              );
+            }}
+            sx={{ width: 120 }}
+          >
+            {studyType == 'theoretical' ? 'Teórico' : 'Real'}
+          </Button>
+        )}
       </Box>
       <Modal
         open={openModal}

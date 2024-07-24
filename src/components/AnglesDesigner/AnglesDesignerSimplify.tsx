@@ -20,7 +20,13 @@ const validationSchema = yup.object({
     .max(360, 'El azimuth debe ser menor o igual a 360'),
 });
 
-const AnglesDesignerSimplify: React.FC = () => {
+interface AnglesDesignerSimplifyProps {
+  width?: number | string;
+}
+
+const AnglesDesignerSimplify: React.FC<AnglesDesignerSimplifyProps> = ({
+  width = '200px',
+}) => {
   const { azimuth, inclination, currentProject, setAzimuth, setInclination } =
     useDesignerStore();
 
@@ -73,7 +79,7 @@ const AnglesDesignerSimplify: React.FC = () => {
       <Typography variant='h3' sx={generalStyles.h3}>
         Ángulos
       </Typography>
-      <Box sx={{ width: '200px' }}>
+      <Box sx={{ width }}>
         <form onSubmit={formik.handleSubmit}>
           {Object.entries(fieldInfo).map(([field, info]) => (
             <InputField

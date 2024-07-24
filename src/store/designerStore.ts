@@ -3,8 +3,11 @@ import { IProjectData } from '../types/locationstypes';
 import { devtools, persist } from 'zustand/middleware';
 import {
   ICalculateParamsBody,
+  IPVGISParamsBody,
+  PVGISRegister,
   createProjectService,
   getAllProjectsService,
+  getPVGISData,
   getProjectResults,
   getProjectService,
   updateProjectService,
@@ -149,7 +152,10 @@ interface DesignerState {
   projectsPerPage: number;
 
   calculate: () => Promise<void>;
+  getPVGISData: () => Promise<void>;
+
   results: any;
+  pvgisData: PVGISRegister[]
 
   // PARAMS
   name_project: string;
@@ -364,7 +370,22 @@ export const useDesignerStore = create<DesignerState>()(
           set({ results: results });
         },
 
+        getPVGISData: async () => {
+          const body: IPVGISParamsBody = {
+            latitud: get().latitud,
+            longitud: get().longitud,
+            date_time: get().date,
+            inclinacion: get().inclination,
+            azimuth: get().azimuth,
+          };
+
+          const data = await getPVGISData(body)
+          set({ pvgisData: data || [] })
+        },
+
         results: defaultValues.results,
+
+        pvgisData: [],
 
         // ======== PARAMS =======
         name_project: defaultValues.name_project,

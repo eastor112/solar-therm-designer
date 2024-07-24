@@ -61,7 +61,7 @@ const TableBase: React.FC<TableBaseProps> = ({
                     hover
                     role='checkbox'
                     tabIndex={-1}
-                    key={row.date || row.day || row.id}
+                    key={row.date || row.day || row.id || row.time}
                   >
                     {columns.map(column => {
                       const value = row[column.id];

@@ -95,6 +95,17 @@ export interface ICalculateParamsBody {
   f_flujo: number,
 }
 
+export interface IPVGISParamsBody {
+  // PARAMS
+  latitud: number
+  longitud: number
+  date_time: string | null
+
+  // ANGLE PARAMS
+  inclinacion: number
+  azimuth: number
+}
+
 export interface ISolarData {
   azimuth_solar: number[];
   eficiencia_1: number[];
@@ -165,6 +176,32 @@ export const getProjectResults = async (body: ICalculateParamsBody): Promise<ISo
 
   if (response.ok) {
     return await response.json();
+  } else {
+    return null
+  }
+}
+
+export interface PVGISRegister {
+  time: string;
+  "G(i)": number;
+  H_sun: number;
+  T2m: number;
+  WS10m: number;
+  Int: number;
+}
+
+export const getPVGISData = async (body: IPVGISParamsBody) => {
+  const response = await fetch(`${envVars.API_HOST}/weather/pvgis`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    },
+    body: JSON.stringify(body),
+  });
+
+  if (response.ok) {
+    return await response.json() as PVGISRegister[];
   } else {
     return null
   }
