@@ -40,6 +40,7 @@ export const getProject = createAsyncThunk(
   'locations/getProject',
   async (projectId: number, { dispatch }) => {
     const project = await getProjectService(projectId);
+    console.log(dispatch);
     // if (project.location) {
     //   dispatch(
     //     setCurrentLocation(project.location)
@@ -326,9 +327,11 @@ export const locationsSlice = createSlice({
         state.weatherData = action.payload;
       })
       .addCase(getProject.fulfilled, (state, action) => {
+        console.log(state, action);
         // state.currentProject = action.payload;
       })
       .addCase(updateProject.fulfilled, (state, action) => {
+        console.log(action);
         // state.currentProject = action.payload;
         state.thereAreChanges = false;
       })

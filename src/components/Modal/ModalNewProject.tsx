@@ -27,7 +27,7 @@ const ModalNewProject = () => {
 
   useEffect(() => {
     if (currentProject && !isFirstLoad) {
-      setProjectName(currentProject.name);
+      setProjectName(currentProject.name_project);
       handleClose();
     }
     setIsFirstLoad(false);
