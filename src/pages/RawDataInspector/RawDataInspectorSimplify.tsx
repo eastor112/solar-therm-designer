@@ -13,6 +13,8 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DesktopDatePicker } from '@mui/x-date-pickers';
 import dayjs from '../../utils/datesUtils';
 import { Dayjs } from 'dayjs';
+import { exportJsonToCsv } from '../../utils/exportData';
+import { PVGISRegister } from '../../services/projectsServices';
 
 interface RawDataInspectorProps {
   title: string;
@@ -20,15 +22,26 @@ interface RawDataInspectorProps {
 
 const RawDataInspectorSimplify: FC<RawDataInspectorProps> = ({ title }) => {
   const navigate = useNavigate();
-  const [date, setDate] = useState<Dayjs | null>(null);
-
   const { results, pvgisData, getPVGISData } = useDesignerStore();
+  const [date, setDate] = useState<Dayjs | null>(null);
+  const [filteredData, setFilteredData] = useState<PVGISRegister[]>(pvgisData);
 
   useEffect(() => {
     if (!results) {
       navigate('/dashboard/designer');
     }
   }, []);
+
+  useEffect(() => {
+    if (date) {
+      const filtered = pvgisData.filter(data =>
+        dayjs(data.time).isSame(date, 'day')
+      );
+      setFilteredData(filtered);
+    } else {
+      setFilteredData(pvgisData);
+    }
+  }, [date, pvgisData]);
 
   const handleChange = (newValue: Dayjs | null) => {
     setDate(newValue);
@@ -78,7 +91,14 @@ const RawDataInspectorSimplify: FC<RawDataInspectorProps> = ({ title }) => {
               >
                 Obterner data
               </Button>
-              <Button variant='contained'>Exportar .csv</Button>
+              <Button
+                variant='contained'
+                onClick={() => {
+                  exportJsonToCsv(filteredData, 'PVGIS-DATA');
+                }}
+              >
+                Exportar .csv
+              </Button>
             </Box>
 
             <Box
@@ -89,14 +109,15 @@ const RawDataInspectorSimplify: FC<RawDataInspectorProps> = ({ title }) => {
               </Typography>
               <DesktopDatePicker
                 key={date ? date.toString() : 'empty'}
+                views={['month', 'day']}
                 defaultValue={date}
-                label='Fecha de análisis'
+                label='Día y mes'
                 sx={{
                   width: '100%',
                 }}
-                format='DD/MM/YYYY'
+                format='DD/MM'
                 onChange={handleChange}
-                maxDate={dayjs('31/12/2021', 'DD/MM/YYYY')}
+                maxDate={dayjs('31/12/2020', 'DD/MM/YYYY')}
                 minDate={dayjs('01/01/2019', 'DD/MM/YYYY')}
               />
               <Button
@@ -110,7 +131,7 @@ const RawDataInspectorSimplify: FC<RawDataInspectorProps> = ({ title }) => {
             </Box>
           </Box>
           <Box sx={{ flex: 1, ml: '290px' }}>
-            <PVGISTable rows={pvgisData} title={title} />
+            <PVGISTable rows={filteredData} title={title} />
           </Box>
         </Box>
       </Box>
