@@ -6,6 +6,8 @@ import { formatDate, getRelativeDate } from '../../utils/datesUtils';
 import { useNavigate } from 'react-router-dom';
 import { useUIStore } from '../../store/uiStore';
 import { useDesignerStore } from '../../store/designerStore';
+import { useEffect, useState } from 'react';
+import { reverseGeocode } from '../../services/locationServices';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -23,6 +25,17 @@ const ModalFile = () => {
   const navigate = useNavigate();
   const { setOpenModal } = useUIStore();
   const { currentProject, previewProject, openProject } = useDesignerStore();
+  const [place, setPlace] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (previewProject) {
+      reverseGeocode(previewProject?.latitud, previewProject?.longitud).then(
+        place => {
+          setPlace(place || '');
+        }
+      );
+    }
+  }, [previewProject]);
 
   const handleClose = () => {
     setOpenModal(false);
@@ -85,19 +98,19 @@ const ModalFile = () => {
             }}
           >
             <Box>
-              {/* <Typography sx={{ fontSize: '0.9rem' }}>
-                Lugar: {previewProject?.location?.place || 'no definido'}
-              </Typography> */}
               <Typography sx={{ fontSize: '0.9rem' }}>
                 Latitud: {previewProject?.latitud || 'no definido'}
+              </Typography>
+              <Typography sx={{ fontSize: '0.9rem' }}>
+                Longitud: {previewProject?.longitud || 'no definido'}
               </Typography>
             </Box>
             <Box>
               <Typography sx={{ fontSize: '0.9rem' }}>
-                Fecha: {formatDate(previewProject?.date_time) || 'no definido'}
+                Ciudad: {place}
               </Typography>
               <Typography sx={{ fontSize: '0.9rem' }}>
-                Longitud: {previewProject?.longitud || 'no definido'}
+                Fecha: {formatDate(previewProject?.date_time) || 'no definido'}
               </Typography>
             </Box>
           </Box>
@@ -125,17 +138,17 @@ const ModalFile = () => {
               <Typography sx={{ fontSize: '0.9rem' }}>
                 Volumen: {previewProject?.vol_tank || 'no definido'}
               </Typography>
-              {/* <Typography sx={{ fontSize: '0.9rem' }}>
-                L. Manifold: {previewProject?.manifold || 'no definido'}
-              </Typography> */}
+              <Typography sx={{ fontSize: '0.9rem' }}>
+                Azimuth: {previewProject?.azimuth || 'no definido'}
+              </Typography>
             </Box>
             <Box>
               <Typography sx={{ fontSize: '0.9rem' }}>
                 N° de tubos: {previewProject?.num_tubos || 'no definido'}
               </Typography>
-              {/* <Typography sx={{ fontSize: '0.9rem' }}>
-                Tipo tubería: {previewProject?.pipeline_type || 'no definido'}
-              </Typography> */}
+              <Typography sx={{ fontSize: '0.9rem' }}>
+                Inclinación: {previewProject?.inclinacion || 'no definido'}
+              </Typography>
             </Box>
           </Box>
         </Box>

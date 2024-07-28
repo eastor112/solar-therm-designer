@@ -23,7 +23,7 @@ const Designer = () => {
         <div className='flex flex-col gap-8'>
           {show && currentProject && (
             <>
-              <GeneralData />
+              <GeneralData hideButton />
               {studyType === 'theoretical' ? (
                 <TheoreticalStudy />
               ) : (
