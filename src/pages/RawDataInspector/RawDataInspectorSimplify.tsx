@@ -73,6 +73,8 @@ const RawDataInspectorSimplify: FC<RawDataInspectorProps> = ({ title }) => {
               height: '92vh',
               p: '20px',
               borderRadius: '4px',
+              width: '271px',
+              overflow: 'hidden',
             }}
           >
             <Button

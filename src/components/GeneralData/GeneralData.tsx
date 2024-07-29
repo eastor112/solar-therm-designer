@@ -109,7 +109,10 @@ const GeneralData: FC<GeneralDataProps> = ({ hideButton = false }) => {
             >
               {customPlace || selectedPlace?.place || 'Trujillo'}
             </Typography>
-            <Typography sx={{ color: '#555' }} variant='caption'>
+            <Typography
+              sx={{ color: '#555', whiteSpace: 'nowrap' }}
+              variant='caption'
+            >
               (Lat: {latitud}, Lon:{longitud})
             </Typography>
           </Box>
