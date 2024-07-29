@@ -155,6 +155,7 @@ interface DesignerState {
   getPVGISData: () => Promise<void>;
 
   results: any;
+  clearResults: () => void;
   pvgisData: PVGISRegister[]
 
   // PARAMS
@@ -384,6 +385,8 @@ export const useDesignerStore = create<DesignerState>()(
         },
 
         results: defaultValues.results,
+
+        clearResults: () => set({ results: defaultValues.results }),
 
         pvgisData: [],
 

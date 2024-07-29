@@ -19,7 +19,7 @@ import { useNavigate } from 'react-router-dom';
 import { useUIStore } from '../../store/uiStore';
 
 const RealStudy = () => {
-  const { calculate, results } = useDesignerStore();
+  const { calculate, results, clearResults } = useDesignerStore();
   const { setIsLoading } = useUIStore();
 
   const navigate = useNavigate();
@@ -39,6 +39,10 @@ const RealStudy = () => {
     setIsLoading(true);
     await calculate();
     setIsLoading(false);
+  };
+
+  const onDeleteResults = () => {
+    clearResults();
   };
 
   return (
@@ -68,18 +72,25 @@ const RealStudy = () => {
               />
             </Box>
           </Box>
-          <Box sx={{ textAlign: 'center', display: 'flex', gap: '20px' }}>
+          <Box
+            sx={{
+              textAlign: 'center',
+              display: 'flex',
+              gap: '20px',
+              flexWrap: 'wrap',
+            }}
+          >
             <Button
               variant='contained'
-              sx={{ mt: 2, width: '220px' }}
+              sx={{ mt: 2, width: '200px' }}
               size='small'
               onClick={onCalculateResults}
             >
-              Calcular
+              {results ? 'Recalcular' : 'Calcular'}
             </Button>
             <Button
               variant='contained'
-              sx={{ mt: 2, width: '220px' }}
+              sx={{ mt: 2, width: '200px' }}
               size='small'
               onClick={async () => {
                 navigate('/dashboard/inspector/pvgis');
@@ -87,6 +98,15 @@ const RealStudy = () => {
               disabled={!results}
             >
               Ver data
+            </Button>
+            <Button
+              variant='contained'
+              sx={{ width: '200px' }}
+              size='small'
+              onClick={onDeleteResults}
+              disabled={!results}
+            >
+              Borrar resultados
             </Button>
           </Box>
         </Box>
