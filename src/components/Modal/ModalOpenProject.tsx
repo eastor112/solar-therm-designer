@@ -11,6 +11,8 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import { useUIStore } from '../../store/uiStore';
 import { useDesignerStore } from '../../store/designerStore';
 import { INewProject } from '../../types/projects';
+import AddIcon from '@mui/icons-material/Add';
+import { getModalSelector } from './getModalSelector';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -69,7 +71,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const ModalOpenProject = () => {
-  const { setOpenModal } = useUIStore();
+  const { setOpenModal, setModalComponent } = useUIStore();
   const { getAllProjects, openProject, projectsData, projectsPerPage } =
     useDesignerStore();
   const [page, setPage] = useState(1);
@@ -113,6 +115,10 @@ const ModalOpenProject = () => {
     setOpenModal(false);
   };
 
+  const onNewProject = () => {
+    setModalComponent(getModalSelector['new']);
+  };
+
   return (
     <Box sx={style}>
       <Box>
@@ -142,77 +148,129 @@ const ModalOpenProject = () => {
           </Search>
         </Box>
       </Box>
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 2,
-        }}
-      >
-        {projectsData?.projects.length ? (
-          projectsData?.projects.map(project => (
-            <SavedProjectCard
-              key={project.id}
-              project={project}
-              selected={projectSelected?.id === project.id}
-              onClick={setProjectSelected}
-            />
-          ))
-        ) : (
-          <Typography
-            sx={{
-              textAlign: 'center',
-              color: 'gray',
-              fontWeight: 'bold',
-              fontSize: '1rem',
-            }}
-          >
-            No se encontraron proyectos con el criterio especificado
-          </Typography>
-        )}
+      {false ? (
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 2,
+          }}
+        >
+          <Box sx={{ minHeight: '60vh' }}>
+            {projectsData?.projects.length ? (
+              projectsData?.projects.map(project => (
+                <SavedProjectCard
+                  key={project.id}
+                  project={project}
+                  selected={projectSelected?.id === project.id}
+                  onClick={setProjectSelected}
+                />
+              ))
+            ) : (
+              <Box
+                display='flex'
+                justifyContent='center'
+                alignItems='center'
+                px={3}
+                bgcolor='background.default'
+              >
+                <Typography
+                  sx={{
+                    textAlign: 'center',
+                    color: 'text.primary',
+                    fontWeight: 'bold',
+                    mt: 4,
+                    mb: 2,
+                    lineHeight: 1.6,
+                    mx: 'auto',
+                    p: 3,
+                    borderRadius: '4px',
+                    background:
+                      'linear-gradient(135deg, #f0f4f8 0%, #d9e2ec 100%)',
+                    border: '1px solid',
+                    borderColor: 'divider',
+                    transform: 'scale(1.02)',
+                    transition: 'transform 0.3s ease-in-out',
+                    '&:hover': {
+                      transform: 'scale(1.05)',
+                    },
+                  }}
+                >
+                  No se encontraron proyectos con el criterio especificado
+                </Typography>
+              </Box>
+            )}
+          </Box>
 
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-          }}
-        >
-          <Stack spacing={2}>
-            <Pagination
-              count={projectsData?.total}
-              shape='rounded'
-              onChange={handlePaginationChange}
-            />
-          </Stack>
-        </Box>
-        <Box
-          sx={{
-            display: 'flex',
-            gap: 3,
-            justifyContent: 'center',
-          }}
-        >
-          <Button
-            variant='outlined'
+          <Box
             sx={{
-              width: '7rem',
+              display: 'flex',
+              justifyContent: 'center',
             }}
-            onClick={handleClose}
           >
-            cancelar
-          </Button>
+            <Stack spacing={2}>
+              <Pagination
+                count={projectsData?.total}
+                shape='rounded'
+                onChange={handlePaginationChange}
+              />
+            </Stack>
+          </Box>
+
+          <Box
+            sx={{
+              display: 'flex',
+              gap: 3,
+              justifyContent: 'center',
+            }}
+          >
+            <Button
+              variant='outlined'
+              sx={{
+                width: '7rem',
+              }}
+              onClick={handleClose}
+            >
+              cancelar
+            </Button>
+            <Button
+              variant='contained'
+              sx={{
+                width: '7rem',
+              }}
+              disabled={!projectSelected}
+              onClick={handleOpenProject}
+            >
+              Abrir
+            </Button>
+          </Box>
+        </Box>
+      ) : (
+        <Box
+          display='flex'
+          flexDirection='column'
+          alignItems='center'
+          justifyContent='center'
+          p={3}
+          textAlign='center'
+        >
+          <Typography variant='h6' color='textSecondary' gutterBottom>
+            Aún no se ha creado ningún proyecto.
+          </Typography>
+          <Typography variant='body1' color='textSecondary' paragraph>
+            Parece que no tienes proyectos en tu lista. Empieza a crear uno
+            nuevo para comenzar.
+          </Typography>
           <Button
             variant='contained'
-            sx={{
-              width: '7rem',
-            }}
-            disabled={!projectSelected}
-            onClick={handleOpenProject}
+            color='primary'
+            startIcon={<AddIcon />}
+            onClick={onNewProject}
           >
-            Abrir
+            Crear Proyecto
           </Button>
         </Box>
-      </Box>
+      )}
     </Box>
   );
 };

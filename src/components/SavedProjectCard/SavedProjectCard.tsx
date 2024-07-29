@@ -3,6 +3,8 @@ import Typography from '@mui/material/Typography';
 import { getShortName } from '../../utils/textTransformations';
 import { formatDate, getRelativeDate } from '../../utils/datesUtils';
 import { INewProject } from '../../types/projects';
+import { useEffect, useState } from 'react';
+import { reverseGeocode } from '../../services/locationServices';
 
 interface SavedProjectCardProps {
   selected?: boolean;
@@ -15,7 +17,17 @@ const SavedProjectCard: React.FC<SavedProjectCardProps> = ({
   project,
   onClick,
 }) => {
-  const { user } = project;
+  const { user, latitud, longitud } = project;
+  const [place, setPlace] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (project) {
+      reverseGeocode(latitud, longitud).then(res => {
+        setPlace(res);
+      });
+    }
+  }, []);
+
   return (
     <Box
       sx={{
@@ -38,7 +50,7 @@ const SavedProjectCard: React.FC<SavedProjectCardProps> = ({
           mb: 1,
         }}
       >
-        {project.name_project}
+        {project.name_project || '<Sin nombre>'}
       </Typography>
       <Box
         sx={{
@@ -55,9 +67,7 @@ const SavedProjectCard: React.FC<SavedProjectCardProps> = ({
           </Typography>
         </Box>
         <Box>
-          {/* <Typography component='p'>
-            Ciudad: {location ? location.place : 'no definido'}
-          </Typography> */}
+          <Typography component='p'>Ciudad: {place}</Typography>
           <Typography component='p'>
             Actualizado: {getRelativeDate(project.updated_at)}
           </Typography>
