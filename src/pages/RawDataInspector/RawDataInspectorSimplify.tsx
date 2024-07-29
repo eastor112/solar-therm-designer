@@ -15,6 +15,7 @@ import dayjs from '../../utils/datesUtils';
 import { Dayjs } from 'dayjs';
 import { exportJsonToCsv } from '../../utils/exportData';
 import { PVGISRegister } from '../../services/projectsServices';
+import { useUIStore } from '../../store/uiStore';
 
 interface RawDataInspectorProps {
   title: string;
@@ -23,6 +24,7 @@ interface RawDataInspectorProps {
 const RawDataInspectorSimplify: FC<RawDataInspectorProps> = ({ title }) => {
   const navigate = useNavigate();
   const { results, pvgisData, getPVGISData } = useDesignerStore();
+  const { setIsLoading } = useUIStore();
   const [date, setDate] = useState<Dayjs | null>(null);
   const [filteredData, setFilteredData] = useState<PVGISRegister[]>(pvgisData);
 
@@ -45,6 +47,12 @@ const RawDataInspectorSimplify: FC<RawDataInspectorProps> = ({ title }) => {
 
   const handleChange = (newValue: Dayjs | null) => {
     setDate(newValue);
+  };
+
+  const onGetNewData = async () => {
+    setIsLoading(true);
+    getPVGISData();
+    setIsLoading(false);
   };
 
   return (
@@ -83,13 +91,8 @@ const RawDataInspectorSimplify: FC<RawDataInspectorProps> = ({ title }) => {
             </Box>
 
             <Box sx={{ display: 'flex', gap: 2, flexDirection: 'column' }}>
-              <Button
-                variant='contained'
-                onClick={() => {
-                  getPVGISData();
-                }}
-              >
-                Obterner data
+              <Button variant='contained' onClick={onGetNewData}>
+                Obtener data
               </Button>
               <Button
                 variant='contained'
