@@ -11,6 +11,8 @@ interface UIState {
   setModalComponent: (modalComponent: JSX.Element | undefined) => void
   nextModalAction: string | null
   setNextModalAction: (nextModalAction: string | null) => void
+  isLoading: boolean,
+  setIsLoading: (isLoading: boolean) => void
 }
 
 export const useUIStore = create<UIState>()(
@@ -26,6 +28,8 @@ export const useUIStore = create<UIState>()(
         modalComponent: undefined,
         nextModalAction: null,
         setNextModalAction: (nextModalAction: string | null) => set({ nextModalAction }),
+        isLoading: false,
+        setIsLoading: (isLoading: boolean) => set({ isLoading }),
       }),
       {
         name: 'uiStore',

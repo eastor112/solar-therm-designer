@@ -148,7 +148,7 @@ const ModalOpenProject = () => {
           </Search>
         </Box>
       </Box>
-      {false ? (
+      {(projectsData?.total || 0) > 0 ? (
         <Box
           sx={{
             display: 'flex',

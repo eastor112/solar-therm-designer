@@ -16,9 +16,11 @@ import ModalOtherGeneralParams from '../../components/Modal/Params/ModalOtherGen
 import { useDesignerStore } from '../../store/designerStore';
 import { resultsChartsList } from '../../utils/resultsChartList';
 import { useNavigate } from 'react-router-dom';
+import { useUIStore } from '../../store/uiStore';
 
 const RealStudy = () => {
   const { calculate, results } = useDesignerStore();
+  const { setIsLoading } = useUIStore();
 
   const navigate = useNavigate();
 
@@ -31,6 +33,12 @@ const RealStudy = () => {
   const handleSetCoeficients = () => {
     setModalType('other');
     setOpen(true);
+  };
+
+  const onCalculateResults = async () => {
+    setIsLoading(true);
+    await calculate();
+    setIsLoading(false);
   };
 
   return (
@@ -65,9 +73,7 @@ const RealStudy = () => {
               variant='contained'
               sx={{ mt: 2, width: '220px' }}
               size='small'
-              onClick={() => {
-                calculate();
-              }}
+              onClick={onCalculateResults}
             >
               Calcular
             </Button>

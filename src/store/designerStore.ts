@@ -425,7 +425,6 @@ export const useDesignerStore = create<DesignerState>()(
         inclination: defaultValues.inclinacion,
 
         setInclination: (inclination: number) => {
-          console.log("sdfs");
           set({ inclination: inclination })
         },
 

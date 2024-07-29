@@ -8,10 +8,16 @@ import {
   getModalSelector,
 } from '../components/Modal/getModalSelector';
 import { useUIStore } from '../store/uiStore';
+import Loader from '../components/Loader/Loader';
 
 const RootLayout = () => {
-  const { modalComponent, openModal, setOpenModal, setModalComponent } =
-    useUIStore();
+  const {
+    modalComponent,
+    openModal,
+    setOpenModal,
+    setModalComponent,
+    isLoading,
+  } = useUIStore();
 
   const [openSidebar, setOpenSidebar] = useState(true);
   const toggleDrawer = () => {
@@ -29,7 +35,7 @@ const RootLayout = () => {
 
   return (
     <>
-      <Box sx={{ display: 'flex' }}>
+      <Box sx={{ display: 'flex', position: 'relative' }}>
         <Sidebar
           open={openSidebar}
           toggleDrawer={toggleDrawer}
@@ -48,6 +54,24 @@ const RootLayout = () => {
           >
             {modalComponent!! ? <Box>{modalComponent}</Box> : <Box />}
           </Modal>
+        )}
+
+        {isLoading && (
+          <Box
+            sx={{
+              width: '100vw',
+              height: '100vh',
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              bgcolor: 'rgba(0, 0, 0, 0.2)',
+            }}
+          >
+            <Loader />
+          </Box>
         )}
       </Box>
     </>
