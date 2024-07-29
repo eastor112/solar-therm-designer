@@ -119,7 +119,6 @@ const PipelineParamsV2: React.FC = () => {
       setD_int(Number(formik.values.d_int));
     }
     if (formik.values.d_ext !== d_ext) {
-      console.log(formik.values.d_ext);
       setD_ext(Number(formik.values.d_ext));
     }
     if (formik.values.l_tubo !== l_tubo) {
@@ -151,9 +150,9 @@ const PipelineParamsV2: React.FC = () => {
       pipeline => pipeline.id.toString() === selected
     );
     if (pipelineSelected) {
-      formik.setFieldValue('pipelineLength', pipelineSelected.length);
-      formik.setFieldValue('internalDiameter', pipelineSelected.innerDiameter);
-      formik.setFieldValue('externalDiameter', pipelineSelected.outerDiameter);
+      formik.setFieldValue('l_tubo', pipelineSelected.length);
+      formik.setFieldValue('d_int', pipelineSelected.innerDiameter);
+      formik.setFieldValue('d_ext', pipelineSelected.outerDiameter);
     }
     setStandarPipeSelected(selected);
   };
