@@ -17,6 +17,7 @@ import { useDesignerStore } from '../../store/designerStore';
 import { resultsChartsList } from '../../utils/resultsChartList';
 import { useNavigate } from 'react-router-dom';
 import { useUIStore } from '../../store/uiStore';
+import { InfoOutlined } from '@mui/icons-material';
 
 const RealStudy = () => {
   const { calculate, results, clearResults } = useDesignerStore();
@@ -111,7 +112,7 @@ const RealStudy = () => {
           </Box>
         </Box>
 
-        {results && (
+        {results ? (
           <Box>
             <Typography variant='h3' sx={generalStyles.h3}>
               RESULTADOS
@@ -148,6 +149,36 @@ const RealStudy = () => {
                 </ListItem>
               ))}
             </List>
+          </Box>
+        ) : (
+          <Box
+            display='flex'
+            flexDirection='column'
+            alignItems='center'
+            justifyContent='center'
+            px={3}
+          >
+            <InfoOutlined
+              sx={{
+                fontSize: '4rem',
+                color: 'text.disabled',
+                mb: 2,
+              }}
+            />
+            <Typography
+              sx={{
+                textAlign: 'center',
+                color: 'text.disabled',
+                fontWeight: 'medium',
+                fontSize: '1.2rem',
+                lineHeight: 1.6,
+                maxWidth: '600px',
+                mb: 2,
+              }}
+            >
+              Aún no tienes resultados. Fija los parámetros y luego presiona
+              calcular.
+            </Typography>
           </Box>
         )}
       </Box>
